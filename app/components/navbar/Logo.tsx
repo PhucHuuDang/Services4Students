@@ -13,7 +13,7 @@ const Logo = () => {
       alt="Logo"
       height="100"
       width="100"
-      src="https://spacet.vn/assets/img/icon/logo.svg"
+      src="/images/logo.svg"
     />
   );
 };

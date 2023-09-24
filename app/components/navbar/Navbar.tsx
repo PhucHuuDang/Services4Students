@@ -1,5 +1,7 @@
 "use client";
 
+import ContactClient from "@/app/contact/ContactClient";
+// import ContactClient from "@/app/contact/ContactClient";
 import Container from "../Container";
 import Logo from "./Logo";
 import Search from "./Search";
@@ -17,6 +19,7 @@ const Navbar = () => {
           </div>
         </Container>
       </div>
+      {/* <ContactClient /> */}
     </div>
   );
 };

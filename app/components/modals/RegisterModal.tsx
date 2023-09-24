@@ -37,9 +37,12 @@ const RegisterModal = () => {
   }, [registerModal, loginModal]);
 
   const onSubmit: SubmitHandler<FieldValues> = (data) => {
-    setIsLoading(true);
+    // setIsLoading(true);
 
-    console.log(data);
+    console.log(JSON.stringify(data));
+    const { name, email, password } = data;
+
+    console.log(name, email, password);
   };
 
   const bodyContent = (
@@ -66,6 +69,7 @@ const RegisterModal = () => {
       <Input
         id="password"
         label="Password"
+        type="password"
         disabled={isLoading}
         register={register}
         errors={errors}

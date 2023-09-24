@@ -8,9 +8,11 @@ import MenuItem from "./MenuItem";
 import { useRouter } from "next/navigation";
 
 import { AiOutlineShoppingCart } from "react-icons/ai";
+import { BsSearch } from "react-icons/bs";
 import Modal from "../modals/Modal";
 import useLoginModal from "@/app/hooks/useLoginModal";
 import useRegisterModal from "@/app/hooks/useRegisterModal";
+import useSearchModal from "@/app/hooks/useSearchModal";
 
 const UserMenu = () => {
   const router = useRouter();
@@ -18,6 +20,7 @@ const UserMenu = () => {
 
   const loginModal = useLoginModal();
   const registerModal = useRegisterModal();
+  const searchModal = useSearchModal();
 
   const toggleOpen = useCallback(() => {
     setIsOpen((value) => !value);
@@ -30,6 +33,29 @@ const UserMenu = () => {
   return (
     <div className="relative">
       <div className="flex flex-row items-center gap-3">
+        <div
+          onClick={searchModal.onOpen}
+          className={`
+            flex
+            flex-row
+            items-center 
+            cursor-pointer
+            rounded-md 
+            p-1
+            hover:text-neutral-500
+            transition
+            duration-300
+            translate
+            hover:scale-150
+            font-medium
+            `}
+        >
+          <BsSearch size={21} />
+        </div>
+        <div
+          className={`text-2xl font-normal after:content-["|"]  before:pr-4 bg-white`}
+        ></div>
+
         <div
           className="
             

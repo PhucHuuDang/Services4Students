@@ -2,6 +2,7 @@ import ClientOnly from "./components/ClientOnly";
 import Container from "./components/Container";
 import LoginModal from "./components/modals/LoginModal";
 import RegisterModal from "./components/modals/RegisterModal";
+import SearchModal from "./components/modals/SearchModal";
 import Navbar from "./components/navbar/Navbar";
 import "./globals.css";
 import { Nunito } from "next/font/google";
@@ -24,11 +25,12 @@ export default function RootLayout({
     <html lang="en">
       <body suppressHydrationWarning className={nunito.className}>
         <ClientOnly>
+          <SearchModal />
           <LoginModal />
           <RegisterModal />
           <Navbar />
         </ClientOnly>
-        {children}
+        <div className="pb-20 pt=28">{children}</div>
       </body>
     </html>
   );
