@@ -53,7 +53,7 @@ const UserMenu = () => {
           <BsSearch size={21} />
         </div>
         <div
-          className={`text-2xl font-normal after:content-["|"]  before:pr-4 bg-white`}
+          className={`text-2xl font-light after:content-["|"]  before:pr-4 bg-white`}
         ></div>
 
         <div
@@ -64,7 +64,9 @@ const UserMenu = () => {
             text-sm 
             font-semibold 
             py-3 
-            px-4 
+            px-4
+            md:px-2
+            md:py-1 
             rounded-full 
             hover:bg-neutral-100 
             transition 
@@ -77,6 +79,9 @@ const UserMenu = () => {
             flex-row
             items-center
             gap-3
+            p-1
+            md:p-0
+            lg:p-1
             "
           >
             <AiOutlineShoppingCart size={21} />

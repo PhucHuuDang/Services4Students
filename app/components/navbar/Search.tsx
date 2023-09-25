@@ -37,7 +37,7 @@ const Search = () => {
   });
 
   return (
-    <div className="flex flex-row gap-12 transition duration-300 ">
+    <div className="flex flex-row gap-12 transition duration-300 md:w-3/5  ">
       <div className="flex flex-col items-center transition ">
         <ServicesItem
           onClick={toggleServices}

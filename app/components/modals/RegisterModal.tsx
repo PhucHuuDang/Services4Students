@@ -41,8 +41,8 @@ const RegisterModal = () => {
 
     console.log(JSON.stringify(data));
     const { name, email, password } = data;
-
     console.log(name, email, password);
+    console.log(data);
   };
 
   const bodyContent = (
