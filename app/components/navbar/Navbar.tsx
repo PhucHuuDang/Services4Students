@@ -34,9 +34,17 @@ const Navbar = () => {
           </div>
         </Container>
       </div>
-      <div className="z-0 block">
+      {/* <div className="z-0 block h-screen overflow-hidden ">
         <Banner />
-      </div>
+      </div> */}
+      {/* <Container>
+        <div className="absolute block bottom-0 left-0 right-0 bg-white max-h-0">
+          <div className="mt-10 p-20">
+            <div>information in here</div>
+            <div>information in here</div>
+          </div>
+        </div>
+      </Container> */}
     </div>
   );
 };

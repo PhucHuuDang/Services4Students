@@ -259,11 +259,16 @@ const SearchModal = () => {
                     Content of search Content of search Content of search
                   </div>
                 </div>
-
-                <SearchItem
-                  onClick={() => {}}
-                  label="Content of the search functionality"
-                />
+                <>
+                  <SearchItem
+                    onClick={() => {}}
+                    label="Content of the search functionality"
+                  />
+                  <SearchItem
+                    onClick={() => {}}
+                    label="Content of the search functionality"
+                  />
+                </>
               </div>
             </div>
           </div>
