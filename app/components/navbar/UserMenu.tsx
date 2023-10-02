@@ -1,20 +1,26 @@
 "use client";
 
+import { signOut } from "next-auth/react";
+
 import { AiOutlineMenu } from "react-icons/ai";
 import { useCallback, useState } from "react";
+import { AiOutlineShoppingCart } from "react-icons/ai";
+import { useRouter } from "next/navigation";
+import { BsSearch } from "react-icons/bs";
+
 import Avatar from "../Avatar";
 import MenuItem from "./MenuItem";
 
-import { useRouter } from "next/navigation";
-
-import { AiOutlineShoppingCart } from "react-icons/ai";
-import { BsSearch } from "react-icons/bs";
 import Modal from "../modals/Modal";
 import useLoginModal from "@/app/hooks/useLoginModal";
 import useRegisterModal from "@/app/hooks/useRegisterModal";
 import useSearchModal from "@/app/hooks/useSearchModal";
 
-const UserMenu = () => {
+interface UserMenuProps {
+  currentUser?: any | null;
+}
+
+const UserMenu: React.FC<UserMenuProps> = ({ currentUser }) => {
   const router = useRouter();
   const [isOpen, setIsOpen] = useState(false);
 
@@ -85,7 +91,7 @@ const UserMenu = () => {
             "
           >
             <AiOutlineShoppingCart size={21} />
-            <div>Đơn hàng của bạn</div>
+            <div>Your cart</div>
           </div>
         </div>
         <div
@@ -132,6 +138,8 @@ const UserMenu = () => {
               {/* first click login and register will be set true to show */}
               <MenuItem label="Login" onClick={loginModal.onOpen} />
               <MenuItem label="Sign up" onClick={registerModal.onOpen} />
+              <MenuItem label="Log out" onClick={() => signOut()} />
+              {currentUser && <div>currentUser</div>}
             </>
           </div>
         </div>

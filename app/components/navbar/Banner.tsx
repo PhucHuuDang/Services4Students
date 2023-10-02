@@ -5,7 +5,7 @@ import { TypeAnimation } from "react-type-animation";
 
 const Banner = () => {
   return (
-    <div className="w-full xl:h-screen lg:h-[100vh] md:h-[95vh] h-[100vh] z-0 overflow-hidden">
+    <div className="w-full xl:h-screen lg:h-[100vh] md:h-[100vh] h-[100vh] z-0 overflow-hidden">
       {/* <div className="bg-cover bg-center"> */}
       <div className="relative xl:pb-[55%] lg:pb-[70%] md:pb-[75%] sm:pb-[90%] pb-[95%] ">
         <Image

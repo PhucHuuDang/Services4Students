@@ -13,6 +13,8 @@ import Heading from "../Heading";
 import Input from "../inputs/Input";
 import Button from "../Button";
 import useLoginModal from "@/app/hooks/useLoginModal";
+import axios from "axios";
+import { toast } from "react-hot-toast";
 
 const RegisterModal = () => {
   const registerModal = useRegisterModal();
@@ -39,15 +41,47 @@ const RegisterModal = () => {
   const onSubmit: SubmitHandler<FieldValues> = (data) => {
     // setIsLoading(true);
 
-    console.log(JSON.stringify(data));
-    const { name, email, password } = data;
-    console.log(name, email, password);
     console.log(data);
+
+    axios
+      .post("/api/register", data)
+      .then(() => {
+        toast.success("Register Successfully!");
+        registerModal.onClose();
+        loginModal.onOpen();
+      })
+      .catch(() => {
+        toast.error("Register failed, please check it again");
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });
+
+    // console.log(JSON.stringify(data));
+    // const { name, email, password } = data;
+    // console.log(name, email, password);
+    // console.log(data);
   };
 
   const bodyContent = (
     <div className="flex flex-col gap-4">
       <Heading title="Welcome to SpaceT" subtitle="Create an account!" center />
+      <Input
+        id="firstName"
+        label="First Name"
+        disabled={isLoading}
+        register={register}
+        errors={errors}
+        required
+      />
+      <Input
+        id="lastName"
+        label="Last Name"
+        disabled={isLoading}
+        register={register}
+        errors={errors}
+        required
+      />
       <Input
         id="email"
         label="Email"
@@ -59,7 +93,7 @@ const RegisterModal = () => {
 
       <Input
         id="name"
-        label="Name"
+        label="User Name"
         disabled={isLoading}
         register={register}
         errors={errors}

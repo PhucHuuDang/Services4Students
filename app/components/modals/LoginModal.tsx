@@ -6,12 +6,15 @@ import { KeyboardEvent, useCallback, useState } from "react";
 import { useRouter } from "next/navigation";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 
+import { signIn } from "next-auth/react";
+
 import Modal from "./Modal";
 import Input from "../inputs/Input";
 import Button from "../Button";
 import useLoginModal from "@/app/hooks/useLoginModal";
 import useRegisterModal from "@/app/hooks/useRegisterModal";
 import Heading from "../Heading";
+import { toast } from "react-hot-toast";
 
 const LoginModal = () => {
   const router = useRouter();
@@ -40,8 +43,34 @@ const LoginModal = () => {
   // the input body of form register
 
   const onSubmit: SubmitHandler<FieldValues> = (data: any) => {
-    setIsLoading(true);
+    setIsLoading(false);
 
+    signIn("credentials", {
+      ...data,
+      redirect: false,
+    }).then((callback) => {
+      setIsLoading(false);
+
+      console.log(callback);
+
+      if (callback?.ok) {
+        console.log(callback.status);
+        console.log(callback.url);
+        toast.success("Log in successfully!");
+        router.refresh();
+        router.push("/authorize");
+        // const response = callback.
+        loginModal.onClose();
+      }
+
+      if (callback?.error) {
+        console.log(callback.error);
+      }
+    });
+
+    const getData = JSON.stringify(data.password);
+
+    console.log(getData);
     console.log(data);
   };
 
@@ -77,13 +106,13 @@ const LoginModal = () => {
         outline
         label="Continue with Google"
         icon={FcGoogle}
-        onClick={() => {}}
+        onClick={() => signIn("google")}
       />
       <Button
         outline
         label="Continue with GitHub"
         icon={AiFillGithub}
-        onClick={() => {}}
+        onClick={() => signIn("github")}
       />
       <div
         className="

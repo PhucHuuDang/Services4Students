@@ -82,6 +82,15 @@ const Modal: React.FC<ModalProps> = ({
     [disabled, onClose]
   );
 
+  const onSubmitEnter = useCallback(
+    (e: KeyboardEvent<HTMLDivElement>) => {
+      if (e.keyCode === 13) {
+        handleSubmit();
+      }
+    },
+    [handleSubmit]
+  );
+
   if (!isOpen) {
     return null;
   }
@@ -90,6 +99,7 @@ const Modal: React.FC<ModalProps> = ({
     <>
       <div
         onKeyUp={onEscCloseModal}
+        onKeyDown={onSubmitEnter}
         className="
         flex
         justify-center

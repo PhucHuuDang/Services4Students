@@ -9,7 +9,11 @@ import UserMenu from "./UserMenu";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import Banner from "./Banner";
 
-const Navbar = () => {
+interface NavbarProps {
+  currentUser?: any | null;
+}
+
+const Navbar: React.FC<NavbarProps> = ({ currentUser }) => {
   const router = useRouter();
   const isMainPage = useSearchParams();
   const search = isMainPage?.get("email");
@@ -30,7 +34,7 @@ const Navbar = () => {
           <div className="flex flex-row items-center justify-between gap-3 md:gap-1 md:w-full">
             <Logo />
             <Search />
-            <UserMenu />
+            <UserMenu currentUser={currentUser} />
           </div>
         </Container>
       </div>

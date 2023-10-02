@@ -9,83 +9,49 @@ export default function Home() {
     <ClientOnly>
       <div
         className="
-          z-0
-          w-full
-          h-auto
-      "
+        z-0
+        w-full
+        h-auto
+    "
       >
         <div className="">
           <Banner />
         </div>
         <Container>
+          {/* <div
+            className="
+            absolute 
+            block 
+            bottom-0 
+            left-0 
+            right-0 
+            bg-white 
+            max-h-0
+            "
+          > */}
           <div
             className="
-              absolute 
-              block 
-              bottom-0 
-              left-0 
-              right-0 
-              bg-white 
-              max-h-0
-              "
-          >
-            <div
-              className="
-                  p-10
-                  grid
-                  gird-cols-1
-                  sm:grid-cols-2
-                  md:grid-cols-3
-                  lg:grid-cols-4
-                  xl:grid-cols-5
-                  2xl:grid-cols-6
-                  gap-8
-                  
-                  "
-            >
-              <div>information in here</div>
-              <div>information in here</div>
-              <div>information in here</div>
-              <div>information in here</div>
-              <div>information in here</div>
-              <div>information in here</div>
-              <div>information in here</div>
-              <div>information in here</div>
-              <div>information in here</div>
-              <div>information in here</div>
-              <div>information in here</div>
-              <div>information in here</div>
-              <div>information in here</div>
-              <div>information in here</div>
-              <div>information in here</div>
-              <div>information in here</div>
-              <div>information in here</div>
-              <div>information in here</div>
-              <div>information in here</div>
-              <div>information in here</div>
-              <div>information in here</div>
-              <div>information in here</div>
-              <div>information in here</div>
-              <div>information in here</div>
-              <div>information in here</div>
-              <div>information in here</div>
-              <div>information in here</div>
-              <div>information in here</div>
-              <div>information in here</div>
-              <div>information in here</div>
-              <div
-                className="
-                text-blue-400
-                font-normal
-                text-lg
+                p-10
+                grid
+                gird-cols-1
+                sm:grid-cols-2
+                md:grid-cols-3
+                lg:grid-cols-4
+                xl:grid-cols-5
+                2xl:grid-cols-6
+                gap-8
                 
                 "
-              >
-                Set style for the text
-              </div>
-              <div>information in here</div>
-            </div>
+          >
+            <ListingCard />
+            <ListingCard />
+            <ListingCard />
+            <ListingCard />
+            <ListingCard />
+            <ListingCard />
+            <ListingCard />
           </div>
+          {/* </div> */}
         </Container>
       </div>
     </ClientOnly>
