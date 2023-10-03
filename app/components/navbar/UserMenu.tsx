@@ -134,13 +134,22 @@ const UserMenu: React.FC<UserMenuProps> = ({ currentUser }) => {
           "
         >
           <div className="flex flex-col cursor-pointer">
-            <>
-              {/* first click login and register will be set true to show */}
-              <MenuItem label="Login" onClick={loginModal.onOpen} />
-              <MenuItem label="Sign up" onClick={registerModal.onOpen} />
-              <MenuItem label="Log out" onClick={() => signOut()} />
-              {currentUser && <div>currentUser</div>}
-            </>
+            {currentUser ? (
+              <>
+                <MenuItem label="My Cart" onClick={() => {}} />
+                <MenuItem label="My favorites" onClick={() => {}} />
+
+                <MenuItem label="My reservations" onClick={() => {}} />
+
+                <MenuItem label="Log out" onClick={() => signOut()} />
+              </>
+            ) : (
+              <>
+                {/* first click login and register will be set true to show */}
+                <MenuItem label="Login" onClick={loginModal.onOpen} />
+                <MenuItem label="Sign up" onClick={registerModal.onOpen} />
+              </>
+            )}
           </div>
         </div>
       )}

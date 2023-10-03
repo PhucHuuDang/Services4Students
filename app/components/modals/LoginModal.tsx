@@ -55,7 +55,7 @@ const LoginModal = () => {
 
       if (callback?.ok) {
         console.log(callback.status);
-        console.log(callback.url);
+        // console.log(callback.url);
         toast.success("Log in successfully!");
         router.refresh();
         router.push("/authorize");

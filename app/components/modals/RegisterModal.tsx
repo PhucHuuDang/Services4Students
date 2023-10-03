@@ -74,6 +74,7 @@ const RegisterModal = () => {
         errors={errors}
         required
       />
+
       <Input
         id="lastName"
         label="Last Name"
@@ -82,6 +83,7 @@ const RegisterModal = () => {
         errors={errors}
         required
       />
+
       <Input
         id="email"
         label="Email"

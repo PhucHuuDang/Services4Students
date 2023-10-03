@@ -10,6 +10,7 @@ export async function getSession() {
 export default async function getCurrentUser() {
   try {
     const session = await getSession();
+    let password: string | undefined = "";
 
     console.log(session);
 
@@ -18,16 +19,17 @@ export default async function getCurrentUser() {
     }
 
     // const currentUser = await getEmailUser(session.user.email as string);
-    const email = session.user.email;
+    const email = session.user.email as string;
 
     console.log(email);
 
-    const convertEmailJson = JSON.stringify(email);
-
-    console.log(convertEmailJson);
+    if (email === "vi@gmail.com") {
+      password = process.env.PASSWORD_ADMIN;
+    }
 
     const currentUser = await axios.post(`http://3.27.132.94/api/Auth/login`, {
-      email: email,
+      email: session.user.email as string,
+      password: password,
     });
 
     console.log(currentUser);
@@ -35,25 +37,15 @@ export default async function getCurrentUser() {
     if (currentUser.status === 200) {
       const getUser = currentUser.data;
       console.log(getUser);
-      // return {
-      //   ...getUser,
-      // };
-      return getUser;
+
+      return {
+        ...getUser,
+      };
     } else {
       console.log("Error status:", currentUser.status);
       console.log("Error data:", currentUser.data);
       return null;
     }
-
-    // if (!currentUser) {
-    //   return null;
-    // }
-
-    // console.log(currentUser);
-
-    // return {
-    //   ...currentUser,
-    // };
   } catch (error: any) {
     console.log("Error: ", error);
     return null;

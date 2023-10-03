@@ -8,6 +8,8 @@ import Search from "./Search";
 import UserMenu from "./UserMenu";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import Banner from "./Banner";
+import useTokenStore from "@/app/hooks/useTokenStore";
+import { useEffect } from "react";
 
 interface NavbarProps {
   currentUser?: any | null;
@@ -17,8 +19,15 @@ const Navbar: React.FC<NavbarProps> = ({ currentUser }) => {
   const router = useRouter();
   const isMainPage = useSearchParams();
   const search = isMainPage?.get("email");
+  const useToken = useTokenStore();
 
-  // console.log(search);
+  useEffect(() => {
+    if (currentUser) {
+      useToken.setToken(currentUser.token);
+    }
+    console.log(currentUser);
+  }, [currentUser]);
+  console.log(useToken.token);
 
   // check the route of the url, whether route /contact or not, if true return null, so this Element will be empty
   const pathName = usePathname();
