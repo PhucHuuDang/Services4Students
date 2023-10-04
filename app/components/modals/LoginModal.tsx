@@ -59,7 +59,6 @@ const LoginModal = () => {
         toast.success("Log in successfully!");
         router.refresh();
         router.push("/authorize");
-        // const response = callback.
         loginModal.onClose();
       }
 

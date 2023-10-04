@@ -3,6 +3,7 @@ import ClientOnly from "./components/ClientOnly";
 import Container from "./components/Container";
 import ListingCard from "./components/inputs/ListingCard";
 import Banner from "./components/navbar/Banner";
+import { usePathname } from "next/navigation";
 
 export default function Home() {
   return (

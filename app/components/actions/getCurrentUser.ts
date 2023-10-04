@@ -32,11 +32,11 @@ export default async function getCurrentUser() {
       password: password,
     });
 
-    console.log(currentUser);
+    // console.log(currentUser);
 
     if (currentUser.status === 200) {
       const getUser = currentUser.data;
-      console.log(getUser);
+      // console.log(getUser);
 
       return {
         ...getUser,

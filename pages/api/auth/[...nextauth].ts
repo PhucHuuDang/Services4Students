@@ -51,35 +51,14 @@ export const authOptions: AuthOptions = {
           email: credentials.email,
           password: credentials.password,
         });
-        // .then((response) => {
-        //   const result = JSON.stringify(response.data);
-
-        //   console.log(result);
-        // })
-        // .catch((error) => {
-        //   console.log(error);
-        // });
 
         if (!user) {
           throw new Error("Invalid credentials");
         }
 
-        // compare and hash password of users
-
-        // const isCorrectPassword = await bcrypt.compare(
-        //   credentials.password,
-        //   user.password
-        // );
-
-        // // if the password of user when entering doesn't match with the password was hashed in the database => throw error
-
-        // if (!isCorrectPassword) {
-        //   throw new Error("Invalid credentials");
-        // }
-
-        console.log(user);
-        console.log(user.data);
-        console.log(user.data.token);
+        // console.log(user);
+        // console.log(user.data);
+        // console.log(user.data.token);
 
         return user.data;
       },

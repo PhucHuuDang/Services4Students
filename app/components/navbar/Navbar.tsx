@@ -1,36 +1,69 @@
 "use client";
 
+import jwt from "jsonwebtoken";
+
+import { useEffect } from "react";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import useTokenStore from "@/app/hooks/useTokenStore";
+
 import ContactClient from "@/app/contact/ContactClient";
-// import ContactClient from "@/app/contact/ContactClient";
 import Container from "../Container";
 import Logo from "./Logo";
 import Search from "./Search";
 import UserMenu from "./UserMenu";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import Banner from "./Banner";
-import useTokenStore from "@/app/hooks/useTokenStore";
-import { useEffect } from "react";
+import useVerifyToken from "@/app/hooks/useVerifyToken";
 
 interface NavbarProps {
   currentUser?: any | null;
 }
 
+interface TokenProps {
+  email?: string;
+  uid?: string;
+  role?: string;
+  jti?: string;
+  iss?: string;
+  aud?: string;
+  exp?: number;
+}
+
 const Navbar: React.FC<NavbarProps> = ({ currentUser }) => {
   const router = useRouter();
   const isMainPage = useSearchParams();
+  const pathName = usePathname();
   const search = isMainPage?.get("email");
   const useToken = useTokenStore();
+
+  const useResultVerifyToken: any | TokenProps = useVerifyToken();
 
   useEffect(() => {
     if (currentUser) {
       useToken.setToken(currentUser.token);
     }
-    console.log(currentUser);
+    // const json = jwtDecode
+    // console.log(currentUser);
+    // if (!useResultVerifyToken) {
+    //   return;
+    // }
   }, [currentUser]);
+
   console.log(useToken.token);
 
+  if (useResultVerifyToken) {
+    console.log(useResultVerifyToken.role);
+  }
+
+  // try {
+  //   const verifyToken = jwt.verify(useToken.token, secret)
+
+  // console.log(verifyToken);
+  // } catch (error) {
+
+  // }
+
   // check the route of the url, whether route /contact or not, if true return null, so this Element will be empty
-  const pathName = usePathname();
+
   if (pathName === "/contact") {
     console.log("success");
     return null;
