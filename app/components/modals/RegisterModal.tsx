@@ -27,8 +27,9 @@ const RegisterModal = () => {
     formState: { errors },
   } = useForm<FieldValues>({
     defaultValues: {
-      name: "",
+      fullName: "",
       email: "",
+      userName: "",
       password: "",
     },
   });
@@ -42,6 +43,9 @@ const RegisterModal = () => {
     // setIsLoading(true);
 
     console.log(data);
+    // const test = JSON.stringify(data)
+    // console.log(test);
+
 
     axios
       .post("/api/register", data)
@@ -51,7 +55,8 @@ const RegisterModal = () => {
         loginModal.onOpen();
       })
       .catch(() => {
-        toast.error("Register failed, please check it again");
+        toast.error("Please check username or password again!");
+        // toast.error("Register failed, please check it again");
       })
       .finally(() => {
         setIsLoading(false);
@@ -66,18 +71,18 @@ const RegisterModal = () => {
   const bodyContent = (
     <div className="flex flex-col gap-4">
       <Heading title="Welcome to SpaceT" subtitle="Create an account!" center />
-      <Input
+      {/* <Input
         id="firstName"
         label="First Name"
         disabled={isLoading}
         register={register}
         errors={errors}
         required
-      />
+      /> */}
 
       <Input
-        id="lastName"
-        label="Last Name"
+        id="fullName"
+        label="Full Name"
         disabled={isLoading}
         register={register}
         errors={errors}
@@ -94,8 +99,8 @@ const RegisterModal = () => {
       />
 
       <Input
-        id="name"
-        label="User Name"
+        id="userName"
+        label="Name"
         disabled={isLoading}
         register={register}
         errors={errors}

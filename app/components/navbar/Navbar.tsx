@@ -37,37 +37,36 @@ const Navbar: React.FC<NavbarProps> = ({ currentUser }) => {
 
   const useResultVerifyToken: any | TokenProps = useVerifyToken();
 
+
+
   useEffect(() => {
     if (currentUser) {
       useToken.setToken(currentUser.token);
     }
-    // const json = jwtDecode
     // console.log(currentUser);
     // if (!useResultVerifyToken) {
     //   return;
     // }
   }, [currentUser]);
 
-  console.log(useToken.token);
+  // console.log(useToken.token);
 
   if (useResultVerifyToken) {
     console.log(useResultVerifyToken.role);
+    console.log(useResultVerifyToken.email);
+
   }
 
-  // try {
-  //   const verifyToken = jwt.verify(useToken.token, secret)
+  console.log('re-render 3')
 
-  // console.log(verifyToken);
-  // } catch (error) {
-
-  // }
+  
 
   // check the route of the url, whether route /contact or not, if true return null, so this Element will be empty
 
-  if (pathName === "/contact") {
-    console.log("success");
-    return null;
-  }
+  // if (pathName === "/contact") {
+  //   console.log("success");
+  //   return null;
+  // }
 
   return (
     <div className="fixed bg-white w-full z-10 shadow-sm">

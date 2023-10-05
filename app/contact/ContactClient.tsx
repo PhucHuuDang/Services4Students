@@ -19,7 +19,7 @@ const ContactClient = ({ user }: any) => {
       <div className="fixed bg-white w-full z-10 shadow-sm">
         <div className="py-4 border-b-[1px]">
           <Container>
-            <div className="flex flex-row items-center justify-between gap-3 md:gap-1 md:w-full">
+            <div className="flex flex-row items-center justify-between gap-3 md:gap-1 md:w-full pr-8">
               <Logo />
               <UserMenu />
             </div>

@@ -23,8 +23,12 @@ export default async function getCurrentUser() {
 
     console.log(email);
 
-    if (email === "vi@gmail.com") {
-      password = process.env.PASSWORD_ADMIN;
+    // if (email === "vi@gmail.com") {
+    //   password = process.env.PASSWORD_ADMIN;
+    // }
+
+    if(email) {
+      password = process.env.PASSWORD_ADMIN
     }
 
     const currentUser = await axios.post(`http://3.27.132.94/api/Auth/login`, {

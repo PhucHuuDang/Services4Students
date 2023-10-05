@@ -195,7 +195,7 @@ const SearchModal = () => {
                   <div className="mt-5">
                     <div className="text-white font-semibold text-lg">
                       Services, coming to your home 20 minutes... having 73220
-                      location ở TP. HCM from 6:00 - 22:00
+                      locations in TP. HCM from 6:00 - 22:00
                     </div>
                     <div className="mt-5">
                       <input
