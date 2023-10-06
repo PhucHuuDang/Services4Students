@@ -40,13 +40,10 @@ const RegisterModal = () => {
   }, [registerModal, loginModal]);
 
   const onSubmit: SubmitHandler<FieldValues> = (data) => {
-    // setIsLoading(true);
-
-    console.log(data);
+    setIsLoading(true);
+    // console.log(data);
     // const test = JSON.stringify(data)
     // console.log(test);
-
-
     axios
       .post("/api/register", data)
       .then(() => {

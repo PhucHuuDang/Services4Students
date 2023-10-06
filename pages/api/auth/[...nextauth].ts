@@ -7,8 +7,6 @@ import GitHubProvider from "next-auth/providers/github";
 import GoogleProvider from "next-auth/providers/google";
 import CredentialsProvider from "next-auth/providers/credentials";
 
-import { getUsers } from "@/app/components/actions/getUsers";
-import { getEmailUser } from "@/app/components/actions/getEmailUser";
 import axios from "axios";
 
 // temporary i change the password to username to make example
@@ -59,6 +57,7 @@ export const authOptions: AuthOptions = {
         // console.log(user);
         // console.log(user.data);
         // console.log(user.data.token);
+
 
         return user.data;
       },

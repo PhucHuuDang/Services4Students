@@ -49,7 +49,7 @@ const LoginModal = () => {
       ...data,
       redirect: false,
     }).then((callback) => {
-      setIsLoading(false);
+      setIsLoading(true);
 
       console.log(callback);
 

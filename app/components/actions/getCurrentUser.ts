@@ -1,15 +1,18 @@
 import { authOptions } from "@/pages/api/auth/[...nextauth]";
 import { getServerSession } from "next-auth";
 import { getEmailUser } from "./getEmailUser";
+
 import axios from "axios";
 
 export async function getSession() {
   return await getServerSession(authOptions);
 }
 
+
 export default async function getCurrentUser() {
   try {
     const session = await getSession();
+    // const useAuth = GetCurrentPass()
     let password: string | undefined = "";
 
     console.log(session);
@@ -17,6 +20,8 @@ export default async function getCurrentUser() {
     if (!session?.user?.email) {
       return null;
     }
+
+
 
     // const currentUser = await getEmailUser(session.user.email as string);
     const email = session.user.email as string;

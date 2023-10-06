@@ -10,11 +10,13 @@ const ListingClient = () => {
         <div className="flex flex-col gap-6">
           <ListingHead title="Title of listing head" />
 
-          <div className="
+          <div
+            className="
               grid
               grid-cols-1
-          ">
-
+          "
+          >
+            
           </div>
         </div>
       </div>

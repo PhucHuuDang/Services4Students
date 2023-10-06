@@ -6,6 +6,9 @@ export async function POST(request: Request) {
   const body = await request.json();
 
   const { fullName, email, userName, password } = body;
+  const phone = ""
+  const address = ""
+  
 
   //   const hashedPassword = await bcrypt.hash(password, 12)
 
@@ -13,17 +16,19 @@ export async function POST(request: Request) {
 
   try {
     console.log("Route register");
-    const apiResponse = await axios.post("http://3.27.132.94/api/Auth/register-user", {
-      fullName: fullName,
-      email: email,
+    const apiResponse = await axios.post("http://3.27.132.94/api/v1/students/register-student", {
       userName: userName,
-      password: password
+      fullName: fullName,
+      password: password,
+      email: email,
+      phone: phone,
+      address: address
     });
 
     console.log("Route register 2");
 
     console.log(apiResponse);
-    if (apiResponse.status === 200) {
+    if (apiResponse.status === 201) {
       const user = apiResponse.data;
       console.log(user)
       return NextResponse.json(user);
