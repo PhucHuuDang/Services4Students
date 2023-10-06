@@ -36,8 +36,7 @@ const Navbar: React.FC<NavbarProps> = ({ currentUser }) => {
   const useToken = useTokenStore();
 
   const useResultVerifyToken: any | TokenProps = useVerifyToken();
-
-
+  let role = "";
 
   useEffect(() => {
     if (currentUser) {
@@ -52,14 +51,12 @@ const Navbar: React.FC<NavbarProps> = ({ currentUser }) => {
   // console.log(useToken.token);
 
   if (useResultVerifyToken) {
+    role = useResultVerifyToken.role;
     console.log(useResultVerifyToken.role);
     console.log(useResultVerifyToken.email);
-
   }
 
-  console.log('re-render 3')
-
-  
+  console.log("re-render 3");
 
   // check the route of the url, whether route /contact or not, if true return null, so this Element will be empty
 
@@ -75,7 +72,7 @@ const Navbar: React.FC<NavbarProps> = ({ currentUser }) => {
           <div className="flex flex-row items-center justify-between gap-3 md:gap-1 md:w-full">
             <Logo />
             <Search />
-            <UserMenu currentUser={currentUser} />
+            <UserMenu currentUser={currentUser} isAdmin={role} />
           </div>
         </Container>
       </div>

@@ -18,9 +18,10 @@ import useSearchModal from "@/app/hooks/useSearchModal";
 
 interface UserMenuProps {
   currentUser?: any | null;
+  isAdmin?: string | null;
 }
 
-const UserMenu: React.FC<UserMenuProps> = ({ currentUser }) => {
+const UserMenu: React.FC<UserMenuProps> = ({ currentUser, isAdmin }) => {
   const router = useRouter();
   const [isOpen, setIsOpen] = useState(false);
 
@@ -91,7 +92,11 @@ const UserMenu: React.FC<UserMenuProps> = ({ currentUser }) => {
             "
           >
             <AiOutlineShoppingCart size={21} />
-            <div>Your cart</div>
+            {isAdmin === "Admin" ? (
+              <div>Add more services</div>
+            ) : (
+              <div>Your cart</div>
+            )}
           </div>
         </div>
         <div
@@ -136,12 +141,32 @@ const UserMenu: React.FC<UserMenuProps> = ({ currentUser }) => {
           <div className="flex flex-col cursor-pointer">
             {currentUser ? (
               <>
-                <MenuItem label="My Cart" onClick={() => {}} />
-                <MenuItem label="My favorites" onClick={() => {}} />
+                {isAdmin === "Admin" ? (
+                  <>
+                    <MenuItem label="Manage Staff Account" onClick={() => {}} />
 
-                <MenuItem label="My reservations" onClick={() => {}} />
+                    <MenuItem
+                      label="Manage User Account"
+                      onClick={() => router.push("/manage")}
+                    />
 
-                <MenuItem label="Log out" onClick={() => signOut()} />
+                    <MenuItem label="Add more services" onClick={() => {}} />
+
+                    <MenuItem label="Sign up staff" onClick={() => {}} />
+
+                    <MenuItem label="Log out" onClick={() => signOut()} />
+                  </>
+                ) : (
+                  <>
+                    <MenuItem label="My Cart" onClick={() => {}} />
+
+                    <MenuItem label="My favorites" onClick={() => {}} />
+
+                    <MenuItem label="My reservations" onClick={() => {}} />
+
+                    <MenuItem label="Log out" onClick={() => signOut()} />
+                  </>
+                )}
               </>
             ) : (
               <>
