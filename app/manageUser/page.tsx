@@ -11,10 +11,10 @@ const ManageUserPage = async () => {
   // console.log(getAllStudentsInfo);
   return (
     <ClientOnly>
-      {/* <Container> */}
-      <Heading title="Manage Users" />
-      <ManageUserClient studentsInfo={getAllStudentsInfo} />
-      {/* </Container> */}
+      {/* <Heading title="Manage Users" /> */}
+      <div className="pt-10">
+        <ManageUserClient studentsInfo={getAllStudentsInfo} />
+      </div>
     </ClientOnly>
   );
 };

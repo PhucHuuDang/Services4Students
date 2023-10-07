@@ -4,13 +4,13 @@ import Image from "next/image";
 
 import { MdOutlineDeleteSweep } from "react-icons/md";
 
-interface UserInfoListingProps {
+interface StaffInfoListingProps {
   fullName: string;
   email: string;
   date: string;
 }
 
-const UserInfoListing: React.FC<UserInfoListingProps> = ({
+const StaffInfoListing: React.FC<StaffInfoListingProps> = ({
   fullName,
   email,
   date,
@@ -73,4 +73,4 @@ const UserInfoListing: React.FC<UserInfoListingProps> = ({
   );
 };
 
-export default UserInfoListing;
+export default StaffInfoListing;

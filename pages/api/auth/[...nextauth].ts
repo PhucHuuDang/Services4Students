@@ -58,7 +58,6 @@ export const authOptions: AuthOptions = {
         // console.log(user.data);
         // console.log(user.data.token);
 
-
         return user.data;
       },
     }),

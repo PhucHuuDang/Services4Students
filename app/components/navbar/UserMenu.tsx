@@ -143,7 +143,10 @@ const UserMenu: React.FC<UserMenuProps> = ({ currentUser, isAdmin }) => {
               <>
                 {isAdmin === "Admin" ? (
                   <>
-                    <MenuItem label="Manage Staff Account" onClick={() => {}} />
+                    <MenuItem
+                      label="Manage Staff Account"
+                      onClick={() => router.push("/manageStaff")}
+                    />
 
                     <MenuItem
                       label="Manage User Account"

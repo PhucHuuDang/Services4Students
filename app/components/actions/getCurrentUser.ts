@@ -8,7 +8,6 @@ export async function getSession() {
   return await getServerSession(authOptions);
 }
 
-
 export default async function getCurrentUser() {
   try {
     const session = await getSession();
@@ -21,8 +20,6 @@ export default async function getCurrentUser() {
       return null;
     }
 
-
-
     // const currentUser = await getEmailUser(session.user.email as string);
     const email = session.user.email as string;
 
@@ -32,8 +29,8 @@ export default async function getCurrentUser() {
     //   password = process.env.PASSWORD_ADMIN;
     // }
 
-    if(email) {
-      password = process.env.PASSWORD_ADMIN
+    if (email) {
+      password = process.env.PASSWORD_ADMIN;
     }
 
     const currentUser = await axios.post(`http://3.27.132.94/api/Auth/login`, {
