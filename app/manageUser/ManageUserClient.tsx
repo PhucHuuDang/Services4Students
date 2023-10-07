@@ -1,26 +1,41 @@
 "use client";
 
-import { MdOutlineDeleteSweep } from "react-icons/md";
-
-import Image from "next/image";
+import { useRouter } from "next/navigation";
 
 import Heading from "../components/Heading";
 import UserInfoListing from "../components/listings/UserInfoListing";
-import useTokenStore from "../hooks/useTokenStore";
 import useVerifyToken from "../hooks/useVerifyToken";
-import { useRouter } from "next/navigation";
+import { useEffect } from "react";
+import ClientOnly from "../components/ClientOnly";
+import EmptyState from "../components/EmptyState";
 
-interface ManageClientProps {
+interface ManageUserClientProps {
   studentsInfo: any;
 }
 
-const ManageClient: React.FC<ManageClientProps> = ({ studentsInfo }) => {
+const ManageUserClient: React.FC<ManageUserClientProps> = ({
+  studentsInfo,
+}) => {
   const useResultVerifyToken: any = useVerifyToken();
   const router = useRouter();
 
+  useEffect(() => {
+    if (useResultVerifyToken && useResultVerifyToken.role !== "Admin") {
+      router.push("/");
+      console.log(useResultVerifyToken);
+    }
+  }, [router, useResultVerifyToken]);
+
   if (useResultVerifyToken && useResultVerifyToken.role !== "Admin") {
-    router.push("/");
-    return;
+    console.log("first");
+    return (
+      <ClientOnly>
+        <EmptyState
+          title="You are not authorized to access"
+          subtitle="Redirect to your page"
+        />
+      </ClientOnly>
+    );
   }
 
   return (
@@ -122,4 +137,4 @@ const ManageClient: React.FC<ManageClientProps> = ({ studentsInfo }) => {
   );
 };
 
-export default ManageClient;
+export default ManageUserClient;
