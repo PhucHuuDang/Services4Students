@@ -4,7 +4,7 @@ import { useRouter } from "next/navigation";
 import ServicesItem from "./ServicesItem";
 import Input from "../inputs/Input";
 import { FieldValues, useForm } from "react-hook-form";
-import { useCallback, useState } from "react";
+import { useCallback, useState, memo } from "react";
 import useServicesModal from "@/app/hooks/useServicesModal";
 import MenuItem from "./MenuItem";
 import SearchModal from "../modals/SearchModal";
@@ -64,4 +64,4 @@ const Search = () => {
   );
 };
 
-export default Search;
+export default memo(Search);

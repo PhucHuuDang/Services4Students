@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import { memo } from "react";
 import { useRouter } from "next/navigation";
 
 const Logo = () => {
@@ -18,4 +19,4 @@ const Logo = () => {
   );
 };
 
-export default Logo;
+export default memo(Logo);

@@ -8,6 +8,7 @@ import Navbar from "./components/navbar/Navbar";
 import "./globals.css";
 import { Nunito } from "next/font/google";
 import getCurrentUser from "./components/actions/getCurrentUser";
+import RegisterStaffModal from "./components/modals/RegisterStaffModal";
 
 export const metadata = {
   title: "Services for students",
@@ -33,6 +34,7 @@ export default async function RootLayout({
           <SearchModal />
           <LoginModal />
           <RegisterModal />
+          <RegisterStaffModal />
           <Navbar currentUser={currentUser} />
         </ClientOnly>
         <div className="pb-20 pt=28">{children}</div>

@@ -2,7 +2,7 @@
 
 import jwt from "jsonwebtoken";
 
-import { useEffect } from "react";
+import { useEffect, memo, useMemo } from "react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import useTokenStore from "@/app/hooks/useTokenStore";
 
@@ -91,4 +91,4 @@ const Navbar: React.FC<NavbarProps> = ({ currentUser }) => {
   );
 };
 
-export default Navbar;
+export default memo(Navbar);

@@ -68,6 +68,7 @@ const ManageStaffClient: React.FC<ManageStaffClientProps> = ({
             return (
               <StaffInfoListing
                 key={item.inforOfStaffData.id}
+                id={item.inforOfStaffData.id}
                 fullName={item.inforOfStaffData.fullName}
                 email={item.inforOfStaffData.email}
                 date={item.staffData.created}

@@ -1,12 +1,16 @@
 export default async function getAllStudents() {
-    const response = await fetch('http://3.27.132.94/api/v1/students/get-all-student')
-    
-    if(!response.ok) {
-        throw new Error('Fetch data students failed')
+  const response = await fetch(
+    "http://3.27.132.94/api/v1/students/get-all-student",
+    {
+      cache: "no-store",
     }
+  );
 
-    const studentsInfo = await response.json()
+  if (!response.ok) {
+    throw new Error("Fetch data students failed");
+  }
 
-    return studentsInfo
+  const studentsInfo = await response.json();
 
+  return studentsInfo;
 }

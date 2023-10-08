@@ -3,7 +3,7 @@
 import { signOut } from "next-auth/react";
 
 import { AiOutlineMenu } from "react-icons/ai";
-import { useCallback, useState } from "react";
+import { memo, useCallback, useState } from "react";
 import { AiOutlineShoppingCart } from "react-icons/ai";
 import { useRouter } from "next/navigation";
 import { BsSearch } from "react-icons/bs";
@@ -15,6 +15,7 @@ import Modal from "../modals/Modal";
 import useLoginModal from "@/app/hooks/useLoginModal";
 import useRegisterModal from "@/app/hooks/useRegisterModal";
 import useSearchModal from "@/app/hooks/useSearchModal";
+import useRegisterStaffModal from "@/app/hooks/useRegisterStaffModal";
 
 interface UserMenuProps {
   currentUser?: any | null;
@@ -27,6 +28,7 @@ const UserMenu: React.FC<UserMenuProps> = ({ currentUser, isAdmin }) => {
 
   const loginModal = useLoginModal();
   const registerModal = useRegisterModal();
+  const registerStaffModal = useRegisterStaffModal();
   const searchModal = useSearchModal();
 
   const toggleOpen = useCallback(() => {
@@ -155,7 +157,10 @@ const UserMenu: React.FC<UserMenuProps> = ({ currentUser, isAdmin }) => {
 
                     <MenuItem label="Add more services" onClick={() => {}} />
 
-                    <MenuItem label="Sign up staff" onClick={() => {}} />
+                    <MenuItem
+                      label="Sign up staff"
+                      onClick={registerStaffModal.onOpen}
+                    />
 
                     <MenuItem label="Log out" onClick={() => signOut()} />
                   </>
@@ -185,4 +190,4 @@ const UserMenu: React.FC<UserMenuProps> = ({ currentUser, isAdmin }) => {
   );
 };
 
-export default UserMenu;
+export default memo(UserMenu);

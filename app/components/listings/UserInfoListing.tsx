@@ -8,23 +8,25 @@ interface UserInfoListingProps {
   fullName: string;
   email: string;
   date: string;
+  id: string;
 }
 
 const UserInfoListing: React.FC<UserInfoListingProps> = ({
   fullName,
   email,
   date,
+  id,
 }) => {
   return (
     <div
-      onClick={() => {}}
+      onClick={() => console.log("StudentId: ", id)}
       className="
           bg-gray-50
           p-4
           rounded-lg
           cursor-pointer
           hover:bg-gray-100
-          hover:shadow-md
+          hover:shadow-lg
           hover:scale-y-110
           transition
           duration-150
