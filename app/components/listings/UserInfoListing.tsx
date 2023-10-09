@@ -34,7 +34,7 @@ const UserInfoListing: React.FC<UserInfoListingProps> = ({
 
           "
     >
-      <div className="flex fle-row items-center justify-between gap-5">
+      <div className="flex flex-row items-center justify-between gap-5">
         <div className="flex flex-row items-center gap-5">
           <Image
             src="/images/avatarPlaceHolder.jpg"

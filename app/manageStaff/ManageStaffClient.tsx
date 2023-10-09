@@ -1,5 +1,7 @@
 "use client";
 
+import { BsPeople } from "react-icons/bs";
+
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 
@@ -8,6 +10,7 @@ import EmptyState from "../components/EmptyState";
 import useVerifyToken from "../hooks/useVerifyToken";
 import Heading from "../components/Heading";
 import StaffInfoListing from "../components/listings/StaffInfoListing";
+import { useDebouncedState } from "@mantine/hooks";
 
 interface ManageStaffClientProps {
   staffsInfo: any;
@@ -16,6 +19,7 @@ interface ManageStaffClientProps {
 const ManageStaffClient: React.FC<ManageStaffClientProps> = ({
   staffsInfo,
 }) => {
+  const [search, setSearch] = useDebouncedState("", 200, { leading: true });
   const useResultVerifyToken: any = useVerifyToken();
   const router = useRouter();
 
@@ -43,6 +47,53 @@ const ManageStaffClient: React.FC<ManageStaffClientProps> = ({
       <div className="pt-20">
         <Heading title="Manage Staffs" center />
       </div>
+      <div className="flex flex-row items-center justify-center w-auto gap-2 pt-5">
+        <BsPeople size={30} />
+        <div className="relative">
+          <input
+            onChange={(e) => setSearch(e.target.value)}
+            id="search"
+            className="
+                peer
+                w-[400px]
+                rounded-md
+                text-md
+                font-semibold
+                py-2
+                px-4
+                border-b-[2px]
+                shadow-md
+                outline-none
+                transition
+                disabled:opacity-70
+                disabled:cursor-not-allowed
+                
+          
+          "
+          />
+          <label
+            className={`
+                absolute
+                text-md
+                font-semibold
+                duration-150
+                transform
+                left-0
+                top-5
+                px-4
+                -translate-y-3
+                z-10
+                origin-[0]
+                peer-placeholder-shown:scale-100
+                peer-placeholder-shown:translate-y-0
+                peer-focus:scale-75
+                peer-focus:-translate-y-10
+          `}
+          >
+            Search Staff
+          </label>
+        </div>
+      </div>
       <div
         className="
               flex
@@ -64,17 +115,25 @@ const ManageStaffClient: React.FC<ManageStaffClientProps> = ({
   
           "
         >
-          {staffsInfo.map((item: any) => {
-            return (
-              <StaffInfoListing
-                key={item.inforOfStaffData.id}
-                id={item.inforOfStaffData.id}
-                fullName={item.inforOfStaffData.fullName}
-                email={item.inforOfStaffData.email}
-                date={item.staffData.created}
-              />
-            );
-          })}
+          {staffsInfo
+            .filter((value: any) => {
+              return search.toLowerCase() === ""
+                ? value
+                : value.inforOfStaffData.fullName
+                    .toLowerCase()
+                    .includes(search.toLowerCase());
+            })
+            .map((item: any) => {
+              return (
+                <StaffInfoListing
+                  key={item.inforOfStaffData.id}
+                  id={item.inforOfStaffData.id}
+                  fullName={item.inforOfStaffData.fullName}
+                  email={item.inforOfStaffData.email}
+                  date={item.staffData.created}
+                />
+              );
+            })}
         </div>
       </div>
     </>
