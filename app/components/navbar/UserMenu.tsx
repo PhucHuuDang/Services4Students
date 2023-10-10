@@ -16,6 +16,7 @@ import useLoginModal from "@/app/hooks/useLoginModal";
 import useRegisterModal from "@/app/hooks/useRegisterModal";
 import useSearchModal from "@/app/hooks/useSearchModal";
 import useRegisterStaffModal from "@/app/hooks/useRegisterStaffModal";
+import useAddServiceModal from "@/app/hooks/useAddServiceModal";
 
 interface UserMenuProps {
   currentUser?: any | null;
@@ -29,11 +30,20 @@ const UserMenu: React.FC<UserMenuProps> = ({ currentUser, isAdmin }) => {
   const loginModal = useLoginModal();
   const registerModal = useRegisterModal();
   const registerStaffModal = useRegisterStaffModal();
+  const addServiceModal = useAddServiceModal();
   const searchModal = useSearchModal();
 
   const toggleOpen = useCallback(() => {
     setIsOpen((value) => !value);
   }, []);
+
+  const onAddServicesModal = useCallback(() => {
+    if (!currentUser) {
+      return loginModal.onOpen();
+    }
+
+    addServiceModal.onOpen();
+  }, [currentUser, addServiceModal, loginModal]);
 
   const onEscClose = useCallback(() => {}, []);
 
@@ -83,6 +93,7 @@ const UserMenu: React.FC<UserMenuProps> = ({ currentUser, isAdmin }) => {
           "
         >
           <div
+            onClick={onAddServicesModal}
             className="
             flex
             flex-row
@@ -155,7 +166,10 @@ const UserMenu: React.FC<UserMenuProps> = ({ currentUser, isAdmin }) => {
                       onClick={() => router.push("/manageUser")}
                     />
 
-                    <MenuItem label="Add more services" onClick={() => {}} />
+                    <MenuItem
+                      label="Add more services"
+                      onClick={addServiceModal.onOpen}
+                    />
 
                     <MenuItem
                       label="Sign up staff"

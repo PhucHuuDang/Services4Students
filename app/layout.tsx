@@ -9,6 +9,8 @@ import "./globals.css";
 import { Nunito } from "next/font/google";
 import getCurrentUser from "./components/actions/getCurrentUser";
 import RegisterStaffModal from "./components/modals/RegisterStaffModal";
+import AddServicesModal from "./components/modals/AddServiceModal";
+import getCategories from "./components/actions/getCategories";
 
 export const metadata = {
   title: "Services for students",
@@ -25,6 +27,7 @@ export default async function RootLayout({
   children: React.ReactNode;
 }) {
   const currentUser = await getCurrentUser();
+  const getCategoryId = await getCategories();
 
   return (
     <html lang="en">
@@ -32,6 +35,7 @@ export default async function RootLayout({
         <ClientOnly>
           <ToasterProvider />
           <SearchModal />
+          <AddServicesModal getCategoryId={getCategoryId} />
           <LoginModal />
           <RegisterModal />
           <RegisterStaffModal />
