@@ -7,13 +7,16 @@ import Modal from "./Modal";
 import Heading from "../Heading";
 import CategoryInput from "../inputs/CategoryInput";
 import ImageUpload from "../inputs/ImageUpload";
+import Input from "../inputs/Input";
+import axios from "axios";
+import { toast } from "react-hot-toast";
+import { useRouter } from "next/navigation";
 
 enum STEPS {
   CATEGORY = 0,
   IMAGES = 1,
   DESCRIPTION = 2,
-  PRICE = 3,
-  CREATED = 4,
+  CREATED = 3,
 }
 
 type GetCategory = {
@@ -43,6 +46,7 @@ const AddServicesModal: React.FC<AddServiceModalProps> = ({
   const addServiceModal = useAddServiceModal();
   const [step, setStep] = useState(STEPS.CATEGORY);
   const [isLoading, setIsLoading] = useState(false);
+  const router = useRouter();
 
   const {
     register,
@@ -54,8 +58,8 @@ const AddServicesModal: React.FC<AddServiceModalProps> = ({
   } = useForm<FieldValues>({
     defaultValues: {
       serviceName: "",
-      servicesDescription: "",
-      quantity: "",
+      serviceDescription: "",
+      price: "",
       imageURL: "",
       categoryId: "",
       createBy: "",
@@ -66,6 +70,8 @@ const AddServicesModal: React.FC<AddServiceModalProps> = ({
   //   console.log("categoryId: ", categoryId);
 
   const imageURL = watch("imageURL");
+
+  //   console.log(imageURL);
 
   const setCustomValue = (id: string, value: any) => {
     setValue(id, value, {
@@ -83,12 +89,28 @@ const AddServicesModal: React.FC<AddServiceModalProps> = ({
     setStep((value) => value + 1);
   };
 
-  const onSubmit: SubmitHandler<FieldValues> = () => {
+  const onSubmit: SubmitHandler<FieldValues> = (data) => {
     if (step !== STEPS.CREATED) {
       return onNext();
     }
 
     // logic here
+
+    axios
+      .post("/api/service", data)
+      .then(() => {
+        toast.success("Service Created!");
+        router.refresh();
+        reset();
+        setStep(STEPS.CATEGORY);
+        addServiceModal.onClose();
+      })
+      .catch(() => {
+        toast.error("Something went wrong");
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });
   };
 
   const actionLabel = useMemo(() => {
@@ -151,12 +173,74 @@ const AddServicesModal: React.FC<AddServiceModalProps> = ({
       <div className="flex flex-col gap-8">
         <Heading
           title="Add a photo of your service"
-          subtitle="Show custom what your service looks like"
+          subtitle="Show customers what your service looks like"
+          center
         />
 
         <ImageUpload
           value={imageURL}
           onChange={(value) => setCustomValue("imageURL", value)}
+        />
+      </div>
+    );
+  }
+
+  if (step === STEPS.DESCRIPTION) {
+    bodyContent = (
+      <div className="flex flex-col gap-8">
+        <Heading
+          title="How would you describe your service?"
+          subtitle="Shot and sweet works best!"
+          center
+        />
+
+        <Input
+          id="serviceName"
+          label="Title"
+          disabled={isLoading}
+          register={register}
+          errors={errors}
+          required
+        />
+
+        <Input
+          id="serviceDescription"
+          label="Description"
+          disabled={isLoading}
+          register={register}
+          errors={errors}
+          required
+        />
+      </div>
+    );
+  }
+
+  if (step === STEPS.CREATED) {
+    bodyContent = (
+      <div className="flex flex=row gap-8">
+        <Heading
+          title="Now, set service's price and the person who created"
+          subtitle="How much do you charge for service?"
+        />
+
+        <Input
+          id="price"
+          label="Price"
+          formatPrice
+          type="number"
+          disabled={isLoading}
+          register={register}
+          errors={errors}
+          required
+        />
+
+        <Input
+          id="createBy"
+          label="Create By"
+          disabled={isLoading}
+          register={register}
+          errors={errors}
+          required
         />
       </div>
     );
