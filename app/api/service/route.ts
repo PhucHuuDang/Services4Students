@@ -28,7 +28,7 @@ export async function POST(request: Request) {
       }
     );
 
-    console.log(createService);
+    // console.log(createService);
 
     if (createService.status === 200) {
       const newService = createService.data;

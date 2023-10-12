@@ -11,6 +11,7 @@ import getCurrentUser from "./components/actions/getCurrentUser";
 import RegisterStaffModal from "./components/modals/RegisterStaffModal";
 import AddServicesModal from "./components/modals/AddServiceModal";
 import getCategories from "./components/actions/getCategories";
+import CategoryModal from "./components/modals/CategoryModal";
 
 export const metadata = {
   title: "Services for students",
@@ -36,6 +37,7 @@ export default async function RootLayout({
           <ToasterProvider />
           <SearchModal />
           <AddServicesModal getCategoryId={getCategoryId} />
+          <CategoryModal />
           <LoginModal />
           <RegisterModal />
           <RegisterStaffModal />

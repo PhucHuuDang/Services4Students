@@ -32,7 +32,7 @@ const Input: React.FC<InputProps> = ({
           className="
               text-neutral-700 
               absolute 
-              top-4 
+              top-6 
               lef-2"
         />
       )}

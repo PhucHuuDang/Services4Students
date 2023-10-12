@@ -1,7 +1,9 @@
 "use client";
 
+import { CgPlayListAdd } from "react-icons/cg";
+
 import useAddServiceModal from "@/app/hooks/useAddServiceModal";
-import { useMemo, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import Modal from "./Modal";
 import Heading from "../Heading";
@@ -11,12 +13,14 @@ import Input from "../inputs/Input";
 import axios from "axios";
 import { toast } from "react-hot-toast";
 import { useRouter } from "next/navigation";
+import useCategoryModal from "@/app/hooks/useCategoryModal";
 
 enum STEPS {
   CATEGORY = 0,
   IMAGES = 1,
   DESCRIPTION = 2,
-  CREATED = 3,
+  PRICE = 3,
+  CREATED = 4,
 }
 
 type GetCategory = {
@@ -47,6 +51,7 @@ const AddServicesModal: React.FC<AddServiceModalProps> = ({
   const [step, setStep] = useState(STEPS.CATEGORY);
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
+  const categoryModal = useCategoryModal();
 
   const {
     register,
@@ -88,6 +93,11 @@ const AddServicesModal: React.FC<AddServiceModalProps> = ({
   const onNext = () => {
     setStep((value) => value + 1);
   };
+
+  const toggle = useCallback(() => {
+    addServiceModal.onClose();
+    categoryModal.onOpen();
+  }, [addServiceModal, categoryModal]);
 
   const onSubmit: SubmitHandler<FieldValues> = (data) => {
     if (step !== STEPS.CREATED) {
@@ -133,9 +143,45 @@ const AddServicesModal: React.FC<AddServiceModalProps> = ({
     <div className="flex flex-col gap-8">
       <Heading
         title="Which of these category you want to add"
-        subtitle="Pick a category"
+        subtitle="Create or pick a category"
         center
       />
+
+      <div
+        className="
+            flex 
+            flex-row
+            justify-center 
+            items-center 
+        "
+      >
+        <div
+          onClick={toggle}
+          className="
+            flex 
+            flex-row 
+            justify-center 
+            items-center 
+            gap-1
+            shadow-sm
+            bg-neutral-50
+            cursor-pointer
+            hover:bg-neutral-200
+            hover:shadow-lg
+            hover:scale-105
+            py-3
+            px-8
+            rounded-lg
+            transition
+            duration-200
+            
+            "
+        >
+          <CgPlayListAdd size={24} />
+
+          <div className="text-md">Create package</div>
+        </div>
+      </div>
 
       <div
         className="
@@ -215,14 +261,14 @@ const AddServicesModal: React.FC<AddServiceModalProps> = ({
     );
   }
 
-  if (step === STEPS.CREATED) {
+  if (step === STEPS.PRICE) {
     bodyContent = (
-      <div className="flex flex=row gap-8">
+      <div className="flex flex-col gap-8">
         <Heading
-          title="Now, set service's price and the person who created"
-          subtitle="How much do you charge for service?"
+          title="Now, set the service's price"
+          subtitle="How much do you charge for the service?"
+          center
         />
-
         <Input
           id="price"
           label="Price"
@@ -233,6 +279,29 @@ const AddServicesModal: React.FC<AddServiceModalProps> = ({
           errors={errors}
           required
         />
+      </div>
+    );
+  }
+
+  if (step === STEPS.CREATED) {
+    bodyContent = (
+      <div className="flex flex-col gap-8">
+        <Heading
+          title="Confirm your authorization"
+          subtitle="Thanks for provide more service"
+          center
+        />
+
+        {/* <Input
+          id="price"
+          label="Price"
+          formatPrice
+          type="number"
+          disabled={isLoading}
+          register={register}
+          errors={errors}
+          required
+        /> */}
 
         <Input
           id="createBy"
