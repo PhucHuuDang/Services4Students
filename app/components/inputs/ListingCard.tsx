@@ -1,13 +1,28 @@
 "use client";
 
 import Image from "next/image";
+import Button from "../Button";
+import { ServiceProp } from "@/app/types";
+interface ListingCardProps {
+  onAction?: (id: string) => void;
+  serviceId: string;
+  categoryId: string;
+  actionLabel?: string;
+  disabled?: boolean;
+  data: ServiceProp;
+}
 
-interface ListingCardProps {}
-
-const ListingCard: React.FC<ListingCardProps> = () => {
+const ListingCard: React.FC<ListingCardProps> = ({
+  onAction,
+  actionLabel,
+  disabled,
+  serviceId,
+  categoryId,
+  data,
+}) => {
   return (
     <div
-      onClick={() => {}}
+      onClick={() => console.log(data.id)}
       className="
           col-span-1 
           cursor-pointer 
@@ -25,7 +40,10 @@ const ListingCard: React.FC<ListingCardProps> = () => {
           <Image
             fill
             alt="Listing"
-            src="/images/glamping.webp"
+            src={data.image || "/images/glamping.webp"}
+            // src={
+            //   "https://res.cloudinary.com/dqqqgyqjl/image/upload/v1697074879/ptgwqf7gyglk9goenock.webp"
+            // }
             className="
               object-cover
               h-full
@@ -38,18 +56,24 @@ const ListingCard: React.FC<ListingCardProps> = () => {
           {/* can add here the icon cart or not */}
         </div>
         {/* name of services */}
-        <div className="font-semibold text-lg">
-          Delivery food and water bottle
-        </div>
+        <div className="font-semibold text-lg">{data.serviceName}</div>
 
         <div className="font-light text-neutral-500">
-          We provide this service with aim at to serve for you, your satisfy,
-          our mission
+          {data.serviceDescription}
         </div>
 
         <div className="flex flex-row items-center gap-1">
-          <div className="font-semibold">500 vnd</div>
+          <div className="font-semibold">{data.price} vnd</div>
         </div>
+
+        {onAction && actionLabel && (
+          <Button
+            label={actionLabel}
+            disabled={disabled}
+            small
+            onClick={() => {}}
+          />
+        )}
       </div>
     </div>
   );

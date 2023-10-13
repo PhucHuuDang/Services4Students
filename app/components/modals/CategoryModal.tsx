@@ -2,7 +2,6 @@
 
 import axios from "axios";
 import { toast } from "react-hot-toast";
-import { BiArrowBack } from "react-icons/bi";
 import { IoReturnDownBack } from "react-icons/io5";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 
@@ -41,7 +40,7 @@ const CategoryModal = () => {
     setIsLoading(true);
 
     axios
-      .post("/api/category", data)
+      .post("/api/category/create", data)
 
       .then(() => {
         toast.success("Create category successfully!");
@@ -63,6 +62,7 @@ const CategoryModal = () => {
       <Heading
         title="What category's name you wanna create?"
         subtitle="More category make our services more diverse"
+        center
       />
 
       <Input

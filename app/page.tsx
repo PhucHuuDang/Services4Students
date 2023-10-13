@@ -4,8 +4,37 @@ import Container from "./components/Container";
 import ListingCard from "./components/inputs/ListingCard";
 import Banner from "./components/navbar/Banner";
 import { usePathname } from "next/navigation";
+import getServices from "./components/actions/getServices";
 
-export default function Home() {
+type ServiceProp = {
+  id: string;
+  serviceName: string;
+  serviceDescription: string;
+  price: number;
+  image: string;
+  categoryId: string;
+  created: string;
+  createBy: string;
+  lastModified: string;
+  lastModifiedBy: null;
+  isDelete: boolean;
+};
+
+// "id": "55acbfcc-867d-49b8-9395-e4d1c5cd0abe",
+//     "serviceName": "Rửa xe máy",
+//     "serviceDescription": "Đặt niềm tin vào chúng tôi để có chiếc xe máy đẹp như mới",
+//     "price": 20,
+//     "image": "notyet",
+//     "categoryId": "8abb3dda-208b-4397-93c0-3a5269a90e3d",
+//     "created": "2023-10-10T18:48:44.8201809",
+//     "createBy": "Hữu Phúc",
+//     "lastModified": "2023-10-10T18:48:44.8201793",
+//     "lastModifiedBy": null,
+//     "isDelete": false
+
+export default async function Home() {
+  const services = await getServices();
+
   return (
     <ClientOnly>
       <div
@@ -44,13 +73,16 @@ export default function Home() {
                 
                 "
           >
-            <ListingCard />
-            <ListingCard />
-            <ListingCard />
-            <ListingCard />
-            <ListingCard />
-            <ListingCard />
-            <ListingCard />
+            {services.map((service: ServiceProp) => {
+              return (
+                <ListingCard
+                  key={service.id}
+                  serviceId={service.id}
+                  categoryId={service.categoryId}
+                  data={service}
+                />
+              );
+            })}
           </div>
           {/* </div> */}
         </Container>
