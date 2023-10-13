@@ -1,4 +1,5 @@
 import getAllStudents from "../components/actions/getAllStudents";
+import getServiceById from "../components/actions/getServiceById";
 
 import ClientOnly from "../components/ClientOnly";
 import Container from "../components/Container";

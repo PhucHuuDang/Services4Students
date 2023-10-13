@@ -3,6 +3,7 @@
 import Image from "next/image";
 import Button from "../Button";
 import { ServiceProp } from "@/app/types";
+import { useRouter } from "next/navigation";
 interface ListingCardProps {
   onAction?: (id: string) => void;
   serviceId: string;
@@ -20,9 +21,12 @@ const ListingCard: React.FC<ListingCardProps> = ({
   categoryId,
   data,
 }) => {
+  const router = useRouter();
+
   return (
     <div
-      onClick={() => console.log(data.id)}
+      // onClick={() => console.log(data.id)}
+      onClick={() => router.push(`/listings/${data.id}`)}
       className="
           col-span-1 
           cursor-pointer 

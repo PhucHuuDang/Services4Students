@@ -5,13 +5,16 @@ interface ListingHeadProps {
   title: string;
   imageSrc?: string;
   id?: string;
-  
 }
 
-const ListingHead: React.FC<ListingHeadProps> = ({ title, imageSrc, id }) => {
+const ListingHead: React.FC<ListingHeadProps> = ({
+  title,
+  imageSrc = "",
+  id,
+}) => {
   return (
     <>
-      <Heading title={title} subtitle="The listing test" />
+      <Heading title={title.toUpperCase()} subtitle="The listing test" center />
 
       <div
         className="
@@ -25,7 +28,7 @@ const ListingHead: React.FC<ListingHeadProps> = ({ title, imageSrc, id }) => {
       >
         <Image
           alt="Image"
-          src="/images/glamping.webp"
+          src={imageSrc}
           fill
           className="object-cover w-full"
         />
