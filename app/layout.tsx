@@ -12,6 +12,7 @@ import RegisterStaffModal from "./components/modals/RegisterStaffModal";
 import AddServicesModal from "./components/modals/AddServiceModal";
 import getCategories from "./components/actions/getCategories";
 import CategoryModal from "./components/modals/CategoryModal";
+import getServices from "./components/actions/getServices";
 
 export const metadata = {
   title: "Services for students",
@@ -29,13 +30,13 @@ export default async function RootLayout({
 }) {
   const currentUser = await getCurrentUser();
   const getCategoryId = await getCategories();
-
+  const getService = await getServices();
   return (
     <html lang="en">
       <body suppressHydrationWarning className={nunito.className}>
         <ClientOnly>
           <ToasterProvider />
-          <SearchModal />
+          <SearchModal getService={getService} />
           <AddServicesModal getCategoryId={getCategoryId} />
           <CategoryModal />
           <LoginModal />

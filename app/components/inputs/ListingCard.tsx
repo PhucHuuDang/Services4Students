@@ -4,13 +4,15 @@ import Image from "next/image";
 import Button from "../Button";
 import { ServiceProp } from "@/app/types";
 import { useRouter } from "next/navigation";
+import { useCallback } from "react";
 interface ListingCardProps {
   onAction?: (id: string) => void;
-  serviceId: string;
-  categoryId: string;
+  serviceId?: string;
+  categoryId?: string;
   actionLabel?: string;
   disabled?: boolean;
   data: ServiceProp;
+  actionId?: string;
 }
 
 const ListingCard: React.FC<ListingCardProps> = ({
@@ -19,9 +21,23 @@ const ListingCard: React.FC<ListingCardProps> = ({
   disabled,
   serviceId,
   categoryId,
+  actionId = "",
   data,
 }) => {
   const router = useRouter();
+
+  const handleCancel = useCallback(
+    (e: React.MouseEvent<HTMLButtonElement>) => {
+      e.stopPropagation();
+
+      if (disabled) {
+        return;
+      }
+
+      onAction?.(actionId);
+    },
+    [actionId, disabled, onAction]
+  );
 
   return (
     <div
@@ -75,7 +91,7 @@ const ListingCard: React.FC<ListingCardProps> = ({
             label={actionLabel}
             disabled={disabled}
             small
-            onClick={() => {}}
+            onClick={handleCancel}
           />
         )}
       </div>

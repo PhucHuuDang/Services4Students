@@ -166,7 +166,10 @@ const UserMenu: React.FC<UserMenuProps> = ({ currentUser, isAdmin }) => {
                       onClick={() => router.push("/manageUser")}
                     />
 
-                    <MenuItem label="Manage Properties" onClick={() => {}} />
+                    <MenuItem
+                      label="Manage Properties"
+                      onClick={() => router.push("/properties")}
+                    />
 
                     <MenuItem
                       label="Add more services"

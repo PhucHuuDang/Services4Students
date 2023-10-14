@@ -15,11 +15,20 @@ import Input from "../inputs/Input";
 import { FieldValues, useForm } from "react-hook-form";
 import useSearchModal from "@/app/hooks/useSearchModal";
 import SearchItem from "../navbar/SearchItem";
+import { ServiceProp } from "@/app/types";
+import { useDebouncedState } from "@mantine/hooks";
+import { useRouter } from "next/navigation";
 
-const SearchModal = () => {
+interface SearchModalProps {
+  getService: ServiceProp[];
+}
+
+const SearchModal: React.FC<SearchModalProps> = ({ getService }) => {
   const searchModal = useSearchModal();
   const [showModal, setShowModal] = useState(searchModal.isOpen);
-  const [searchFilterInput, setSearchFilterInput] = useState("");
+  const [search, setSearch] = useDebouncedState("", 100, { leading: true });
+  const router = useRouter();
+
   //   const inputRef = useRef<HTMLInputElement | null>(null);
   const inputRef = useRef<HTMLInputElement | null>(null);
 
@@ -213,7 +222,7 @@ const SearchModal = () => {
                         focus:outline-none
 
                         "
-                        onChange={() => {}}
+                        onChange={(e) => setSearch(e.target.value)}
                       />
                     </div>
                   </div>
@@ -226,22 +235,23 @@ const SearchModal = () => {
                 /> */}
                 </div>
               </div>
+              {/* ${search ? "flex" : "hidden"} */}
               <div
-                className="
+                className={`
                   flex 
                   flex-col
                   items-center 
                   justify-center
                   mt-1 
-                  h-auto 
+                  h-auto
                   text-black 
                   cursor-pointer 
                   rounded-lg
                   
-                  "
+                  `}
               >
                 <div
-                  className="
+                  className=" 
                     w-full 
                     md:w-4/5 
                     lg:w-5/5 
@@ -252,22 +262,32 @@ const SearchModal = () => {
                     border-[#ebebeb]
                     transition 
                     duration-300
-                     
+                    
                     "
                 >
-                  <div className="p-4">
+                  {/* <div className="p-4">
                     Content of search Content of search Content of search
-                  </div>
+                  </div> */}
                 </div>
                 <>
-                  <SearchItem
-                    onClick={() => {}}
-                    label="Content of the search functionality"
-                  />
-                  <SearchItem
-                    onClick={() => {}}
-                    label="Content of the search functionality"
-                  />
+                  {getService
+                    .filter((value) => {
+                      return search.toLowerCase() === ""
+                        ? value
+                        : value.serviceName
+                            .toLowerCase()
+                            .includes(search.toLowerCase());
+                    })
+                    .map((item: ServiceProp) => {
+                      return (
+                        <SearchItem
+                          key={item.id}
+                          onClick={() => {}}
+                          label={item.serviceName}
+                          data={item}
+                        />
+                      );
+                    })}
                 </>
               </div>
             </div>

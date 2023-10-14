@@ -12,7 +12,7 @@ interface ListingClientProps {
 const ListingClient: React.FC<ListingClientProps> = ({
   listingServiceById,
 }) => {
-  console.log("listingServiceById: ", listingServiceById);
+  // console.log("listingServiceById: ", listingServiceById);
 
   return (
     <Container>
