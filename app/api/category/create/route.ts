@@ -4,7 +4,7 @@ import { NextResponse } from "next/server";
 export async function POST(request: Request) {
   const body = await request.json();
 
-  const { categoryName, createBy } = body;
+  const { categoryName, imageUrl, createBy } = body;
 
   // console.log(body);
 
@@ -13,6 +13,7 @@ export async function POST(request: Request) {
       "http://3.27.132.94/api/v1/categories/categories",
       {
         categoryName: categoryName,
+        imageUrl: imageUrl,
         createBy: createBy,
       }
     );

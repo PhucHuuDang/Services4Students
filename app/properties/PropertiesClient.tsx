@@ -20,13 +20,15 @@ const PropertiesClient: React.FC<PropertiesProps> = ({ data }) => {
   const [deleteId, setDeleteId] = useState("");
 
   const onCancel = useCallback(
-    (deleteId: string) => {
-      setDeleteId(deleteId);
+    (id: string) => {
+      setDeleteId(id);
 
-      console.log("deleteId: ", deleteId);
+      console.log("deleteId: ", id);
 
       axios
-        .delete(`/api/service/${deleteId}`)
+        // .delete(`/api/service/${deleteId}`)
+        .delete(`/api/serviceId/${id}`)
+
         .then(() => {
           toast.success("Delete service Successfully");
           router.refresh();

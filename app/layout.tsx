@@ -41,7 +41,7 @@ export default async function RootLayout({
           <CategoryModal />
           <LoginModal />
           <RegisterModal />
-          <RegisterStaffModal />
+          <RegisterStaffModal getCatagories={getCategoryId} />
           <Navbar currentUser={currentUser} />
         </ClientOnly>
         <div className="pb-20 pt=28">{children}</div>

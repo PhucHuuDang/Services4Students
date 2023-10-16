@@ -1,6 +1,7 @@
 "use client";
 
 import { CgPlayListAdd } from "react-icons/cg";
+import { GiWashingMachine } from "react-icons/gi";
 
 import useAddServiceModal from "@/app/hooks/useAddServiceModal";
 import { useCallback, useMemo, useState } from "react";
@@ -14,6 +15,7 @@ import axios from "axios";
 import { toast } from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import useCategoryModal from "@/app/hooks/useCategoryModal";
+import { IconType } from "react-icons";
 
 enum STEPS {
   CATEGORY = 0,
@@ -31,6 +33,7 @@ type GetCategory = {
   lastModified: string;
   lastModifiedBy: null;
   isDelete: boolean;
+  image: IconType;
 };
 // "id": "1794fb3f-3ba8-4361-9113-08647a0e53f3",
 // "categoryName": "Các dịch vụ nấu ăn",
@@ -179,7 +182,7 @@ const AddServicesModal: React.FC<AddServiceModalProps> = ({
         >
           <CgPlayListAdd size={24} />
 
-          <div className="text-md">Create package</div>
+          <div className="text-md">Create category</div>
         </div>
       </div>
 
@@ -202,6 +205,8 @@ const AddServicesModal: React.FC<AddServiceModalProps> = ({
                 onClick={(categoryId) =>
                   setCustomValue("categoryId", categoryId)
                 }
+                // icon={GiWashingMachine}
+                icon={GiWashingMachine || item.image}
                 // onClick={(value) => console.log(value)}
                 id={item.id}
                 selected={categoryId === item.id}

@@ -24,7 +24,9 @@ export async function DELETE(
 
   console.log(deleteId);
 
-  if (!deleteId || typeof deleteId !== "string") {
+  const deleteBy = "";
+
+  if (!deleteId || typeof deleteId !== "string" || deleteId === undefined) {
     throw new Error("Invalid ID");
   }
 
@@ -37,7 +39,10 @@ export async function DELETE(
     const deleteService = await axios.delete(
       "http://3.27.132.94/api/v1/services/services",
       {
-        data: deleteId,
+        data: {
+          deleteId: deleteId,
+          deleteBy: deleteBy,
+        },
       }
     );
 

@@ -48,9 +48,11 @@ const Search = () => {
       </div>
       <div className="flex flex-col items-center">
         <ServicesItem
-          onClick={toggleComboServices}
+          // onClick={toggleComboServices}
           label="Combo services"
-          isOpenComboServices={isOpenComboServices}
+          onClick={() => router.push("/combo")}
+
+          // isOpenComboServices={isOpenComboServices}
         />
       </div>
       <ServicesItem

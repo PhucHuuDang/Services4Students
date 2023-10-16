@@ -27,6 +27,7 @@ const CategoryModal = () => {
   } = useForm<FieldValues>({
     defaultValues: {
       categoryName: "",
+      imageUrl: "",
       createBy: "",
     },
   });
@@ -68,6 +69,15 @@ const CategoryModal = () => {
       <Input
         id="categoryName"
         label="Category Name"
+        disabled={isLoading}
+        register={register}
+        errors={errors}
+        required
+      />
+
+      <Input
+        id="imageUrl"
+        label="Icon"
         disabled={isLoading}
         register={register}
         errors={errors}

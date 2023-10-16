@@ -4,7 +4,7 @@ import { NextResponse } from "next/server";
 export async function POST(request: Request) {
   const body = await request.json();
 
-  const { fullName, email, userName, password } = body;
+  const { listCategoryId, fullName, email, userName, password } = body;
 
   const phone = "";
   const address = "";
@@ -16,6 +16,7 @@ export async function POST(request: Request) {
     const apiResponse = await axios.post(
       "http://3.27.132.94/api/v1/staffs/staffs",
       {
+        listCategoryId: listCategoryId,
         userName: userName,
         fullName: fullName,
         password: password,

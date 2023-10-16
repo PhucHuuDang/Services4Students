@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Button from "../Button";
-import { ServiceProp } from "@/app/types";
+import { PackageProps, ServiceProp } from "@/app/types";
 import { useRouter } from "next/navigation";
 import { useCallback } from "react";
 interface ListingCardProps {
@@ -11,7 +11,8 @@ interface ListingCardProps {
   categoryId?: string;
   actionLabel?: string;
   disabled?: boolean;
-  data: ServiceProp;
+  data?: ServiceProp | undefined;
+  packageData?: PackageProps;
   actionId?: string;
 }
 
@@ -23,8 +24,18 @@ const ListingCard: React.FC<ListingCardProps> = ({
   categoryId,
   actionId = "",
   data,
+  packageData,
 }) => {
   const router = useRouter();
+
+  const routerListing = useCallback(() => {
+    packageData
+      ? // ? router.push(`/listingsCombo/${packageData.id}`)
+        router.push(`/listingsCombo`)
+      : router.push(`/listings/${data?.id}`);
+  }, [router, packageData, data]);
+
+  // console.log(data?.isDelete);
 
   const handleCancel = useCallback(
     (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -42,7 +53,8 @@ const ListingCard: React.FC<ListingCardProps> = ({
   return (
     <div
       // onClick={() => console.log(data.id)}
-      onClick={() => router.push(`/listings/${data.id}`)}
+      // onClick={() => router.push(`/listings/${data.id}`)}
+      onClick={routerListing}
       className="
           col-span-1 
           cursor-pointer 
@@ -60,7 +72,8 @@ const ListingCard: React.FC<ListingCardProps> = ({
           <Image
             fill
             alt="Listing"
-            src={data.image || "/images/glamping.webp"}
+            // src={data.image || "/images/glamping.webp"}
+            src={"/images/glamping.webp"}
             // src={
             //   "https://res.cloudinary.com/dqqqgyqjl/image/upload/v1697074879/ptgwqf7gyglk9goenock.webp"
             // }
@@ -76,15 +89,35 @@ const ListingCard: React.FC<ListingCardProps> = ({
           {/* can add here the icon cart or not */}
         </div>
         {/* name of services */}
-        <div className="font-semibold text-lg">{data.serviceName}</div>
 
-        <div className="font-light text-neutral-500">
-          {data.serviceDescription}
-        </div>
+        {packageData ? (
+          <div className="font-semibold text-lg">
+            {packageData?.packageName}
+          </div>
+        ) : (
+          <div className="font-semibold text-lg">{data?.serviceName}</div>
+        )}
 
-        <div className="flex flex-row items-center gap-1">
-          <div className="font-semibold">{data.price} vnd</div>
-        </div>
+        {packageData ? (
+          <div className="font-light text-neutral-500">
+            {packageData.packageDescription}
+            123
+          </div>
+        ) : (
+          <div className="font-light text-neutral-500">
+            {data?.serviceDescription}
+          </div>
+        )}
+
+        {packageData ? (
+          <div className="flex flex-row items-center gap-1">
+            <div className="font-semibold">{packageData.totalPrice} vnd</div>
+          </div>
+        ) : (
+          <div className="flex flex-row items-center gap-1">
+            <div className="font-semibold">{data?.price} vnd</div>
+          </div>
+        )}
 
         {onAction && actionLabel && (
           <Button

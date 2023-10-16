@@ -1,10 +1,13 @@
 "use client";
 
+import { IconType } from "react-icons";
+
 interface CategoryInputProps {
   onClick: (value: string) => void;
   selected: boolean;
   label: string;
   id: string;
+  icon: IconType;
 }
 
 const CategoryInput: React.FC<CategoryInputProps> = ({
@@ -12,6 +15,7 @@ const CategoryInput: React.FC<CategoryInputProps> = ({
   selected,
   label,
   id,
+  icon: Icon,
 }) => {
   return (
     <div
@@ -31,6 +35,7 @@ const CategoryInput: React.FC<CategoryInputProps> = ({
       
       `}
     >
+      <Icon size={30} />
       <div className="font-semibold">{label}</div>
     </div>
   );
