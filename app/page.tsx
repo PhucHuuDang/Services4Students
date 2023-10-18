@@ -5,6 +5,7 @@ import ListingCard from "./components/inputs/ListingCard";
 import Banner from "./components/navbar/Banner";
 import { usePathname } from "next/navigation";
 import getServices from "./components/actions/getServices";
+import Maps from "./components/navbar/Maps";
 
 type ServiceProp = {
   id: string;
@@ -86,6 +87,19 @@ export default async function Home() {
           </div>
           {/* </div> */}
         </Container>
+        {/* <div className="relative flex flex-col h-100%">
+          <div
+            className="
+              absolute 
+              left-0 
+              top-0
+              h-100%
+              
+              "
+          >
+            <Maps />
+          </div>
+        </div> */}
       </div>
     </ClientOnly>
   );

@@ -1,0 +1,222 @@
+"use client";
+
+import {
+  useJsApiLoader,
+  GoogleMap,
+  Marker,
+  Autocomplete,
+} from "@react-google-maps/api";
+import { AiOutlineClose } from "react-icons/ai";
+import { BsSearch } from "react-icons/bs";
+
+import { FaLocationArrow } from "react-icons/fa";
+
+import EmptyState from "../EmptyState";
+import { useState } from "react";
+
+const center = { lat: 10.845453, lng: 106.836512 };
+
+const Maps = () => {
+  const { isLoaded } = useJsApiLoader({
+    // googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY as string,
+    googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY as string,
+    libraries: ["places"],
+  });
+
+  const [map, setMap] = useState<google.maps.Map | null>(null);
+
+  const onLoad = (autocomplete: any) => {
+    // Set options for the Autocomplete instance
+    autocomplete.setOptions({
+      types: ["geocode"], // Limit results to geographic areas
+      componentRestrictions: { country: "US" }, // Restrict to a specific country (change to your desired country)
+    });
+
+    // Add event listeners to the Autocomplete instance
+    autocomplete.addListener("place_changed", () => {
+      const place = autocomplete.getPlace();
+      if (!place.geometry) {
+        console.log("Place details not found.");
+        return;
+      }
+
+      // You can access place details such as name, address, latitude, and longitude
+      const name = place.name;
+      const address = place.formatted_address;
+      const lat = place.geometry.location.lat();
+      const lng = place.geometry.location.lng();
+
+      console.log("Name: " + name);
+      console.log("Address: " + address);
+      console.log("Latitude: " + lat);
+      console.log("Longitude: " + lng);
+
+      // Do something with the selected place data, e.g., update state
+      // For example, if you want to update a state variable with the selected place:
+      // setSelectedPlace({ name, address, lat, lng });
+    });
+  };
+
+  if (!isLoaded) {
+    return <EmptyState title="Maps Loading..." />;
+  }
+
+  return (
+    <div
+      className="
+        
+    "
+    >
+      <div
+        className="
+            flex 
+            flex-row 
+            items-center 
+            justify-center
+            w-auto
+            relative
+        "
+      >
+        <div
+          className="
+                w-full
+                flex
+                items-center
+                justify-center               
+                "
+        >
+          <div
+            className="
+                flex
+                flex-col
+                gap-2
+                p-2
+                bg-white
+                rounded-lg
+                absolute
+                left-4
+                top-4
+                z-10
+            "
+          >
+            <div
+              className="
+                    p-3 
+                    flex 
+                    flex-row 
+                    gap-2 
+                    items-center 
+                    justify-center 
+                    w-full 
+                    
+                      
+                "
+            >
+              <Autocomplete>
+                <input
+                  className="
+                    pl-2 
+                    w-full 
+                    rounded-md 
+                    py-1
+                    border-[2px] 
+                    border-gray-400
+                    focus:border-gray-700
+                    outline-none
+                    duration-200
+                    
+                    "
+                  type="text"
+                  placeholder="Origin"
+                />
+              </Autocomplete>
+
+              <Autocomplete onLoad={onLoad}>
+                <input
+                  className="
+                    pl-2 
+                    py-1 
+                    w-full 
+                    rounded-md 
+                    border-[2px] 
+                    border-gray-400
+                    focus:border-gray-700
+                    outline-none
+                    duration-150
+                "
+                  type="text"
+                  placeholder="Destination"
+                />
+              </Autocomplete>
+              <div
+                className="
+                    p-2 
+                    rounded-full 
+                    cursor-pointer
+                    bg-neutral-200
+                    hover:bg-neutral-400
+                    hover:scale-105
+                    transition
+                    duration-200
+                    "
+              >
+                <BsSearch size={24} />
+              </div>
+
+              <div>
+                <AiOutlineClose size={24} />
+              </div>
+            </div>
+
+            <div className="flex flex-row items-center justify-between p-3">
+              <div>Distance: </div>
+
+              <div>Duration: </div>
+
+              <div
+                onClick={() => map?.panTo(center)}
+                className="
+                    rounded-full 
+                    p-2 
+                    bg-neutral-200 
+                    hover:bg-neutral-400
+                    hover:scale-105
+                    cursor-pointer
+                    transition
+                    duration-200
+
+                    "
+              >
+                <FaLocationArrow size={15} />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div className="absolute h-full w-full">
+        {/* <div className="h-full w-full absolute"> */}
+        <GoogleMap
+          center={center}
+          zoom={15}
+          mapContainerStyle={{
+            width: "100%",
+            height: "85%",
+          }}
+          options={{
+            fullscreenControl: false,
+            streetViewControl: false,
+            //   zoomControl: false,
+            mapTypeControl: false,
+          }}
+          onLoad={(map) => setMap(map)}
+        >
+          <Marker position={center} />
+          {/* display maker or direction */}
+        </GoogleMap>
+        {/* </div> */}
+      </div>
+    </div>
+  );
+};
+
+export default Maps;

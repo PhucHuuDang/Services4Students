@@ -27,9 +27,9 @@ export async function POST(request: Request) {
       }
     );
 
-    console.log("Route register staff");
+    // console.log("Route register staff");
 
-    console.log(apiResponse);
+    // console.log(apiResponse);
 
     if (apiResponse.status === 200) {
       const user = apiResponse.data;

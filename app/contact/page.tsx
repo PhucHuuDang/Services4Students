@@ -13,9 +13,8 @@ interface IParams {
 export default async function ContactPage() {
   return (
     <ClientOnly>
-      <Container>
-        <ContactClient />
-      </Container>
+      {/* <Container></Container> */}
+      <ContactClient />
     </ClientOnly>
   );
 }

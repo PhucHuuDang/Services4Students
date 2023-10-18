@@ -66,7 +66,7 @@ const Navbar: React.FC<NavbarProps> = ({ currentUser }) => {
   // }
 
   return (
-    <div className="fixed bg-white w-full z-10 shadow-sm">
+    <div className="fixed bg-white w-full z-20 shadow-sm">
       <div className="py-4 border-b-[1px] z-10">
         <Container>
           <div className="flex flex-row items-center justify-between gap-3 md:gap-1 md:w-full">
