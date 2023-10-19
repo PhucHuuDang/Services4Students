@@ -30,9 +30,10 @@ const ListingCard: React.FC<ListingCardProps> = ({
 
   const routerListing = useCallback(() => {
     packageData
-      ? // ? router.push(`/listingsCombo/${packageData.id}`)
-        router.push(`/listingsCombo`)
-      : router.push(`/listings/${data?.id}`);
+      ? router.push(`/listingsCombo/${packageData.id}`)
+      : // console.log(packageData.id)
+        // router.push(`/listingsCombo`)
+        router.push(`/listings/${data?.id}`);
   }, [router, packageData, data]);
 
   // console.log(data?.isDelete);

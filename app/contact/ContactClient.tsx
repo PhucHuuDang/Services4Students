@@ -1,10 +1,7 @@
 "use client";
 
 import Container from "../components/Container";
-import Heading from "../components/Heading";
-import Logo from "../components/navbar/Logo";
 import Maps from "../components/navbar/Maps";
-import UserMenu from "../components/navbar/UserMenu";
 import ContactInfo from "./ContactInfo";
 
 interface ContactClientProps {
@@ -18,17 +15,19 @@ const ContactClient = ({ user }: any) => {
   return (
     <>
       <div className="pt-20">
-        <ContactInfo />
-        <div className="flex flex-col h-auto">
-          {/* <div
+        <Container>
+          <ContactInfo />
+        </Container>
+        {/* <div className="flex flex-col h-auto">
+          <div
             className="
               h-screen
               
               "
           >
             <Maps />
-          </div> */}
-        </div>
+          </div>
+        </div> */}
       </div>
       <div
         className="

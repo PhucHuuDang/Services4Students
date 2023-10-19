@@ -19,7 +19,7 @@ export type PackageProps = {
   packageName: string;
   weekNumberBooking: number;
   dateDoInWeek: string[];
-  image: string | null;
+  image: string | undefined;
   totalPrice: number;
   packageDescription: string;
   created: string;
@@ -38,6 +38,11 @@ export type GetCategory = {
   lastModifiedBy: null;
   isDelete: boolean;
   image: IconType;
+};
+
+export type getServicesInAPackage = {
+  packageData: PackageProps;
+  listServiceData: ServiceProp[];
 };
 
 // "id": "b17c9d4c-b164-4097-8d5f-03d2246da758",

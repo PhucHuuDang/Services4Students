@@ -64,7 +64,7 @@ const RegisterStaffModal: React.FC<RegisterStaffModalProps> = ({
   //   setId((value: any) => [...value, id]);
   // }, []);
 
-  console.log(listCategoryId);
+  // console.log(listCategoryId);
 
   const setCustomValue = (id: string, value: any) => {
     // const setCustomValue = (id: string) => {
