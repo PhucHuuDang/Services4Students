@@ -102,7 +102,6 @@ const ListingCard: React.FC<ListingCardProps> = ({
         {packageData ? (
           <div className="font-light text-neutral-500">
             {packageData.packageDescription}
-            123
           </div>
         ) : (
           <div className="font-light text-neutral-500">

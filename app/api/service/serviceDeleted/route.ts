@@ -1,43 +1,34 @@
 import axios from "axios";
 import { NextResponse } from "next/server";
 
-// interface IParams {
-//   deleteId: string;
-//   //   { params }: { params: IParams }
-// }
+export async function DELETE(request: Request) {
+  //   const { deleteId } = params;
+  //   { params }: { params: IParams }
+  //
+  //   const { deleteId } = query;
 
-type Params = {
-  params: {
-    deleteId: string;
-  };
-  // { params: { deleteId } }: Params,
-};
+  const body = await request.json();
 
-export async function DELETE(
-  { params: { deleteId } }: Params,
-  request: Request
-) {
-  // const { deleteId } = params;
-  // { params }: { params: IParams }
+  const { id } = body;
 
-  // const { deleteId } = query;
+  //   console.log(deleteId);
 
-  console.log(deleteId);
+  const deleteBy = "";
 
-  if (!deleteId || typeof deleteId !== "string") {
-    throw new Error("Invalid ID");
-  }
+  //   if (!deleteId || typeof deleteId !== "string" || deleteId === undefined) {
+  //     throw new Error("Invalid ID");
+  //   }
 
   console.log("first");
 
   try {
-    // const deleteService = await axios.delete(
-    //   `http://3.27.132.94/api/v1/services/services/${deleteId}`
-    // );
     const deleteService = await axios.delete(
       "http://3.27.132.94/api/v1/services/services",
       {
-        data: deleteId,
+        data: {
+          serviceId: id,
+          deleteBy: deleteBy,
+        },
       }
     );
 

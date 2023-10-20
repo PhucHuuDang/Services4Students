@@ -280,12 +280,14 @@ const SearchModal: React.FC<SearchModalProps> = ({ getService }) => {
                     })
                     .map((item: ServiceProp) => {
                       return (
-                        <SearchItem
-                          key={item.id}
-                          onClick={() => {}}
-                          label={item.serviceName}
-                          data={item}
-                        />
+                        !item.isDelete && (
+                          <SearchItem
+                            key={item.id}
+                            onClick={() => {}}
+                            label={item.serviceName}
+                            data={item}
+                          />
+                        )
                       );
                     })}
                 </>

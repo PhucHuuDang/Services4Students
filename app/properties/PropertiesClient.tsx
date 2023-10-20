@@ -20,20 +20,18 @@ const PropertiesClient: React.FC<PropertiesProps> = ({ data }) => {
   const [deleteId, setDeleteId] = useState("");
 
   const onCancel = useCallback(
-    (id: string) => {
+    (id: any) => {
       setDeleteId(id);
 
       console.log("deleteId: ", id);
-
       axios
-        // .delete(`/api/service/${deleteId}`)
-        .delete(`/api/serviceId/${id}`)
-
+        // .delete(`http://3.27.132.94/api/v1/services/services/${id}`)
+        .delete("/api/service/serviceDeleted", { data: { id } })
         .then(() => {
-          toast.success("Delete service Successfully");
+          toast.success("Delete service successfully");
           router.refresh();
         })
-        .catch((error) => {
+        .catch(() => {
           toast.error("Failed to delete service");
         })
         .finally(() => {
@@ -61,15 +59,19 @@ const PropertiesClient: React.FC<PropertiesProps> = ({ data }) => {
         "
       >
         {data.map((item: ServiceProp) => {
+          const isDelete: boolean = item.isDelete;
+          // console.log(item.isDelete);
           return (
-            <ListingCard
-              key={item.id}
-              data={item}
-              actionId={item.id}
-              onAction={onCancel}
-              disabled={deleteId === item.id}
-              actionLabel="Delete Service"
-            />
+            !isDelete && (
+              <ListingCard
+                key={item.id}
+                data={item}
+                actionId={item.id}
+                onAction={onCancel}
+                disabled={deleteId === item.id}
+                actionLabel="Delete Service"
+              />
+            )
           );
         })}
       </div>

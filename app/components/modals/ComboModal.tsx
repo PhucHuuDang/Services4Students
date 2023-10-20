@@ -134,27 +134,29 @@ const ComboModal: React.FC<ComboModalProps> = ({ getService }) => {
       >
         {getService.map((item) => {
           return (
-            <div key={item.id} className="col-span-1">
-              <CategoryInput
-                onClick={(listServiceValue) => {
-                  if (listServiceId.includes(listServiceValue)) {
-                    const removeId = listServiceId.filter(
-                      (id: string) => id !== listServiceValue
-                    );
+            !item.isDelete && (
+              <div key={item.id} className="col-span-1">
+                <CategoryInput
+                  onClick={(listServiceValue) => {
+                    if (listServiceId.includes(listServiceValue)) {
+                      const removeId = listServiceId.filter(
+                        (id: string) => id !== listServiceValue
+                      );
 
-                    setCustomValue("listServiceId", [...removeId]);
-                  } else {
-                    setCustomValue("listServiceId", [
-                      listServiceValue,
-                      ...listServiceId,
-                    ]);
-                  }
-                }}
-                id={item.id}
-                selected={listServiceId.includes(item.id)}
-                label={item.serviceName}
-              />
-            </div>
+                      setCustomValue("listServiceId", [...removeId]);
+                    } else {
+                      setCustomValue("listServiceId", [
+                        listServiceValue,
+                        ...listServiceId,
+                      ]);
+                    }
+                  }}
+                  id={item.id}
+                  selected={listServiceId.includes(item.id)}
+                  label={item.serviceName}
+                />
+              </div>
+            )
           );
         })}
       </div>
