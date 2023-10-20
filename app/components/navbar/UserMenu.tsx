@@ -17,6 +17,7 @@ import useRegisterModal from "@/app/hooks/useRegisterModal";
 import useSearchModal from "@/app/hooks/useSearchModal";
 import useRegisterStaffModal from "@/app/hooks/useRegisterStaffModal";
 import useAddServiceModal from "@/app/hooks/useAddServiceModal";
+import useComboModal from "@/app/hooks/useComboModal";
 
 interface UserMenuProps {
   currentUser?: any | null;
@@ -32,6 +33,7 @@ const UserMenu: React.FC<UserMenuProps> = ({ currentUser, isAdmin }) => {
   const registerStaffModal = useRegisterStaffModal();
   const addServiceModal = useAddServiceModal();
   const searchModal = useSearchModal();
+  const comboModal = useComboModal();
 
   const toggleOpen = useCallback(() => {
     setIsOpen((value) => !value);
@@ -179,6 +181,11 @@ const UserMenu: React.FC<UserMenuProps> = ({ currentUser, isAdmin }) => {
                     <MenuItem
                       label="Sign up staff"
                       onClick={registerStaffModal.onOpen}
+                    />
+
+                    <MenuItem
+                      label="Create Package(combo)"
+                      onClick={comboModal.onOpen}
                     />
 
                     <MenuItem label="Log out" onClick={() => signOut()} />

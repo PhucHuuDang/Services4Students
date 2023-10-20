@@ -13,6 +13,7 @@ import AddServicesModal from "./components/modals/AddServiceModal";
 import getCategories from "./components/actions/getCategories";
 import CategoryModal from "./components/modals/CategoryModal";
 import getServices from "./components/actions/getServices";
+import ComboModal from "./components/modals/ComboModal";
 
 export const metadata = {
   title: "Services for students",
@@ -42,6 +43,7 @@ export default async function RootLayout({
           <LoginModal />
           <RegisterModal />
           <RegisterStaffModal getCatagories={getCategoryId} />
+          <ComboModal getService={getService} />
           <Navbar currentUser={currentUser} />
         </ClientOnly>
         <div className="pb-20 pt=28">{children}</div>

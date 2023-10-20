@@ -7,7 +7,7 @@ interface CategoryInputProps {
   selected: boolean;
   label: string;
   id: string;
-  icon: IconType;
+  icon?: IconType;
 }
 
 const CategoryInput: React.FC<CategoryInputProps> = ({
@@ -35,7 +35,7 @@ const CategoryInput: React.FC<CategoryInputProps> = ({
       
       `}
     >
-      <Icon size={30} />
+      {Icon && <Icon size={30} />}
       <div className="font-semibold">{label}</div>
     </div>
   );
