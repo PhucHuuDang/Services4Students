@@ -64,7 +64,7 @@ const RegisterStaffModal: React.FC<RegisterStaffModalProps> = ({
   //   setId((value: any) => [...value, id]);
   // }, []);
 
-  // console.log(listCategoryId);
+  console.log(listCategoryId);
 
   const setCustomValue = (id: string, value: any) => {
     // const setCustomValue = (id: string) => {
@@ -157,12 +157,20 @@ const RegisterStaffModal: React.FC<RegisterStaffModalProps> = ({
         return (
           <div key={item.id} className="col-span-1">
             <CategoryInput
-              onClick={(listCategoryIdValue) =>
-                setCustomValue("listCategoryId", [
-                  listCategoryIdValue,
-                  ...listCategoryId,
-                ])
-              }
+              onClick={(listCategoryIdValue) => {
+                if (listCategoryId.includes(listCategoryIdValue)) {
+                  const removeId = listCategoryId.filter(
+                    (id: string) => listCategoryIdValue !== id
+                  );
+
+                  setCustomValue("listCategoryId", [...removeId]);
+                } else {
+                  setCustomValue("listCategoryId", [
+                    listCategoryIdValue,
+                    ...listCategoryId,
+                  ]);
+                }
+              }}
               // onClick={() => setCustomValue(item.id)}
               icon={GiWashingMachine || item.image}
               id={item.id}
