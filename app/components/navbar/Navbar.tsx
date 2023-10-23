@@ -13,9 +13,12 @@ import Search from "./Search";
 import UserMenu from "./UserMenu";
 import Banner from "./Banner";
 import useVerifyToken from "@/app/hooks/useVerifyToken";
+import { useSession } from "next-auth/react";
+import getRoleUser from "../actions/getRoleUser";
 
 interface NavbarProps {
   currentUser?: any | null;
+  getRole?: any | null;
 }
 
 interface TokenProps {
@@ -28,35 +31,40 @@ interface TokenProps {
   exp?: number;
 }
 
-const Navbar: React.FC<NavbarProps> = ({ currentUser }) => {
+const Navbar: React.FC<NavbarProps> = ({ currentUser, getRole }) => {
   const router = useRouter();
   const isMainPage = useSearchParams();
   const pathName = usePathname();
   const search = isMainPage?.get("email");
   const useToken = useTokenStore();
 
-  const useResultVerifyToken: any | TokenProps = useVerifyToken();
-  let role = "";
+  // const { data: session } = useSession();
+  // console.log(session?.user.token);
 
-  useEffect(() => {
-    if (currentUser) {
-      useToken.setToken(currentUser.token);
-    }
-    // console.log(currentUser);
-    // if (!useResultVerifyToken) {
-    //   return;
-    // }
-  }, [currentUser]);
+  console.log(getRole);
+
+  // const useResultVerifyToken: any | TokenProps = useVerifyToken();
+  // let role = "";
+
+  // useEffect(() => {
+  //   if (currentUser) {
+  //     useToken.setToken(currentUser.token);
+  //   }
+  //   // console.log(currentUser);
+  //   // if (!useResultVerifyToken) {
+  //   //   return;
+  //   // }
+  // }, [currentUser]);
 
   // console.log(useToken.token);
 
-  if (useResultVerifyToken) {
-    role = useResultVerifyToken.role;
-    console.log(useResultVerifyToken.role);
-    console.log(useResultVerifyToken.email);
-  }
+  // if (useResultVerifyToken) {
+  //   role = useResultVerifyToken.role;
+  //   console.log(useResultVerifyToken.role);
+  //   console.log(useResultVerifyToken.email);
+  // }
 
-  console.log("re-render 3");
+  // console.log("re-render 3");
 
   // check the route of the url, whether route /contact or not, if true return null, so this Element will be empty
 
@@ -72,7 +80,11 @@ const Navbar: React.FC<NavbarProps> = ({ currentUser }) => {
           <div className="flex flex-row items-center justify-between gap-3 md:gap-1 md:w-full">
             <Logo />
             <Search />
-            <UserMenu currentUser={currentUser} isAdmin={role} />
+            <UserMenu
+              // currentUser={currentUser}
+              currentUser={getRole}
+              isAdmin={getRole ? getRole.role : ""}
+            />
           </div>
         </Container>
       </div>

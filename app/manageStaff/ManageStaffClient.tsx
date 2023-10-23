@@ -14,23 +14,25 @@ import { useDebouncedState } from "@mantine/hooks";
 
 interface ManageStaffClientProps {
   staffsInfo: any;
+  getRole: any | null;
 }
 
 const ManageStaffClient: React.FC<ManageStaffClientProps> = ({
   staffsInfo,
+  getRole,
 }) => {
   const [search, setSearch] = useDebouncedState("", 200, { leading: true });
   const useResultVerifyToken: any = useVerifyToken();
   const router = useRouter();
 
   useEffect(() => {
-    if (useResultVerifyToken && useResultVerifyToken.role !== "Admin") {
+    if (getRole && getRole.role !== "Admin") {
       router.push("/");
-      console.log(useResultVerifyToken);
+      console.log(getRole);
     }
-  }, [router, useResultVerifyToken]);
+  }, [router, getRole]);
 
-  if (useResultVerifyToken && useResultVerifyToken.role !== "Admin") {
+  if (getRole && getRole.role !== "Admin") {
     console.log("first");
     return (
       <ClientOnly>

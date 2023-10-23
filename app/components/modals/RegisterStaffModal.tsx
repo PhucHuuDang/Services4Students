@@ -6,7 +6,7 @@ import { IoReturnDownBack } from "react-icons/io5";
 
 import { FieldValues, SubmitHandler, set, useForm } from "react-hook-form";
 
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { memo, useCallback, useEffect, useMemo, useState } from "react";
 import useRegisterStaffModal from "@/app/hooks/useRegisterStaffModal";
 
 import { FcGoogle } from "react-icons/fc";
@@ -64,7 +64,7 @@ const RegisterStaffModal: React.FC<RegisterStaffModalProps> = ({
   //   setId((value: any) => [...value, id]);
   // }, []);
 
-  console.log(listCategoryId);
+  // console.log(listCategoryId);
 
   const setCustomValue = (id: string, value: any) => {
     // const setCustomValue = (id: string) => {
@@ -324,4 +324,4 @@ const RegisterStaffModal: React.FC<RegisterStaffModalProps> = ({
   );
 };
 
-export default RegisterStaffModal;
+export default memo(RegisterStaffModal);

@@ -14,23 +14,32 @@ import { useDebouncedState } from "@mantine/hooks";
 
 interface ManageUserClientProps {
   studentsInfo: any;
+  getRole: any | null;
 }
 
 const ManageUserClient: React.FC<ManageUserClientProps> = ({
   studentsInfo,
+  getRole,
 }) => {
   const [search, setSearch] = useDebouncedState("", 200, { leading: true });
-  const useResultVerifyToken: any = useVerifyToken();
+  // const useResultVerifyToken: any = useVerifyToken();
   const router = useRouter();
 
-  useEffect(() => {
-    if (useResultVerifyToken && useResultVerifyToken.role !== "Admin") {
-      router.push("/");
-      console.log(useResultVerifyToken);
-    }
-  }, [router, useResultVerifyToken]);
+  // useEffect(() => {
+  //   if (useResultVerifyToken && useResultVerifyToken.role !== "Admin") {
+  //     router.push("/");
+  //     console.log(useResultVerifyToken);
+  //   }
+  // }, [router, useResultVerifyToken]);
 
-  if (useResultVerifyToken && useResultVerifyToken.role !== "Admin") {
+  useEffect(() => {
+    if (getRole && getRole.role !== "Admin") {
+      router.push("/");
+      console.log(getRole);
+    }
+  }, [router, getRole]);
+
+  if (getRole && getRole.role !== "Admin") {
     console.log("first");
     return (
       <ClientOnly>
@@ -142,55 +151,6 @@ const ManageUserClient: React.FC<ManageUserClientProps> = ({
                 />
               );
             })}
-
-          {/* <div
-            onClick={() => {}}
-            className="
-                    bg-gray-50
-                    p-4
-                    rounded-lg
-                    cursor-pointer
-                    hover:bg-gray-100
-                    transition
-                    duration-200
-                    border-b-[1px]
-
-                    "
-          >
-            <div className="flex fle-row items-center justify-between gap-5">
-              <div className="flex flex-row items-center gap-5">
-                <Image
-                  src="/images/avatarPlaceHolder.jpg"
-                  alt="User"
-                  width="50"
-                  height="50"
-                  className="rounded-full"
-                />
-                <div className="flex flex-col gap-1">
-                  <div className="text-lg font-semibold">
-                    the fullName for staff
-                  </div>
-                  <div>the gmail for staff</div>
-                </div>
-              </div>
-
-              <div
-                className="
-                    flex 
-                    flex-col 
-                    p-3 
-                    cursor-pointer 
-                    rounded-lg
-                    hover:bg-gray-200
-                    hover:shadow-md
-                    transition
-                    duration-150
-                    "
-              >
-                <MdOutlineDeleteSweep size={30} />
-              </div>
-            </div>
-          </div> */}
         </div>
       </div>
     </>

@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useCallback, useState } from "react";
+import { useCallback, useState, useEffect } from "react";
 
 import { ServiceProp } from "@/app/types";
 
@@ -10,12 +10,15 @@ import Heading from "../components/Heading";
 import ListingCard from "../components/inputs/ListingCard";
 import axios from "axios";
 import { toast } from "react-hot-toast";
+import ClientOnly from "../components/ClientOnly";
+import EmptyState from "../components/EmptyState";
 
 interface PropertiesProps {
   data: any;
+  getRole: any;
 }
 
-const PropertiesClient: React.FC<PropertiesProps> = ({ data }) => {
+const PropertiesClient: React.FC<PropertiesProps> = ({ data, getRole }) => {
   const router = useRouter();
   const [deleteId, setDeleteId] = useState("");
 
@@ -40,6 +43,24 @@ const PropertiesClient: React.FC<PropertiesProps> = ({ data }) => {
     },
     [router]
   );
+
+  useEffect(() => {
+    if (getRole && getRole.role !== "Admin") {
+      router.push("/");
+      // console.log(getRole);
+    }
+  }, [router, getRole]);
+
+  if (getRole && getRole.role !== "Admin") {
+    return (
+      <ClientOnly>
+        <EmptyState
+          title="You are not authorized to access"
+          subtitle="Redirect to your page"
+        />
+      </ClientOnly>
+    );
+  }
 
   return (
     <Container>

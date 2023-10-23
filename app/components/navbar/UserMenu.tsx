@@ -49,6 +49,8 @@ const UserMenu: React.FC<UserMenuProps> = ({ currentUser, isAdmin }) => {
 
   const onEscClose = useCallback(() => {}, []);
 
+  console.log(isAdmin);
+
   // console.log(loginModal.onOpen);
 
   return (
