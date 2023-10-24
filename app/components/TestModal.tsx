@@ -1,0 +1,161 @@
+"use client";
+
+import { useCallback, useEffect, useState } from "react";
+import { IoMdClose } from "react-icons/io";
+import Button from "./Button";
+
+interface TestModalProps {
+  isOpen?: boolean;
+  disabled?: boolean;
+  onClose: () => void;
+  deleteStaff: boolean;
+  setDeleteStaff: (value: boolean) => void;
+}
+
+const TestModal: React.FC<TestModalProps> = ({
+  isOpen,
+  disabled,
+  onClose,
+  deleteStaff,
+  setDeleteStaff,
+}) => {
+  const [showModal, setShowModal] = useState(isOpen);
+
+  useEffect(() => {
+    setShowModal(isOpen);
+  }, [isOpen]);
+
+  const handleClose = useCallback(() => {
+    if (disabled) {
+      return;
+    }
+
+    setShowModal(false);
+
+    setTimeout(() => {
+      onClose();
+    }, 300);
+  }, [disabled, onClose]);
+
+  const handleAgree = useCallback(() => {
+    setDeleteStaff(true);
+    handleClose();
+  }, [handleClose, setDeleteStaff]);
+
+  if (!isOpen) {
+    return null;
+  }
+
+  return (
+    <>
+      <div
+        className="
+            fixed 
+            inset-0 
+            z-50 
+            flex
+            items-center
+            justify-center
+            overflow-x-hidden
+            overflow-y-hidden
+            bg-neutral-800/70
+            bg-opacity-10
+            focus:outline-none"
+      >
+        <div
+          className="
+            relative 
+            my-6 
+            w-2/4 
+            opacity-1 
+            md:h-auto 
+            md:w-2/4 
+            lg:h-auto 
+            lg:w-2/5 
+            xl:w-2/5"
+        >
+          <div
+            className={`
+            translate
+            h-full
+            duration-300
+            bg-white
+            rounded-xl 
+            ${showModal ? "translate-y-0" : "translate-y-full"}
+            ${showModal ? "opacity-100" : "opacity-0"}
+            
+            `}
+          >
+            <button
+              onClick={handleClose}
+              className="
+                relative
+                flex
+                justify-end
+                rounded-lg
+                items-end
+                left-[90%]
+                p-3
+                cursor-pointer 
+                hover:opacity-70
+                hover:bg-neutral-200
+                hover:shadow-lg
+                top-5
+                duration-150 
+                
+                "
+            >
+              <IoMdClose size={18} className="cursor-pointer" />
+            </button>
+            <div
+              className="
+                    translate
+                    mt-2
+                    flex
+                    h-full
+                    translate-y-0
+                    flex-col
+                    gap-2
+                    p-4
+                    opacity-100
+                    duration-300"
+            >
+              <div
+                className="
+                text-center
+                text-lg
+                font-semibold"
+              >
+                Are you sure to remove
+              </div>
+              <div className="text-center">Staff</div>
+              <div
+                className="
+                    mt-6
+                    flex
+                    flex-row
+                    justify-center
+                    gap-4"
+              >
+                {/* <div className="w-full cursor-pointer rounded-md bg-red-300 p-2 text-center transition-all duration-200 hover:scale-105 hover:bg-slate-500 hover:shadow-xl focus:bg-blue-400">
+                Cancel
+              </div> */}
+                <Button outline label="Cancel" onClick={handleClose} />
+                {/* <div className="w-full cursor-pointer rounded-md bg-red-300 p-2 text-center transition-all duration-200 hover:scale-105 hover:bg-slate-500 hover:shadow-xl focus:bg-blue-400">
+                Agree
+              </div> */}
+                <Button
+                  label="Agree"
+                  disabled={disabled}
+                  onClick={handleAgree}
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </>
+  );
+};
+
+export default TestModal;

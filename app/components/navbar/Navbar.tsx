@@ -1,20 +1,15 @@
 "use client";
 
-import jwt from "jsonwebtoken";
-
 import { useEffect, memo, useMemo } from "react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import useTokenStore from "@/app/hooks/useTokenStore";
 
-import ContactClient from "@/app/contact/ContactClient";
 import Container from "../Container";
 import Logo from "./Logo";
 import Search from "./Search";
 import UserMenu from "./UserMenu";
-import Banner from "./Banner";
 import useVerifyToken from "@/app/hooks/useVerifyToken";
 import { useSession } from "next-auth/react";
-import getRoleUser from "../actions/getRoleUser";
 
 interface NavbarProps {
   currentUser?: any | null;
@@ -41,7 +36,7 @@ const Navbar: React.FC<NavbarProps> = ({ currentUser, getRole }) => {
   // const { data: session } = useSession();
   // console.log(session?.user.token);
 
-  console.log(getRole);
+  // console.log(getRole);
 
   // const useResultVerifyToken: any | TokenProps = useVerifyToken();
   // let role = "";

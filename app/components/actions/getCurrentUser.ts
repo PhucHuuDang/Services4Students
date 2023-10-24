@@ -14,7 +14,7 @@ export default async function getCurrentUser() {
     // const useAuth = GetCurrentPass()
     let password: string | undefined = "";
 
-    console.log(session);
+    // console.log(session);
 
     if (!session?.user?.email) {
       return null;
@@ -23,7 +23,7 @@ export default async function getCurrentUser() {
     // const currentUser = await getEmailUser(session.user.email as string);
     const email = session.user.email as string;
 
-    console.log(email);
+    // console.log(email);
 
     // if (email === "vi@gmail.com") {
     //   password = process.env.PASSWORD_ADMIN;

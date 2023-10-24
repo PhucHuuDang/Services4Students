@@ -35,12 +35,12 @@ const ManageUserClient: React.FC<ManageUserClientProps> = ({
   useEffect(() => {
     if (getRole && getRole.role !== "Admin") {
       router.push("/");
-      console.log(getRole);
+      // console.log(getRole);
     }
   }, [router, getRole]);
 
   if (getRole && getRole.role !== "Admin") {
-    console.log("first");
+    // console.log("first");
     return (
       <ClientOnly>
         <EmptyState

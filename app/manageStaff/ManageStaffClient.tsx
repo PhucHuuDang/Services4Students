@@ -2,7 +2,7 @@
 
 import { BsPeople } from "react-icons/bs";
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 
 import ClientOnly from "../components/ClientOnly";
@@ -11,6 +11,8 @@ import useVerifyToken from "../hooks/useVerifyToken";
 import Heading from "../components/Heading";
 import StaffInfoListing from "../components/listings/StaffInfoListing";
 import { useDebouncedState } from "@mantine/hooks";
+import useDeleteModal from "../hooks/useDeleteModal";
+import TestModal from "../components/TestModal";
 
 interface ManageStaffClientProps {
   staffsInfo: any;
@@ -22,18 +24,20 @@ const ManageStaffClient: React.FC<ManageStaffClientProps> = ({
   getRole,
 }) => {
   const [search, setSearch] = useDebouncedState("", 200, { leading: true });
-  const useResultVerifyToken: any = useVerifyToken();
+  // const useResultVerifyToken: any = useVerifyToken();
   const router = useRouter();
+  const deleteModal = useDeleteModal();
+  const [deleteStaff, setDeleteStaff] = useState(false);
 
   useEffect(() => {
     if (getRole && getRole.role !== "Admin") {
       router.push("/");
-      console.log(getRole);
+      // console.log(getRole);
     }
   }, [router, getRole]);
 
   if (getRole && getRole.role !== "Admin") {
-    console.log("first");
+    // console.log("first");
     return (
       <ClientOnly>
         <EmptyState
@@ -127,17 +131,27 @@ const ManageStaffClient: React.FC<ManageStaffClientProps> = ({
             })
             .map((item: any) => {
               return (
-                <StaffInfoListing
-                  key={item.inforOfStaffData.id}
-                  id={item.inforOfStaffData.id}
-                  fullName={item.inforOfStaffData.fullName}
-                  email={item.inforOfStaffData.email}
-                  date={item.staffData.created}
-                />
+                !item.staffData.isDelete && (
+                  <StaffInfoListing
+                    key={item.staffData.id}
+                    id={item.staffData.id}
+                    fullName={item.inforOfStaffData.fullName}
+                    email={item.inforOfStaffData.email}
+                    date={item.staffData.created}
+                    deleteStaff={deleteStaff}
+                    setDeleteStaff={setDeleteStaff}
+                  />
+                )
               );
             })}
         </div>
       </div>
+      <TestModal
+        isOpen={deleteModal.isOpen}
+        setDeleteStaff={setDeleteStaff}
+        deleteStaff={deleteStaff}
+        onClose={deleteModal.onClose}
+      />
     </>
   );
 };

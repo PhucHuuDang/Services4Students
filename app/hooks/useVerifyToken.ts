@@ -12,7 +12,7 @@ const useVerifyToken = () => {
 
   const setToken = useMemo(() => {
     if (!token) {
-      console.log("Token is missing or invalid.");
+      // console.log("Token is missing or invalid.");
       return null;
     }
     try {

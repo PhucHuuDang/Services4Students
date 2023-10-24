@@ -54,38 +54,8 @@ export const authOptions: AuthOptions = {
           throw new Error("Invalid credentials");
         }
 
-        // console.log(user);
-        console.log(user.data);
-        // console.log(user.data.token);
-
         return user.data;
-
-        // return {
-        //   ...user.data,
-        //   token: user.data.token,
-        // };
       },
-
-      // try {
-      //   const response = await axios.post(
-      //     "http://3.27.132.94/api/Auth/login",
-      //     {
-      //       email: credentials.email,
-      //       password: credentials.password,
-      //     }
-      //   );
-
-      //   if (!response.data) {
-      //     throw new Error("Invalid credentials");
-      //   }
-
-      //   return {
-      //     ...response.data, // This assumes your response contains user data
-      //     accessToken: response.data.token, // Adjust this based on your API response
-      //   };
-      // } catch (error) {
-      //   throw new Error("Invalid credentials");
-      // }
     }),
   ],
   callbacks: {
@@ -103,8 +73,6 @@ export const authOptions: AuthOptions = {
     // },
 
     async session({ session, token }) {
-      console.log(token);
-      console.log(session);
       session.user = token as any;
       return session;
     },

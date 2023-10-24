@@ -3,12 +3,20 @@
 import Image from "next/image";
 
 import { MdOutlineDeleteSweep } from "react-icons/md";
+import { useCallback, useState } from "react";
+import axios from "axios";
+import { toast } from "react-hot-toast";
+import { useRouter } from "next/navigation";
+import useDeleteModal from "@/app/hooks/useDeleteModal";
+import TestModal from "../TestModal";
 
 interface StaffInfoListingProps {
   fullName: string;
   email: string;
   date: string;
   id: string;
+  deleteStaff: boolean;
+  setDeleteStaff: (value: boolean) => void;
 }
 
 const StaffInfoListing: React.FC<StaffInfoListingProps> = ({
@@ -16,10 +24,37 @@ const StaffInfoListing: React.FC<StaffInfoListingProps> = ({
   email,
   date,
   id,
+  deleteStaff,
+  setDeleteStaff,
 }) => {
+  const [isPopupOpen, setPopupOpen] = useState(false);
+  const [deleteId, setDeleteId] = useState("");
+  const router = useRouter();
+  const deleteModal = useDeleteModal();
+
+  const onCancel = useCallback(
+    (id: string) => {
+      setDeleteId(id);
+
+      axios
+        .delete("/api/deleteStaff", { data: { id } })
+        .then(() => {
+          toast.success("Delete staff successfully");
+          router.refresh();
+        })
+        .catch(() => {
+          toast.error("Failed to delete staff");
+        })
+        .finally(() => {
+          setDeleteId("");
+          setDeleteStaff(false);
+        });
+    },
+    [router, setDeleteStaff]
+  );
+
   return (
     <div
-      onClick={() => console.log("id: ", id)}
       className="
           bg-gray-50
           p-4
@@ -55,6 +90,15 @@ const StaffInfoListing: React.FC<StaffInfoListingProps> = ({
             <div>{new Date(date).toISOString().split("T")[0]}</div>
           </div>
           <div
+            // onClick={() => console.log("id: ", id)}
+            // onClick={useDeleteModal.onOpen}
+            // onClick={() => onCancel(id)}
+            onClick={async () => {
+              await deleteModal.onOpen();
+              if (deleteStaff) {
+                onCancel(id);
+              }
+            }}
             className="
               flex 
               flex-col 
@@ -71,6 +115,12 @@ const StaffInfoListing: React.FC<StaffInfoListingProps> = ({
           </div>
         </div>
       </div>
+      {/* <DeleteModal
+        isOpen={isPopupOpen}
+        title="Remove a staff"
+        secondaryActionLabel="Cancel"
+        onClose={useDeleteModal.onClose}
+      /> */}
     </div>
   );
 };
