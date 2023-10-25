@@ -3,7 +3,7 @@
 import Image from "next/image";
 
 import { MdOutlineDeleteSweep } from "react-icons/md";
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import axios from "axios";
 import { toast } from "react-hot-toast";
 import { useRouter } from "next/navigation";
@@ -53,6 +53,14 @@ const StaffInfoListing: React.FC<StaffInfoListingProps> = ({
     [router, setDeleteStaff]
   );
 
+  // useEffect(() => {
+  //   if (deleteStaff && !deleteModal.isOpen) {
+  //     // onCancel(id);
+  //     console.log(id);
+  //     setDeleteStaff(false);
+  //   }
+  // }, [onCancel, id, deleteStaff, deleteModal, setDeleteStaff]);
+
   return (
     <div
       className="
@@ -95,9 +103,12 @@ const StaffInfoListing: React.FC<StaffInfoListingProps> = ({
             // onClick={() => onCancel(id)}
             onClick={async () => {
               await deleteModal.onOpen();
-              if (deleteStaff) {
-                onCancel(id);
-              }
+
+              console.log(id);
+
+              // if (deleteStaff) {
+              //   onCancel(id);
+              // }
             }}
             className="
               flex 

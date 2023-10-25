@@ -5,6 +5,7 @@ import {
   GoogleMap,
   Marker,
   Autocomplete,
+  DirectionsRenderer,
 } from "@react-google-maps/api";
 import { AiOutlineClose } from "react-icons/ai";
 import { BsSearch } from "react-icons/bs";
@@ -12,7 +13,7 @@ import { BsSearch } from "react-icons/bs";
 import { FaLocationArrow } from "react-icons/fa";
 
 import EmptyState from "../EmptyState";
-import { useState } from "react";
+import { useCallback, useMemo, useRef, useState } from "react";
 
 const center = { lat: 10.845453, lng: 106.836512 };
 
@@ -24,12 +25,79 @@ const Maps = () => {
   });
 
   const [map, setMap] = useState<google.maps.Map | null>(null);
+  const [directionResponse, setDirectionResponse] =
+    useState<google.maps.DirectionsResult | null>(null);
+  const [distance, setDistance] = useState("");
+  const [duration, setDuration] = useState("");
+
+  const originRef = useRef<HTMLInputElement | null>(null);
+  const destinationRef = useRef<HTMLInputElement | null>(null);
+
+  const calculate = async () => {
+    if (
+      originRef.current?.value === "" ||
+      destinationRef.current?.value === ""
+
+      // !originRef.current ||
+      // !destinationRef.current ||
+      // !originRef.current.value ||
+      // !destinationRef.current.value
+    ) {
+      return;
+    }
+
+    const originValue = originRef.current?.value as string;
+    const destinationValue = destinationRef.current?.value as string;
+
+    if (!originRef || !destinationRef) {
+      return;
+    }
+
+    const directionService = new google.maps.DirectionsService();
+    const result = await directionService.route({
+      origin: originValue,
+      destination: destinationValue,
+      travelMode: google.maps.TravelMode.DRIVING,
+      // polylineOption: {}
+      // polylineOptions: {
+      //   strokeColor: "red", // Change the color to your desired color
+      // },
+    });
+
+    setDirectionResponse(result);
+    // Check if routes and legs are defined before accessing them
+    if (result.routes && result.routes.length > 0) {
+      const route = result.routes[0];
+      if (route.legs && route.legs.length > 0) {
+        const leg = route.legs[0];
+        if (leg.distance) {
+          setDistance(leg.distance.text || "N/A");
+        }
+        if (leg.duration) {
+          setDuration(leg.duration.text || "N/A");
+        }
+      }
+    }
+  };
+
+  const clearValue = () => {
+    setDirectionResponse(null);
+    setDistance("");
+    setDuration("");
+    if (originRef.current) {
+      originRef.current.value = "";
+    }
+
+    if (destinationRef.current) {
+      destinationRef.current.value = "";
+    }
+  };
 
   const onLoad = (autocomplete: any) => {
     // Set options for the Autocomplete instance
     autocomplete.setOptions({
       types: ["geocode"], // Limit results to geographic areas
-      componentRestrictions: { country: "US" }, // Restrict to a specific country (change to your desired country)
+      componentRestrictions: { country: "VN" }, // Restrict to a specific country (change to your desired country)
     });
 
     // Add event listeners to the Autocomplete instance
@@ -128,6 +196,7 @@ const Maps = () => {
                     "
                   type="text"
                   placeholder="Origin"
+                  ref={originRef}
                 />
               </Autocomplete>
 
@@ -146,9 +215,11 @@ const Maps = () => {
                 "
                   type="text"
                   placeholder="Destination"
+                  ref={destinationRef}
                 />
               </Autocomplete>
               <div
+                onClick={calculate}
                 className="
                     p-2 
                     rounded-full 
@@ -169,9 +240,9 @@ const Maps = () => {
             </div>
 
             <div className="flex flex-row items-center justify-between p-3">
-              <div>Distance: </div>
+              <div>Distance: {distance}</div>
 
-              <div>Duration: </div>
+              <div>Duration: {duration}</div>
 
               <div
                 onClick={() => map?.panTo(center)}
@@ -211,6 +282,9 @@ const Maps = () => {
           onLoad={(map) => setMap(map)}
         >
           <Marker position={center} />
+          {directionResponse && (
+            <DirectionsRenderer directions={directionResponse} />
+          )}
           {/* display maker or direction */}
         </GoogleMap>
         {/* </div> */}
