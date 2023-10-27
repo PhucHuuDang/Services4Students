@@ -1,19 +1,22 @@
 "use client";
 
+import { useRouter } from "next/navigation";
+
 interface ListingServiceNameProps {
-  serviceName?: string;
+  serviceName: string;
+  serviceId: string;
 }
 
 const ListingServiceName: React.FC<ListingServiceNameProps> = ({
   serviceName,
+  serviceId,
 }) => {
+  const router = useRouter();
+
   return (
-    <div
-      className="
-            
-        "
-    >
+    <div>
       <div
+        onClick={() => router.push(`/listings/${serviceId}`)}
         className="
             rounded-lg 
             p-3

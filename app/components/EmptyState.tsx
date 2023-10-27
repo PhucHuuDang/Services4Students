@@ -8,12 +8,14 @@ interface EmptyStateProps {
   title?: string;
   subtitle?: string;
   showReset?: boolean;
+  booking?: boolean;
 }
 
 const EmptyState: React.FC<EmptyStateProps> = ({
   title = "No exact matches",
   subtitle = "Try changing or removing some of your filters",
   showReset,
+  booking,
 }) => {
   const router = useRouter();
 
@@ -30,13 +32,20 @@ const EmptyState: React.FC<EmptyStateProps> = ({
     >
       <Heading center title={title} subtitle={subtitle} />
       <div className="w-48 mt-4">
-        {showReset && (
-          <Button
-            outline
-            label="Remove all filters"
-            onClick={() => router.push("/")}
-          />
-        )}
+        {showReset &&
+          (booking ? (
+            <Button
+              outline
+              label="Back to booking"
+              onClick={() => router.push("/combo")}
+            />
+          ) : (
+            <Button
+              outline
+              label="Remove all filters"
+              onClick={() => router.push("/")}
+            />
+          ))}
       </div>
     </div>
   );

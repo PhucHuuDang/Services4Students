@@ -18,7 +18,8 @@ export type PackageProps = {
   id: string;
   packageName: string;
   weekNumberBooking: number;
-  dateDoInWeek: string[];
+  numberOfPerWeekDoPackage: number;
+  dayDoInWeek: string[];
   image: string | undefined;
   totalPrice: number;
   packageDescription: string;

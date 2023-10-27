@@ -74,7 +74,8 @@ const ListingCard: React.FC<ListingCardProps> = ({
             fill
             alt="Listing"
             // src={data.image || "/images/glamping.webp"}
-            src={"/images/glamping.webp"}
+            // src={"/images/glamping.webp"}
+            src={packageData ? packageData.image : (data?.image as any)}
             // src={
             //   "https://res.cloudinary.com/dqqqgyqjl/image/upload/v1697074879/ptgwqf7gyglk9goenock.webp"
             // }

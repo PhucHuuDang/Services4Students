@@ -18,6 +18,7 @@ import useSearchModal from "@/app/hooks/useSearchModal";
 import useRegisterStaffModal from "@/app/hooks/useRegisterStaffModal";
 import useAddServiceModal from "@/app/hooks/useAddServiceModal";
 import useComboModal from "@/app/hooks/useComboModal";
+import useStoreBooking from "@/app/hooks/useStoreBooking";
 
 interface UserMenuProps {
   currentUser?: any | null;
@@ -34,6 +35,7 @@ const UserMenu: React.FC<UserMenuProps> = ({ currentUser, isAdmin }) => {
   const addServiceModal = useAddServiceModal();
   const searchModal = useSearchModal();
   const comboModal = useComboModal();
+  const useStoreBookingShow = useStoreBooking();
 
   const toggleOpen = useCallback(() => {
     setIsOpen((value) => !value);
@@ -96,7 +98,41 @@ const UserMenu: React.FC<UserMenuProps> = ({ currentUser, isAdmin }) => {
             cursor-pointer
           "
         >
-          <div
+          {isAdmin === "Admin" ? (
+            <div
+              onClick={onAddServicesModal}
+              className="
+            flex
+            flex-row
+            items-center
+            gap-3
+            p-1
+            md:p-0
+            lg:p-1
+            "
+            >
+              <AiOutlineShoppingCart size={21} />
+              <div>Add more services</div>
+            </div>
+          ) : (
+            <div
+              // onClick={useStoreBookingShow.onOpen}
+              onClick={() => router.push("/cart")}
+              className="
+            flex
+            flex-row
+            items-center
+            gap-3
+            p-1
+            md:p-0
+            lg:p-1
+            "
+            >
+              <AiOutlineShoppingCart size={21} />
+              <div>Your cart</div>
+            </div>
+          )}
+          {/* <div
             onClick={onAddServicesModal}
             className="
             flex
@@ -114,7 +150,7 @@ const UserMenu: React.FC<UserMenuProps> = ({ currentUser, isAdmin }) => {
             ) : (
               <div>Your cart</div>
             )}
-          </div>
+          </div> */}
         </div>
         <div
           onClick={toggleOpen}
