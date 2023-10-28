@@ -18,17 +18,47 @@ import useApartmentModal from "../hooks/useApartmentModal";
 
 interface CartClientProps {
   data?: PackageProps | undefined;
+  getApartmentByStudentId: any | null;
+  getStudentId: any | null;
 }
 
-const CartClient: React.FC<CartClientProps> = ({ data }) => {
+// const cartStored = JSON.parse(localStorage.getItem("cart") || "[]");
+
+const CartClient: React.FC<CartClientProps> = ({
+  data,
+  getApartmentByStudentId,
+  getStudentId,
+}) => {
   const { storeBookingData, setStoreBookingData } = useBooking();
   const useApartment = useApartmentModal();
 
   console.log(storeBookingData);
 
-  const removeCart = (id: string) => {
-    // console.log(storeBookingData.map((item) => item.id));
+  //   console.log("getApartmentByStudentId: ", getApartmentByStudentId);
 
+  //   if (typeof window !== "undefined") {
+  //     if (!getStudentId) {
+  //       console.log("Removing 'cart' from localStorage.");
+  //       window.localStorage.removeItem("cart");
+  //     }
+  //   }
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      if (!getStudentId) {
+        console.log("Removing 'cart' from localStorage.");
+        window.localStorage.removeItem("cart");
+        console.log("Removed 'cart' from localStorage.");
+        setStoreBookingData([]);
+      }
+    }
+  }, [getStudentId, setStoreBookingData]);
+
+  //   useEffect(() => {
+  //     localStorage.setItem("cart", JSON.stringify(storeBookingData));
+  //   }, [storeBookingData]);
+
+  const removeCart = (id: string) => {
     const updateStoreBookingData = storeBookingData.filter((item) => {
       return item.id !== id;
     });
@@ -88,7 +118,14 @@ const CartClient: React.FC<CartClientProps> = ({ data }) => {
         >
           {/* relative left-96  */}
           <div className="text-lg text-neutral-700 font-semibold">
-            Look likes you have nothing any apartment info
+            {!getApartmentByStudentId ? (
+              <>Look likes you have nothing any apartment info</>
+            ) : (
+              <>
+                You already have {getApartmentByStudentId.length} apartments, do
+                you want to register another?
+              </>
+            )}
           </div>
           <div
             onClick={useApartment.onOpen}

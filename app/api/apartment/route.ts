@@ -6,7 +6,7 @@ export async function POST(request: Request) {
 
   const { studentId, regionId, addressOfApartment } = body;
 
-  console.log(body);
+  // console.log(body);
   try {
     const apiResponse = await axios.post(
       "http://3.27.132.94/api/v1/apartment/register-apartment",
@@ -17,7 +17,7 @@ export async function POST(request: Request) {
       }
     );
 
-    console.log(apiResponse);
+    // console.log(apiResponse);
 
     if (apiResponse.status === 201) {
       const createApartmentSuccess = apiResponse.data;
