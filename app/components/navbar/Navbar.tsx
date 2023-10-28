@@ -34,7 +34,7 @@ const Navbar: React.FC<NavbarProps> = ({ currentUser, getRole }) => {
   const useToken = useTokenStore();
 
   // const { data: session } = useSession();
-  // console.log(session?.user.token);
+  // console.log(session?.user);
 
   // console.log(getRole);
 

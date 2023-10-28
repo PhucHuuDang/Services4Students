@@ -46,6 +46,11 @@ export type getServicesInAPackage = {
   listServiceData: ServiceProp[];
 };
 
+export type RegionsProps = {
+  id: string;
+  regionName: string;
+};
+
 // "id": "b17c9d4c-b164-4097-8d5f-03d2246da758",
 //     "packageName": "Vận chuyên giao vận package",
 //     "weekNumberBooking": 6,

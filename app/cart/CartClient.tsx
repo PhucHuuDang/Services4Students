@@ -3,6 +3,8 @@
 import { AiOutlinePlus } from "react-icons/ai";
 import { AiOutlineMinus } from "react-icons/ai";
 import { IoMdClose } from "react-icons/io";
+import { MdOutlinePayment } from "react-icons/md";
+import { BsFillHouseAddFill } from "react-icons/bs";
 
 import Image from "next/image";
 import { PackageProps } from "@/app/types";
@@ -12,6 +14,7 @@ import EmptyState from "../components/EmptyState";
 import { useBooking } from "@/providers/BookingProvider";
 import Heading from "../components/Heading";
 import Logo from "../components/navbar/Logo";
+import useApartmentModal from "../hooks/useApartmentModal";
 
 interface CartClientProps {
   data?: PackageProps | undefined;
@@ -19,7 +22,9 @@ interface CartClientProps {
 
 const CartClient: React.FC<CartClientProps> = ({ data }) => {
   const { storeBookingData, setStoreBookingData } = useBooking();
-  //   console.log(storeBookingData);
+  const useApartment = useApartmentModal();
+
+  console.log(storeBookingData);
 
   const removeCart = (id: string) => {
     // console.log(storeBookingData.map((item) => item.id));
@@ -61,6 +66,52 @@ const CartClient: React.FC<CartClientProps> = ({ data }) => {
           title="SpaceT Cart"
           subtitle="Hope you guys give us a chance to serve for you!"
         />
+        {/* <div className="flex items-center justify-center gap-4">
+            <Logo />
+            <Heading
+              title="SpaceT Cart"
+              subtitle="Hope you guys give us a chance to serve for you!"
+            />
+          </div> */}
+
+        <div
+          className="
+                    flex
+                    flex-col
+                    justify-center
+                    items-center
+                    absolute 
+                    right-0
+                    mr-36
+                    gap-4   
+                    "
+        >
+          {/* relative left-96  */}
+          <div className="text-lg text-neutral-700 font-semibold">
+            Look likes you have nothing any apartment info
+          </div>
+          <div
+            onClick={useApartment.onOpen}
+            className="
+                flex
+                flex-row
+                items-center
+                gap-1
+                p-2
+                px-4
+                bg-[#f58470]
+                rounded-lg
+                hover:bg-[#f34728]
+                hover:shadow-lg
+                cursor-pointer
+                transition
+                duration-200
+
+                "
+          >
+            <BsFillHouseAddFill size={25} /> Register Apartment
+          </div>
+        </div>
       </div>
       {storeBookingData.map((item) => {
         return (
@@ -119,9 +170,13 @@ const CartClient: React.FC<CartClientProps> = ({ data }) => {
             <div className="text-red-600">price: 54000</div>
             <div
               onClick={() => removeCart(item.id)}
-              className="mr-1 hover:cursor-pointer p-1"
+              className="hover:cursor-pointer p-1"
             >
               <IoMdClose size={25} />
+            </div>
+
+            <div className="mr-3">
+              <MdOutlinePayment size={25} />
             </div>
           </div>
         );

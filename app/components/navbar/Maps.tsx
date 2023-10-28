@@ -234,7 +234,7 @@ const Maps = () => {
                 <BsSearch size={24} />
               </div>
 
-              <div>
+              <div onClick={clearValue}>
                 <AiOutlineClose size={24} />
               </div>
             </div>

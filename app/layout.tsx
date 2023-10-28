@@ -52,10 +52,10 @@ export default async function RootLayout({
             <ComboModal getService={getService} />
             <Navbar currentUser={currentUser} getRole={getRole} />
           </ClientOnly>
+          <BookingProvider>
+            <div className="pb-20 pt=28">{children}</div>
+          </BookingProvider>
         </Provider>
-        <BookingProvider>
-          <div className="pb-20 pt=28">{children}</div>
-        </BookingProvider>
       </body>
     </html>
   );

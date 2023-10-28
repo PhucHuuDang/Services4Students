@@ -48,24 +48,32 @@ const LoginModal = () => {
     signIn("credentials", {
       ...data,
       redirect: false,
-    }).then((callback) => {
-      setIsLoading(true);
+    })
+      .then((callback) => {
+        setIsLoading(true);
 
-      console.log(callback);
+        console.log(callback);
 
-      if (callback?.ok) {
-        console.log(callback.status);
-        // console.log(callback.url);
-        toast.success("Log in successfully!");
-        router.refresh();
-        router.push("/authorize");
-        loginModal.onClose();
-      }
+        if (callback?.ok) {
+          console.log(callback.status);
+          // console.log(callback.url);
+          toast.success("Log in successfully!");
+          router.refresh();
+          router.push("/authorize");
+          loginModal.onClose();
+        }
 
-      if (callback?.error) {
-        console.log(callback.error);
-      }
-    });
+        if (callback?.error) {
+          console.log(callback.error);
+          toast.error("Please double check user name or password again");
+        }
+      })
+      // .catch(() => {
+      //   toast.error("Please double check user name or password again");
+      // })
+      .finally(() => {
+        setIsLoading(false);
+      });
 
     const getData = JSON.stringify(data.password);
 
