@@ -7,32 +7,72 @@ import { MdOutlinePayment } from "react-icons/md";
 import { BsFillHouseAddFill } from "react-icons/bs";
 
 import Image from "next/image";
-import { PackageProps } from "@/app/types";
-import { useEffect, useState } from "react";
+import { PackageProps, PaymentMethodProps } from "@/app/types";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import ClientOnly from "../components/ClientOnly";
 import EmptyState from "../components/EmptyState";
 import { useBooking } from "@/providers/BookingProvider";
 import Heading from "../components/Heading";
 import Logo from "../components/navbar/Logo";
 import useApartmentModal from "../hooks/useApartmentModal";
+import Button from "../components/Button";
+import PaymentSelect from "../components/inputs/PaymentSelect";
+import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
+import DoServiceApartmentSelect from "../components/inputs/DoServiceApartmentSelect";
+import { toast } from "react-hot-toast";
+import axios from "axios";
 
 interface CartClientProps {
   data?: PackageProps | undefined;
   getApartmentByStudentId: any | null;
   getStudentId: any | null;
+  paymentMethods: PaymentMethodProps[];
 }
 
 // const cartStored = JSON.parse(localStorage.getItem("cart") || "[]");
+
+type ValidFieldNames =
+  | "startDate"
+  | "apartmentId"
+  | "createBy"
+  | "paymentMethodId"
+  | "listPackage"
+  | `listPackage.${number}`
+  | `listPackage.${number}.packageId`
+  | `listPackage.${number}.quantityOfPackageOrdered`;
 
 const CartClient: React.FC<CartClientProps> = ({
   data,
   getApartmentByStudentId,
   getStudentId,
+  paymentMethods,
 }) => {
   const { storeBookingData, setStoreBookingData } = useBooking();
+  const [updateStoreBookingData, setUpdateStoreBookingData] = useState<
+    PackageProps[]
+  >([]);
   const useApartment = useApartmentModal();
 
-  console.log(storeBookingData);
+  const vietnamTimeZone = "Asia/Ho_Chi_Minh";
+
+  const currentDate = new Date();
+
+  const options = { timeZone: vietnamTimeZone };
+
+  //   const formattedDate = currentDate.toLocaleDateString("en-US", options);
+  //   const formattedTime = currentDate.toLocaleTimeString("en-US", options);
+
+  const year = currentDate.getFullYear();
+  const month = String(currentDate.getMonth() + 1).padStart(2, "0"); // Months are 0-based, so we add 1 and pad with 0 if needed.
+  const day = String(currentDate.getDate()).padStart(2, "0"); // Pad with 0 if needed.
+
+  const formattedDate = `${year}-${month}-${day}`;
+
+  //   const dateTimeString = `${formattedDate}`;
+  const dateTimeString = formattedDate;
+  //   const dateTimeString = `${formattedDate} ${formattedTime}`;
+
+  //   console.log(storeBookingData);
 
   //   console.log("getApartmentByStudentId: ", getApartmentByStudentId);
 
@@ -43,37 +83,289 @@ const CartClient: React.FC<CartClientProps> = ({
   //     }
   //   }
 
+  //   console.log(getApartmentByStudentId);
+
+  const {
+    register,
+    handleSubmit,
+    watch,
+    formState: { errors },
+    setValue,
+  } = useForm<FieldValues>({
+    defaultValues: {
+      startDate: dateTimeString,
+      apartmentId: "",
+      createBy: getStudentId ? getStudentId.sub : "",
+      paymentMethodId: "",
+      listPackage: [
+        {
+          packageId: "",
+          quantityOfPackageOrdered: 1,
+        },
+      ],
+    },
+  });
+
+  const setCustomValue = useCallback(
+    (id: string, value: any) => {
+      if (id === "listPackage") {
+        const updateListPackage = value.map(
+          (item: PackageProps, index: number) => ({
+            packageId: item.id,
+            quantityOfPackageOrdered: item.packageItem,
+          })
+        );
+
+        setValue(id, updateListPackage, {
+          shouldValidate: true,
+          shouldDirty: true,
+          shouldTouch: true,
+        });
+      } else {
+        setValue(id, value, {
+          shouldValidate: true,
+          shouldDirty: true,
+          shouldTouch: true,
+        });
+      }
+    },
+    [setValue]
+  );
+
+  const paymentMethodId = watch("paymentMethodId");
+  const apartmentId = watch("apartmentId");
+
+  useEffect(() => {
+    setCustomValue("listPackage", updateStoreBookingData);
+  }, [updateStoreBookingData, setCustomValue]);
+
+  const listPackage = watch("listPackage");
+
+  //   console.log(listPackage);
+
+  //   console.log("apartmentId: ", apartmentId);
+
+  //   console.log("paymentMethodId: ", paymentMethodId);
+
+  //   {
+  //     "startDate": "2023-10-29T07:38:46.776Z",
+  //     "apartmentId": "string",
+  //     "createBy": "string",
+  //     "paymentMethodId": "string",
+  //     "listPackage": [
+  //       {
+  //         "packageId": "string",
+  //         "quantityOfPackageOrdered": 0
+  //       }
+  //     ]
+  //   }
+
   useEffect(() => {
     if (typeof window !== "undefined") {
       if (!getStudentId) {
-        console.log("Removing 'cart' from localStorage.");
         window.localStorage.removeItem("cart");
+        window.localStorage.removeItem("updateCart");
         console.log("Removed 'cart' from localStorage.");
         setStoreBookingData([]);
+        setUpdateStoreBookingData([]);
       }
     }
   }, [getStudentId, setStoreBookingData]);
+
+  // store updateCart to localStorage
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      localStorage.setItem("updateCart", JSON.stringify(storeBookingData));
+    }
+  }, [storeBookingData]);
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const updateCartStored = JSON.parse(
+        localStorage.getItem("updateCart") || "[]"
+      );
+      setUpdateStoreBookingData(updateCartStored);
+    }
+  }, []);
+
+  const onSubmit: SubmitHandler<FieldValues> = (data) => {
+    console.log(data);
+
+    axios
+      .post("/api/payment", data)
+
+      .then(() => {
+        toast.success("Payment successfully!");
+      })
+
+      .catch(() => {
+        toast.error("Please check your information again");
+      });
+  };
+
+  const validateSubmit = useCallback(async () => {
+    if (!apartmentId || !paymentMethodId) {
+      return toast.error(
+        "Let me know your apartment or payment method desire!"
+      );
+      //   return;
+    } else if (!getApartmentByStudentId) {
+      toast.error("Please register your apart to us ");
+      return useApartment.onOpen();
+    } else {
+      try {
+        await handleSubmit(onSubmit)();
+      } catch (error) {
+        toast.error("have something went wrong with submit");
+      }
+    }
+  }, [
+    apartmentId,
+    paymentMethodId,
+    handleSubmit,
+    getApartmentByStudentId,
+    useApartment,
+  ]);
+
+  //   console.log(updateStoreBookingData);
+
+  //   console.log(getStudentId.sub);
+
+  //   useEffect(() => {
+  //     if (typeof window !== "undefined") {
+  //       if (!getStudentId) {
+  //         window.localStorage.removeItem("updateCart");
+  //         setUpdateStoreBookingData([]);
+  //       }
+  //     }
+  //   }, [getStudentId]);
 
   //   useEffect(() => {
   //     localStorage.setItem("cart", JSON.stringify(storeBookingData));
   //   }, [storeBookingData]);
 
+  //   console.log("dateTimeString", dateTimeString);
+
+  //   const removeCart = (id: string) => {
+  //     const updateStoreBookingData = storeBookingData.filter((item) => {
+  //       return item.id !== id;
+  //     });
+
+  //     setStoreBookingData(updateStoreBookingData);
+  //   };
   const removeCart = (id: string) => {
-    const updateStoreBookingData = storeBookingData.filter((item) => {
+    // const updateStoreBookingDataChild = updateStoreBookingData.filter(
+    //   (item) => {
+    //     return item.id !== id;
+    //   }
+    // );
+
+    // const updateStoreBookingDataParent = storeBookingData.filter((item) => {
+    //   return item.id !== id;
+    // });
+
+    // setStoreBookingData(updateStoreBookingDataChild);
+    // setStoreBookingData(updateStoreBookingDataParent);
+    const updatedStoreBookingDataChild = updateStoreBookingData.filter(
+      (item) => {
+        return item.id !== id;
+      }
+    );
+
+    const updatedStoreBookingDataParent = storeBookingData.filter((item) => {
       return item.id !== id;
     });
 
-    setStoreBookingData(updateStoreBookingData);
+    setUpdateStoreBookingData(updatedStoreBookingDataChild);
+
+    // Also, ensure that the parent state (`storeBookingData`) is updated
+    setStoreBookingData(updatedStoreBookingDataParent);
   };
 
-  //   if (!dataBookingArray || dataBookingArray.length === 0) {
-  //     return (
-  //       <EmptyState
-  //         title="Your cart is empty"
-  //         subtitle="Let turn back and add some product you want our serve"
-  //       />
-  //     );
-  //   }
+  const totalPrice = updateStoreBookingData.reduce((total, price) => {
+    return total + price.totalPrice;
+  }, 0);
+
+  //   console.log(totalPrice);
+
+  const handleMinusItem = (id: string) => {
+    const updatedStoreBookingData = updateStoreBookingData.map((item) => {
+      if (item.id === id) {
+        // Increment the value of numberOfPerWeekDoPackage by 1
+
+        if (item.packageItem <= 1) {
+          return {
+            ...item,
+          };
+        }
+
+        const originalItem = storeBookingData.find(
+          (original) => original.id === id
+        );
+        if (originalItem) {
+          // Increment the value of numberOfPerWeekDoPackage and totalPrice based on the original item
+          const newNumberOfPerWeekDoPackage =
+            item.numberOfPerWeekDoPackage -
+            originalItem.numberOfPerWeekDoPackage;
+          const newTotalPrice = item.totalPrice - originalItem.totalPrice;
+
+          return {
+            ...item,
+            numberOfPerWeekDoPackage: newNumberOfPerWeekDoPackage,
+            weekNumberBooking:
+              item.weekNumberBooking - originalItem.weekNumberBooking,
+            totalPrice: newTotalPrice,
+            packageItem: item.packageItem - 1,
+          };
+        }
+      }
+      return item;
+    });
+
+    setUpdateStoreBookingData(updatedStoreBookingData);
+  };
+
+  const handlePlusItem = (id: string) => {
+    const updatedStoreBookingData = updateStoreBookingData.map((item) => {
+      if (item.id === id) {
+        // Increment the value of numberOfPerWeekDoPackage by 1
+
+        // const oldPrice
+        // return {
+        //   ...item,
+        //   numberOfPerWeekDoPackage:
+        //     item.numberOfPerWeekDoPackage + item.numberOfPerWeekDoPackage,
+        //   weekNumberBooking: item.weekNumberBooking + item.weekNumberBooking,
+        //   totalPrice: item.totalPrice + item.totalPrice,
+        //   packageItem: item.packageItem + 1,
+        // };
+
+        const originalItem = storeBookingData.find(
+          (original) => original.id === id
+        );
+        if (originalItem) {
+          // Increment the value of numberOfPerWeekDoPackage and totalPrice based on the original item
+          const newNumberOfPerWeekDoPackage =
+            item.numberOfPerWeekDoPackage +
+            originalItem.numberOfPerWeekDoPackage;
+          const newTotalPrice = item.totalPrice + originalItem.totalPrice;
+
+          return {
+            ...item,
+            numberOfPerWeekDoPackage: newNumberOfPerWeekDoPackage,
+            weekNumberBooking:
+              item.weekNumberBooking + originalItem.weekNumberBooking,
+            totalPrice: newTotalPrice,
+            packageItem: item.packageItem + 1,
+          };
+        }
+      }
+      return item;
+    });
+
+    setUpdateStoreBookingData(updatedStoreBookingData);
+  };
 
   if (storeBookingData.length === 0) {
     return (
@@ -127,9 +419,11 @@ const CartClient: React.FC<CartClientProps> = ({
               </>
             )}
           </div>
-          <div
-            onClick={useApartment.onOpen}
-            className="
+
+          <div className="flex flex-row gap-3">
+            <div
+              onClick={useApartment.onOpen}
+              className="
                 flex
                 flex-row
                 items-center
@@ -145,12 +439,24 @@ const CartClient: React.FC<CartClientProps> = ({
                 duration-200
 
                 "
-          >
-            <BsFillHouseAddFill size={25} /> Register Apartment
+            >
+              <BsFillHouseAddFill size={25} /> Register Apartment
+            </div>
+            {getApartmentByStudentId ? (
+              <>
+                <DoServiceApartmentSelect
+                  getApartmentByStudentId={getApartmentByStudentId}
+                  onChange={(value) => setCustomValue("apartmentId", value)}
+                />
+              </>
+            ) : (
+              ""
+            )}
           </div>
         </div>
       </div>
-      {storeBookingData.map((item) => {
+      {/* {storeBookingData.map((item) => { */}
+      {updateStoreBookingData.map((item) => {
         return (
           <div
             key={item.id}
@@ -188,36 +494,143 @@ const CartClient: React.FC<CartClientProps> = ({
                 </div>
               </div>
             </div>
-            <div>week booking: {item.weekNumberBooking}</div>
+            <div className="flex items-center gap-2">
+              Week booking:{" "}
+              <p className="text-[#ff6347] font-semibold">
+                {item.weekNumberBooking}
+              </p>
+            </div>
             {/* <div>week booking: {data.weekNumberBooking}</div> */}
-            <div>times do per week: {item.numberOfPerWeekDoPackage}</div>
+            <div className="flex items-center gap-2">
+              Times do per week:
+              <p className="text-[#ff6347] font-semibold">
+                {item.numberOfPerWeekDoPackage}
+              </p>
+            </div>
             {/* <div>times do per week: {data.numberOfPerWeekDoPackage}</div> */}
             {/* <div>price: {item.totalPrice}</div> */}
             {/* <div>price: {data.totalPrice}</div> */}
-            <div>price: {item.totalPrice}</div>
-            <div className="flex items-center gap-3">
-              <div>
+            <div key={item.id}>
+              Price:{" "}
+              {
+                storeBookingData.find(
+                  (priceInitial) => priceInitial.id === item.id
+                )?.totalPrice
+              }
+            </div>
+            <div className="flex items-center gap-5">
+              <div
+                onClick={() => handleMinusItem(item.id)}
+                className="
+                        bg-neutral-300
+                        p-2
+                        z-10
+                        rounded-lg
+                        hover:bg-neutral-400
+                        hover:shadow-lg
+                        transition
+                        duration-200"
+              >
                 <AiOutlineMinus />
               </div>
-              1
-              <div>
+              {item.packageItem}
+              <div
+                onClick={() => handlePlusItem(item.id)}
+                className="
+                    bg-neutral-300
+                    p-2
+                    z-10
+                    rounded-lg
+                    hover:bg-neutral-400
+                    hover:shadow-lg
+                    transition
+                    duration-200"
+              >
                 <AiOutlinePlus />
               </div>
             </div>
-            <div className="text-red-600">price: 54000</div>
+            <div className="text-[#ff6347] font-semibold">
+              Price: {item.totalPrice}
+            </div>
             <div
               onClick={() => removeCart(item.id)}
               className="hover:cursor-pointer p-1"
             >
               <IoMdClose size={25} />
             </div>
-
             <div className="mr-3">
               <MdOutlinePayment size={25} />
             </div>
           </div>
         );
       })}
+
+      {/* <div className="flex justify-end mt-10 pr-44">
+        <DoServiceApartmentSelect
+          getApartmentByStudentId={getApartmentByStudentId}
+          onChange={(value) => setCustomValue("apartmentId", value)}
+        />
+      </div> */}
+
+      <div
+        className="
+            z-29
+            fixed
+            bottom-0
+            flex
+            w-full
+            items-center
+            border-t-[1px]
+            bg-white py-4
+            mr-28
+            "
+      >
+        {/* <div className=""></div> */}
+        <div className="container mx-auto flex items-center justify-end gap-40 mr-80">
+          {/* <div className="text-lg text-neutral-800 ">
+            Total payment: {totalPrice}
+          </div> */}
+
+          <div className="flex items-center gap-2 text-lg">
+            Total payment:
+            <p className="text-[#ff6347] font-semibold">{totalPrice}</p>
+          </div>
+
+          {/* <div> */}
+          <PaymentSelect
+            onChange={(value) => setCustomValue("paymentMethodId", value)}
+            paymentMethod={paymentMethods}
+          />
+          {/* </div> */}
+
+          <div
+            // onClick={handleSubmit(onSubmit)}
+            onClick={validateSubmit}
+            className="
+                mr-20
+                cursor-pointer
+                rounded-lg
+                flex
+                items-center
+                gap-1
+                bg-[#ff6347]
+                p-2
+                px-5
+                text-2xl
+                font-semibold
+                text-neutral-800
+                hover:text-neutral-900
+                transition
+                duration-200
+                hover:bg-[#f34728]
+                hover:shadow-lg"
+          >
+            <MdOutlinePayment size={30} />
+            Payment
+          </div>
+          {/* <Button icon={MdOutlinePayment} onClick={() => {}} label="Payment" /> */}
+        </div>
+      </div>
     </>
   );
 };

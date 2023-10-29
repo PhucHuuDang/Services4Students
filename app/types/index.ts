@@ -24,6 +24,7 @@ export type PackageProps = {
   totalPrice: number;
   packageDescription: string;
   created: string;
+  packageItem: number;
   createBy: null;
   lastModified: null;
   lastModifiedBy: null;
@@ -49,6 +50,16 @@ export type getServicesInAPackage = {
 export type RegionsProps = {
   id: string;
   regionName: string;
+};
+
+export type PaymentMethodProps = {
+  id: string;
+  paymentMethodName: string;
+  createBy: string;
+  created: string;
+  lastModified: string;
+  lastModifiedBy: null;
+  isDelete: boolean;
 };
 
 // "id": "b17c9d4c-b164-4097-8d5f-03d2246da758",

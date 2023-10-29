@@ -8,6 +8,7 @@ declare module "next-auth" {
       email: string;
       token: string;
       userIdInTableDb: string;
+      sub: string;
     };
   }
 }

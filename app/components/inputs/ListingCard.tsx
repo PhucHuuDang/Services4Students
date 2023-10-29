@@ -38,6 +38,8 @@ const ListingCard: React.FC<ListingCardProps> = ({
 
   // console.log(data?.isDelete);
 
+  // console.log(packageData);
+
   const handleCancel = useCallback(
     (e: React.MouseEvent<HTMLButtonElement>) => {
       e.stopPropagation();
