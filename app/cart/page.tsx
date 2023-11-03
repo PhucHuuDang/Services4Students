@@ -33,7 +33,7 @@ const CartPage = async () => {
           getStudentId={getStudentId}
           paymentMethods={paymentMethods}
         />
-        <ApartmentModal regions={regions} />
+        <ApartmentModal getStudentId={getStudentId} regions={regions} />
       </div>
     </ClientOnly>
   );

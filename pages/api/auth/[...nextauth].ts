@@ -43,7 +43,7 @@ export const authOptions: AuthOptions = {
         // const user = await getEmailUser(credentials.email);
 
         // console.log(user);
-        console.log(credentials.email, credentials.password);
+        // console.log(credentials.email, credentials.password);
 
         const user = await axios.post("http://3.27.132.94/api/Auth/login", {
           email: credentials.email,

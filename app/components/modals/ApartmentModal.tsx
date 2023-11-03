@@ -11,21 +11,27 @@ import { RegionsProps } from "@/app/types";
 import ApartmentSelect from "../inputs/ApartmentSelect";
 import axios from "axios";
 import { toast } from "react-hot-toast";
+import { useRouter } from "next/navigation";
 
 interface ApartmentProps {
   regions: RegionsProps[];
+  getStudentId: any;
 }
 
-const ApartmentModal: React.FC<ApartmentProps> = ({ regions }) => {
+const ApartmentModal: React.FC<ApartmentProps> = ({
+  regions,
+  getStudentId,
+}) => {
   const { data: session } = useSession();
   const [isLoading, setIsLoading] = useState(false);
+  const router = useRouter();
 
   const useApartment = useApartmentModal();
 
   // if session is null loginModal will be turn on => set it later
-  const studentId = session?.user ? session?.user.userIdInTableDb : null;
+  // const studentId = session ? session.user.userIdInTableDb : "";
 
-  console.log("studentId: ", studentId);
+  // console.log("studentId: ", studentId);
 
   const {
     register,
@@ -35,7 +41,7 @@ const ApartmentModal: React.FC<ApartmentProps> = ({ regions }) => {
     formState: { errors },
   } = useForm<FieldValues>({
     defaultValues: {
-      studentId: studentId,
+      studentId: getStudentId ? getStudentId.userIdInTableDb : "",
       regionId: "",
       addressOfApartment: "",
     },
@@ -43,7 +49,9 @@ const ApartmentModal: React.FC<ApartmentProps> = ({ regions }) => {
 
   const regionId = watch("regionId");
 
-  console.log("regionId: ", regionId);
+  // console.log("studentId: ", studentId);
+
+  // console.log("regionId: ", regionId);
 
   const setCustomValue = (id: string, value: any) => {
     setValue(id, value, {
@@ -56,12 +64,15 @@ const ApartmentModal: React.FC<ApartmentProps> = ({ regions }) => {
   const onSubmit: SubmitHandler<FieldValues> = (data) => {
     setIsLoading(true);
 
+    // console.log(data);
+
     axios
       .post("/api/apartment", data)
 
       .then(() => {
         toast.success("Register Apartment Successfully");
         useApartment.onClose();
+        router.refresh();
       })
 
       .catch(() => {

@@ -51,6 +51,7 @@ const CartClient: React.FC<CartClientProps> = ({
   const [updateStoreBookingData, setUpdateStoreBookingData] = useState<
     PackageProps[]
   >([]);
+  const [disabled, setDisabled] = useState(false);
   const useApartment = useApartmentModal();
 
   const vietnamTimeZone = "Asia/Ho_Chi_Minh";
@@ -84,6 +85,8 @@ const CartClient: React.FC<CartClientProps> = ({
   //   }
 
   //   console.log(getApartmentByStudentId);
+
+  // console.log(getStudentId);
 
   const {
     register,
@@ -190,7 +193,8 @@ const CartClient: React.FC<CartClientProps> = ({
   }, []);
 
   const onSubmit: SubmitHandler<FieldValues> = (data) => {
-    console.log(data);
+    // console.log(data);
+    setDisabled(true);
 
     axios
       .post("/api/payment", data)
@@ -201,6 +205,9 @@ const CartClient: React.FC<CartClientProps> = ({
 
       .catch(() => {
         toast.error("Please check your information again");
+      })
+      .finally(() => {
+        setDisabled(false);
       });
   };
 
@@ -606,7 +613,7 @@ const CartClient: React.FC<CartClientProps> = ({
           <div
             // onClick={handleSubmit(onSubmit)}
             onClick={validateSubmit}
-            className="
+            className={`
                 mr-20
                 cursor-pointer
                 rounded-lg
@@ -623,7 +630,11 @@ const CartClient: React.FC<CartClientProps> = ({
                 transition
                 duration-200
                 hover:bg-[#f34728]
-                hover:shadow-lg"
+                hover:shadow-lg
+                ${disabled ? "opacity-75 pointer-events-none" : ""}
+
+            
+            `}
           >
             <MdOutlinePayment size={30} />
             Payment
