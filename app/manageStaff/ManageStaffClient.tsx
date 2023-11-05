@@ -182,8 +182,6 @@ const ManageStaffClient: React.FC<ManageStaffClientProps> = ({
                     email={item.inforOfStaffData.email}
                     date={item.staffData.created}
                     setDeleteName={setDeleteName}
-                    // deleteStaff={deleteStaff}
-                    // setDeleteStaff={setDeleteStaff}
                     openDeleteModal={openDeleteModal}
                   />
                 )
@@ -193,8 +191,6 @@ const ManageStaffClient: React.FC<ManageStaffClientProps> = ({
       </div>
       <DeleteModal
         isOpen={deleteModal.isOpen}
-        // setDeleteStaff={setDeleteStaff}
-        // deleteStaff={deleteStaff}
         disabled={disabled}
         deleteName={deleteName}
         onConfirmDelete={onCancel}

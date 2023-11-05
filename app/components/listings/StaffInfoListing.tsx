@@ -14,8 +14,6 @@ interface StaffInfoListingProps {
   email: string;
   date: string;
   id: string;
-  // deleteStaff: boolean;
-  // setDeleteStaff: (value: boolean) => void;
   openDeleteModal: (id: string) => void;
   setDeleteName: (value: string) => void;
 }
@@ -30,10 +28,9 @@ const StaffInfoListing: React.FC<StaffInfoListingProps> = ({
   // deleteStaff,
   // setDeleteStaff,
 }) => {
-  const [isPopupOpen, setPopupOpen] = useState(false);
   const [deleteId, setDeleteId] = useState("");
   const router = useRouter();
-  const deleteModal = useDeleteModal();
+  // const deleteModal = useDeleteModal();
 
   const handleSetDeleteId = () => {
     // console.log(id);
@@ -41,26 +38,26 @@ const StaffInfoListing: React.FC<StaffInfoListingProps> = ({
     setDeleteName(fullName);
   };
 
-  const onCancel = useCallback(
-    (id: string) => {
-      setDeleteId(id);
+  // const onCancel = useCallback(
+  //   (id: string) => {
+  //     setDeleteId(id);
 
-      axios
-        .delete("/api/deleteStaff", { data: { id } })
-        .then(() => {
-          toast.success("Delete staff successfully");
-          router.refresh();
-        })
-        .catch(() => {
-          toast.error("Failed to delete staff");
-        })
-        .finally(() => {
-          setDeleteId("");
-          // setDeleteStaff(false);
-        });
-    },
-    [router]
-  );
+  //     axios
+  //       .delete("/api/deleteStaff", { data: { id } })
+  //       .then(() => {
+  //         toast.success("Delete staff successfully");
+  //         router.refresh();
+  //       })
+  //       .catch(() => {
+  //         toast.error("Failed to delete staff");
+  //       })
+  //       .finally(() => {
+  //         setDeleteId("");
+  //         // setDeleteStaff(false);
+  //       });
+  //   },
+  //   [router]
+  // );
 
   // useEffect(() => {
   //   if (deleteStaff && !deleteModal.isOpen) {
@@ -107,18 +104,6 @@ const StaffInfoListing: React.FC<StaffInfoListingProps> = ({
             <div>{new Date(date).toISOString().split("T")[0]}</div>
           </div>
           <div
-            // onClick={() => console.log("id: ", id)}
-            // onClick={useDeleteModal.onOpen}
-            // onClick={() => onCancel(id)}
-            // onClick={async () => {
-            //   await deleteModal.onOpen();
-
-            //   console.log(id);
-
-            //   // if (deleteStaff) {
-            //   //   onCancel(id);
-            //   // }
-            // }}
             onClick={handleSetDeleteId}
             className="
               flex 
@@ -136,12 +121,6 @@ const StaffInfoListing: React.FC<StaffInfoListingProps> = ({
           </div>
         </div>
       </div>
-      {/* <DeleteModal
-        isOpen={isPopupOpen}
-        title="Remove a staff"
-        secondaryActionLabel="Cancel"
-        onClose={useDeleteModal.onClose}
-      /> */}
     </div>
   );
 };

@@ -54,9 +54,9 @@ export async function POST(request: Request) {
     quantityOfPackageOrdered: item.quantityOfPackageOrdered,
   }));
 
-  console.log(formatListPackage);
+  // console.log(formatListPackage);
 
-  console.log(body);
+  // console.log(body);
 
   try {
     const payment = await axios.post(
@@ -94,9 +94,9 @@ export async function POST(request: Request) {
     //   requestData
     // );
 
-    console.log("first");
+    // console.log("first");
 
-    console.log(payment);
+    // console.log(payment);
 
     if (payment.status === 200) {
       const paymentSuccess = payment.data;

@@ -1,11 +1,17 @@
 import ClientOnly from "../components/ClientOnly";
 import Heading from "../components/Heading";
+import getAllStaffs from "../components/actions/getAllStaffs";
 import getBookingDetail from "../components/actions/getBookingDetail";
+import getRoleUser from "../components/actions/getRoleUser";
 import { DetailsProps } from "../types";
 import AssignTaskClient from "./AssignTaskClient";
 
 const AssignPage = async () => {
   const allBookingDetail = await getBookingDetail();
+  const dataStaffs = await getAllStaffs();
+  const getRole = await getRoleUser();
+
+  //   console.log(adminName);
 
   return (
     <ClientOnly>
@@ -16,8 +22,13 @@ const AssignPage = async () => {
           center
         />
       </div>
+      <AssignTaskClient
+        dataStaffs={dataStaffs}
+        dataBookingDetail={allBookingDetail}
+        getRole={getRole}
+      />
 
-      <div
+      {/* <div
         className="
                  p-20
                  grid
@@ -38,7 +49,7 @@ const AssignPage = async () => {
             </>
           );
         })}
-      </div>
+      </div> */}
     </ClientOnly>
   );
 };
