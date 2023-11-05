@@ -108,6 +108,7 @@ export type AttendanceReport = {
 
 export type DetailsProps = {
   id: string;
+  bookingDetailName: string;
   totalPriceQtity: number;
   isRe_Newed: boolean;
   remainingTaskDuration: number;

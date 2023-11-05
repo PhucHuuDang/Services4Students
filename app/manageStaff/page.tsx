@@ -1,6 +1,5 @@
 import ClientOnly from "../components/ClientOnly";
 import Heading from "../components/Heading";
-import TestModal from "../components/TestModal";
 import getAllStaffs from "../components/actions/getAllStaffs";
 import getRoleUser from "../components/actions/getRoleUser";
 import ManageStaffClient from "./ManageStaffClient";

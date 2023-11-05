@@ -1,5 +1,3 @@
-// "use client";
-
 import AttendanceClient from "./AttendanceClient";
 import ClientOnly from "../components/ClientOnly";
 import ApartmentDetail from "./components/ApartmentDetail";
@@ -8,6 +6,7 @@ import getRoleUser from "../components/actions/getRoleUser";
 import getRegions from "../components/actions/getRegions";
 import getBookingByStuId from "../components/actions/getBookingByStuId";
 import getPackages from "../components/actions/getPackages";
+import EmptyState from "../components/EmptyState";
 
 export default async function Layout({
   children,
@@ -23,6 +22,21 @@ export default async function Layout({
       ? getInfo.userIdInTableDb
       : ""
   );
+
+  // console.log(getDataBookingByStuId);
+
+  if (!getDataBookingByStuId) {
+    return (
+      <ClientOnly>
+        <EmptyState
+          title="Look likes you don't have any package services"
+          subtitle="Let booking some packages to us can have a chance to serve your're housing"
+          showReset
+          booking
+        />
+      </ClientOnly>
+    );
+  }
 
   return (
     <ClientOnly>

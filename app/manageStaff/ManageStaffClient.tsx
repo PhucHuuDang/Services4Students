@@ -2,7 +2,7 @@
 
 import { BsPeople } from "react-icons/bs";
 
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 
 import ClientOnly from "../components/ClientOnly";
@@ -12,7 +12,9 @@ import Heading from "../components/Heading";
 import StaffInfoListing from "../components/listings/StaffInfoListing";
 import { useDebouncedState } from "@mantine/hooks";
 import useDeleteModal from "../hooks/useDeleteModal";
-import TestModal from "../components/TestModal";
+import axios from "axios";
+import { toast } from "react-hot-toast";
+import DeleteModal from "../components/DeleteModal";
 
 interface ManageStaffClientProps {
   staffsInfo: any;
@@ -27,7 +29,9 @@ const ManageStaffClient: React.FC<ManageStaffClientProps> = ({
   // const useResultVerifyToken: any = useVerifyToken();
   const router = useRouter();
   const deleteModal = useDeleteModal();
-  const [deleteStaff, setDeleteStaff] = useState(false);
+  const [deleteId, setDeleteId] = useState("");
+  const [deleteName, setDeleteName] = useState("");
+  const [disabled, setDisabled] = useState(false);
 
   useEffect(() => {
     if (getRole && getRole.role !== "Admin") {
@@ -35,6 +39,45 @@ const ManageStaffClient: React.FC<ManageStaffClientProps> = ({
       // console.log(getRole);
     }
   }, [router, getRole]);
+
+  const openDeleteModal = (id: string) => {
+    // console.log(id);
+    setDeleteId(id);
+    deleteModal.onOpen();
+  };
+
+  // console.log(deleteId);
+
+  const closeDeleteModal = useCallback(() => {
+    setDeleteId("");
+    setDeleteName("");
+
+    // onClose();
+    deleteModal.onClose();
+  }, [deleteModal]);
+
+  const onCancel = useCallback(() => {
+    // setDeleteId(id);
+    // console.log(deleteId);
+    setDisabled(true);
+    axios
+      .delete("/api/deleteStaff", { data: { deleteId } })
+      .then(() => {
+        toast.success("Delete staff successfully");
+        closeDeleteModal();
+        router.refresh();
+      })
+      .catch(() => {
+        toast.error("Failed to delete staff");
+      })
+      .finally(() => {
+        // setDeleteId("");
+        setDisabled(false);
+        setDeleteName("");
+
+        // setDeleteStaff(false);
+      });
+  }, [router, deleteId, closeDeleteModal]);
 
   if (getRole && getRole.role !== "Admin") {
     // console.log("first");
@@ -138,19 +181,24 @@ const ManageStaffClient: React.FC<ManageStaffClientProps> = ({
                     fullName={item.inforOfStaffData.fullName}
                     email={item.inforOfStaffData.email}
                     date={item.staffData.created}
-                    deleteStaff={deleteStaff}
-                    setDeleteStaff={setDeleteStaff}
+                    setDeleteName={setDeleteName}
+                    // deleteStaff={deleteStaff}
+                    // setDeleteStaff={setDeleteStaff}
+                    openDeleteModal={openDeleteModal}
                   />
                 )
               );
             })}
         </div>
       </div>
-      <TestModal
+      <DeleteModal
         isOpen={deleteModal.isOpen}
-        setDeleteStaff={setDeleteStaff}
-        deleteStaff={deleteStaff}
-        onClose={deleteModal.onClose}
+        // setDeleteStaff={setDeleteStaff}
+        // deleteStaff={deleteStaff}
+        disabled={disabled}
+        deleteName={deleteName}
+        onConfirmDelete={onCancel}
+        onClose={closeDeleteModal}
       />
     </>
   );

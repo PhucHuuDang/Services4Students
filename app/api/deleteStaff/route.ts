@@ -4,7 +4,7 @@ import { NextResponse } from "next/server";
 export async function DELETE(request: Request) {
   const body = await request.json();
 
-  const { id } = body;
+  const { deleteId } = body;
 
   const deleteBy = "";
 
@@ -13,7 +13,7 @@ export async function DELETE(request: Request) {
       "http://3.27.132.94/api/v1/staffs/staffs",
       {
         data: {
-          id: id,
+          id: deleteId,
           deleteBy: deleteBy,
         },
       }

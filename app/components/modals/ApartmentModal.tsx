@@ -47,7 +47,7 @@ const ApartmentModal: React.FC<ApartmentProps> = ({
     },
   });
 
-  const regionId = watch("regionId");
+  // const regionId = watch("regionId");
 
   // console.log("studentId: ", studentId);
 

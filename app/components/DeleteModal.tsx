@@ -4,20 +4,22 @@ import { useCallback, useEffect, useState } from "react";
 import { IoMdClose } from "react-icons/io";
 import Button from "./Button";
 
-interface TestModalProps {
+interface DeleteModalProps {
   isOpen?: boolean;
   disabled?: boolean;
   onClose: () => void;
-  deleteStaff: boolean;
-  setDeleteStaff: (value: boolean) => void;
+  deleteName: string;
+  onConfirmDelete: () => void;
 }
 
-const TestModal: React.FC<TestModalProps> = ({
+const DeleteModal: React.FC<DeleteModalProps> = ({
   isOpen,
   disabled,
   onClose,
-  deleteStaff,
-  setDeleteStaff,
+  deleteName,
+  // deleteStaff,
+  // setDeleteStaff,
+  onConfirmDelete,
 }) => {
   const [showModal, setShowModal] = useState(isOpen);
 
@@ -25,22 +27,28 @@ const TestModal: React.FC<TestModalProps> = ({
     setShowModal(isOpen);
   }, [isOpen]);
 
+  // const handleClose = useCallback(() => {
+  //   if (disabled) {
+  //     return;
+  //   }
+
+  //   setShowModal(false);
+
+  //   setTimeout(() => {
+  //     onClose();
+  //   }, 300);
+  // }, [disabled, onClose]);
+
+  // const handleAgree = useCallback(() => {
+  //   setDeleteStaff(true);
+  //   handleClose();
+  // }, [handleClose, setDeleteStaff]);
+
   const handleClose = useCallback(() => {
-    if (disabled) {
-      return;
-    }
-
-    setShowModal(false);
-
     setTimeout(() => {
       onClose();
     }, 300);
-  }, [disabled, onClose]);
-
-  const handleAgree = useCallback(() => {
-    setDeleteStaff(true);
-    handleClose();
-  }, [handleClose, setDeleteStaff]);
+  }, [onClose]);
 
   if (!isOpen) {
     return null;
@@ -78,16 +86,16 @@ const TestModal: React.FC<TestModalProps> = ({
             className={`
             translate
             h-full
-            duration-300
             bg-white
             rounded-xl 
             ${showModal ? "translate-y-0" : "translate-y-full"}
             ${showModal ? "opacity-100" : "opacity-0"}
+            duration-300
             
             `}
           >
             <button
-              onClick={handleClose}
+              onClick={onClose}
               className="
                 relative
                 flex
@@ -123,12 +131,20 @@ const TestModal: React.FC<TestModalProps> = ({
               <div
                 className="
                 text-center
-                text-lg
-                font-semibold"
+                text-xl
+                font-semibold
+                
+                
+                "
               >
                 Are you sure to remove
               </div>
-              <div className="text-center">Staff</div>
+              <div className="text-center p-4 font-semibold">
+                <span className="text-[#ff6347] font-semibold text-lg">
+                  {deleteName}
+                </span>{" "}
+                Staff
+              </div>
               <div
                 className="
                     mt-6
@@ -140,14 +156,14 @@ const TestModal: React.FC<TestModalProps> = ({
                 {/* <div className="w-full cursor-pointer rounded-md bg-red-300 p-2 text-center transition-all duration-200 hover:scale-105 hover:bg-slate-500 hover:shadow-xl focus:bg-blue-400">
                 Cancel
               </div> */}
-                <Button outline label="Cancel" onClick={handleClose} />
+                <Button outline label="Cancel" onClick={onClose} />
                 {/* <div className="w-full cursor-pointer rounded-md bg-red-300 p-2 text-center transition-all duration-200 hover:scale-105 hover:bg-slate-500 hover:shadow-xl focus:bg-blue-400">
                 Agree
               </div> */}
                 <Button
                   label="Agree"
                   disabled={disabled}
-                  onClick={handleAgree}
+                  onClick={onConfirmDelete}
                 />
               </div>
             </div>
@@ -158,4 +174,4 @@ const TestModal: React.FC<TestModalProps> = ({
   );
 };
 
-export default TestModal;
+export default DeleteModal;

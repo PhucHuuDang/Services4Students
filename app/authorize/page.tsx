@@ -6,7 +6,7 @@ import AuthorizeClient from "./AuthorizeClient";
 const AuthorizePage = async () => {
   const regions = await getRegions();
 
-  console.log(regions);
+  // console.log(regions);
   return (
     <div className="p-24">
       <AuthorizeClient regions={regions} />

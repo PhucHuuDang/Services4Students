@@ -9,8 +9,20 @@ interface DetailAttendanceClientProps {
 const DetailAttendanceClient: React.FC<DetailAttendanceClientProps> = ({
   attendanceByBookingDetailId,
 }) => {
+  // console.log(attendanceByBookingDetailId);
   return (
-    <div className="flex flex-row sm:gap-[3rem] md:gap-[2rem] lg:gap-[4rem] 2xl:gap-[14rem]  h-auto">
+    <div
+      className="
+          flex
+          flex-row
+          sm:gap-[3rem]
+          md:gap-[2rem]
+          lg:gap-[4rem]
+          2xl:gap-[14rem]
+          h-auto
+          
+          "
+    >
       <div className="flex flex-col items-center gap-4">
         <div className="text-lg font-semibold">Attendance Created</div>
         {attendanceByBookingDetailId.attendReports.map((item) => {

@@ -1,3 +1,4 @@
+import ClientOnly from "../components/ClientOnly";
 import Container from "../components/Container";
 import Heading from "../components/Heading";
 import getPackages from "../components/actions/getPackages";
@@ -8,19 +9,20 @@ const ComboPage = async () => {
   const getPackage = await getPackages();
 
   return (
-    <Container>
-      <div className="pt-20">
-        <div className="mt-10">
-          <Heading
-            title="Package suit for your choice!"
-            subtitle="Monthly or services retail"
-            center
-          />
+    <ClientOnly>
+      <Container>
+        <div className="pt-20">
+          <div className="mt-10">
+            <Heading
+              title="Package suit for your choice!"
+              subtitle="Monthly or services retail"
+              center
+            />
+          </div>
         </div>
-      </div>
 
-      <div
-        className="
+        <div
+          className="
             pt-20
             grid
             gird-cols-1
@@ -32,12 +34,13 @@ const ComboPage = async () => {
             gap-8
                 
             "
-      >
-        {getPackage.map((item: PackageProps) => {
-          return <ListingCard key={item.id} packageData={item} />;
-        })}
-      </div>
-    </Container>
+        >
+          {getPackage.map((item: PackageProps) => {
+            return <ListingCard key={item.id} packageData={item} />;
+          })}
+        </div>
+      </Container>
+    </ClientOnly>
   );
 };
 

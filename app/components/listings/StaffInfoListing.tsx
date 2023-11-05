@@ -8,15 +8,16 @@ import axios from "axios";
 import { toast } from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import useDeleteModal from "@/app/hooks/useDeleteModal";
-import TestModal from "../TestModal";
 
 interface StaffInfoListingProps {
   fullName: string;
   email: string;
   date: string;
   id: string;
-  deleteStaff: boolean;
-  setDeleteStaff: (value: boolean) => void;
+  // deleteStaff: boolean;
+  // setDeleteStaff: (value: boolean) => void;
+  openDeleteModal: (id: string) => void;
+  setDeleteName: (value: string) => void;
 }
 
 const StaffInfoListing: React.FC<StaffInfoListingProps> = ({
@@ -24,13 +25,21 @@ const StaffInfoListing: React.FC<StaffInfoListingProps> = ({
   email,
   date,
   id,
-  deleteStaff,
-  setDeleteStaff,
+  openDeleteModal,
+  setDeleteName,
+  // deleteStaff,
+  // setDeleteStaff,
 }) => {
   const [isPopupOpen, setPopupOpen] = useState(false);
   const [deleteId, setDeleteId] = useState("");
   const router = useRouter();
   const deleteModal = useDeleteModal();
+
+  const handleSetDeleteId = () => {
+    // console.log(id);
+    openDeleteModal(id);
+    setDeleteName(fullName);
+  };
 
   const onCancel = useCallback(
     (id: string) => {
@@ -47,10 +56,10 @@ const StaffInfoListing: React.FC<StaffInfoListingProps> = ({
         })
         .finally(() => {
           setDeleteId("");
-          setDeleteStaff(false);
+          // setDeleteStaff(false);
         });
     },
-    [router, setDeleteStaff]
+    [router]
   );
 
   // useEffect(() => {
@@ -101,15 +110,16 @@ const StaffInfoListing: React.FC<StaffInfoListingProps> = ({
             // onClick={() => console.log("id: ", id)}
             // onClick={useDeleteModal.onOpen}
             // onClick={() => onCancel(id)}
-            onClick={async () => {
-              await deleteModal.onOpen();
+            // onClick={async () => {
+            //   await deleteModal.onOpen();
 
-              console.log(id);
+            //   console.log(id);
 
-              // if (deleteStaff) {
-              //   onCancel(id);
-              // }
-            }}
+            //   // if (deleteStaff) {
+            //   //   onCancel(id);
+            //   // }
+            // }}
+            onClick={handleSetDeleteId}
             className="
               flex 
               flex-col 
