@@ -31,6 +31,7 @@ const ManageStaffClient: React.FC<ManageStaffClientProps> = ({
   const deleteModal = useDeleteModal();
   const [deleteId, setDeleteId] = useState("");
   const [deleteName, setDeleteName] = useState("");
+  const [deleteMail, setDeleteMail] = useState("");
   const [disabled, setDisabled] = useState(false);
 
   useEffect(() => {
@@ -51,6 +52,7 @@ const ManageStaffClient: React.FC<ManageStaffClientProps> = ({
   const closeDeleteModal = useCallback(() => {
     setDeleteId("");
     setDeleteName("");
+    setDeleteMail("");
 
     // onClose();
     deleteModal.onClose();
@@ -74,6 +76,7 @@ const ManageStaffClient: React.FC<ManageStaffClientProps> = ({
         // setDeleteId("");
         setDisabled(false);
         setDeleteName("");
+        setDeleteMail("");
 
         // setDeleteStaff(false);
       });
@@ -183,6 +186,7 @@ const ManageStaffClient: React.FC<ManageStaffClientProps> = ({
                     date={item.staffData.created}
                     setDeleteName={setDeleteName}
                     openDeleteModal={openDeleteModal}
+                    setDeleteMail={setDeleteMail}
                   />
                 )
               );
@@ -195,6 +199,7 @@ const ManageStaffClient: React.FC<ManageStaffClientProps> = ({
         deleteName={deleteName}
         onConfirmDelete={onCancel}
         onClose={closeDeleteModal}
+        deleteMail={deleteMail}
       />
     </>
   );

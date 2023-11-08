@@ -1,6 +1,6 @@
 export default async function getPackages() {
   const getPackage = await fetch(
-    "http://3.27.132.94/api/v1/packages/packages",
+    "http://13.210.56.232/api/v1/packages/packages",
     {
       cache: "no-store",
     }

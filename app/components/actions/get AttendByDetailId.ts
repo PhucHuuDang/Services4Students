@@ -1,7 +1,7 @@
 // http://3.27.132.94/api/v1/attendreport/bookingdetailid?BookingDetailId=
 export default async function getAttendByDetailId(detailId: string) {
   const response = await fetch(
-    `http://3.27.132.94/api/v1/attendreport/bookingdetailid?BookingDetailId=${detailId}`,
+    `http://13.210.56.232/api/v1/attendreport/bookingdetailid?BookingDetailId=${detailId}`,
     {
       cache: "no-store",
     }

@@ -6,7 +6,10 @@ export default async function getServiceById(listingId: string) {
   //   const { listingId } = params;
 
   const getService = await fetch(
-    `http://3.27.132.94/api/v1/services/serivcesbyId?SerivceId=${listingId}`
+    `http://13.210.56.232/api/v1/services/serivcesbyId?SerivceId=${listingId}`,
+    {
+      cache: "no-store",
+    }
   );
 
   if (!getService.ok) {

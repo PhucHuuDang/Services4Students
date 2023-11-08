@@ -1,6 +1,6 @@
 export default async function getServicesInPackageId(listingComboId: string) {
   const response = await fetch(
-    `http://3.27.132.94/api/v1/packages/packageandservicebypackageid?PackageId=${listingComboId}`,
+    `http://13.210.56.232/api/v1/packages/packageandservicebypackageid?PackageId=${listingComboId}`,
     {
       cache: "no-store",
     }

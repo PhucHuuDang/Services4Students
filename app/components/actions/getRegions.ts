@@ -1,6 +1,6 @@
 export default async function getRegions() {
   const response = await fetch(
-    "http://3.27.132.94/api/v1/region/get-all-region",
+    "http://13.210.56.232/api/v1/region/get-all-region",
     {
       cache: "no-store",
     }

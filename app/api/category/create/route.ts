@@ -10,7 +10,7 @@ export async function POST(request: Request) {
 
   try {
     const createCategory = await axios.post(
-      "http://3.27.132.94/api/v1/categories/categories",
+      "http://13.210.56.232/api/v1/categories/categories",
       {
         categoryName: categoryName,
         imageUrl: imageUrl,

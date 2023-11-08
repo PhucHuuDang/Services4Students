@@ -9,7 +9,7 @@ export async function POST(request: Request) {
   // console.log(body);
   try {
     const apiResponse = await axios.post(
-      "http://3.27.132.94/api/v1/apartment/register-apartment",
+      "http://13.210.56.232/api/v1/apartment/register-apartment",
       {
         studentId: studentId,
         regionId: regionId,

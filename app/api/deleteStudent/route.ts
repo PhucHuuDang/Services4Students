@@ -6,23 +6,25 @@ export async function DELETE(request: Request) {
 
   const { deleteId } = body;
 
-  const deleteBy = "";
+  //   const deleteBy = "";
+
+  console.log(deleteId);
 
   try {
-    const deleteStaff = await axios.delete(
-      "http://13.210.56.232/api/v1/staffs/staffs",
+    const deleteUser = await axios.delete(
+      "http://13.210.56.232/api/v1/students/delete-student-by-id",
       {
         data: {
           id: deleteId,
-          deleteBy: deleteBy,
+          //   deleteBy: deleteBy,
         },
       }
     );
 
-    console.log(deleteStaff);
+    console.log(deleteUser);
 
-    if (deleteStaff.status === 200) {
-      const deleteSuccess = deleteStaff.data;
+    if (deleteUser.status === 200) {
+      const deleteSuccess = deleteUser.data;
       return NextResponse.json(deleteSuccess);
     }
   } catch (error: any) {

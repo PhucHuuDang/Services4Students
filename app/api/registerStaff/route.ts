@@ -10,11 +10,11 @@ export async function POST(request: Request) {
   const address = "";
   const birthday = null;
 
-  console.log(body);
+  // console.log(body);
 
   try {
     const apiResponse = await axios.post(
-      "http://3.27.132.94/api/v1/staffs/staffs",
+      "http://13.210.56.232/api/v1/staffs/staffs",
       {
         listCategoryId: listCategoryId,
         userName: userName,
@@ -34,7 +34,7 @@ export async function POST(request: Request) {
     if (apiResponse.status === 200) {
       const user = apiResponse.data;
 
-      console.log(user);
+      // console.log(user);
 
       return NextResponse.json(user);
     } else {

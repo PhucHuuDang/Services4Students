@@ -1,6 +1,6 @@
 export default async function getPaymentMethod() {
   const getPaymentMethod = await fetch(
-    "http://3.27.132.94/api/v1/paymentmethods",
+    "http://13.210.56.232/api/v1/paymentmethods",
     {
       cache: "no-store",
     }

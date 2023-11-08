@@ -1,5 +1,5 @@
 export default async function getAllStaffs() {
-  const response = await fetch("http://3.27.132.94/api/v1/staffs/staffs", {
+  const response = await fetch("http://13.210.56.232/api/v1/staffs/staffs", {
     cache: "no-store",
   });
 

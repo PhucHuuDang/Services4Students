@@ -1,7 +1,7 @@
 export default async function getBookingByStuId(stuId: string) {
   try {
     const getData = await fetch(
-      `http://3.27.132.94/api/v1/bookings/studentid?StudentId=${stuId}`,
+      `http://13.210.56.232/api/v1/bookings/studentid?StudentId=${stuId}`,
       {
         cache: "no-store",
       }

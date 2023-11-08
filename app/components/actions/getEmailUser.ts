@@ -1,6 +1,6 @@
 export async function getEmailUser(email: string) {
   // Sử dụng tham số email để tạo URL yêu cầu
-  const apiUrl = `http://3.27.132.94/api/v1/students/getStudentByEmailPassword?Email=${encodeURIComponent(
+  const apiUrl = `http://13.210.56.232/api/v1/students/getStudentByEmailPassword?Email=${encodeURIComponent(
     email
   )}&Password=MANAGER`;
 

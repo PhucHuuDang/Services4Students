@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import { memo, useCallback } from "react";
 
 import { MdOutlineDeleteSweep } from "react-icons/md";
 
@@ -9,6 +10,9 @@ interface UserInfoListingProps {
   email: string;
   date: string;
   id: string;
+  openDeleteUserModal: (id: string) => void;
+  setDeleteName: (value: string) => void;
+  setDeleteMail: (value: string) => void;
 }
 
 const UserInfoListing: React.FC<UserInfoListingProps> = ({
@@ -16,7 +20,16 @@ const UserInfoListing: React.FC<UserInfoListingProps> = ({
   email,
   date,
   id,
+  openDeleteUserModal,
+  setDeleteName,
+  setDeleteMail,
 }) => {
+  const handleOpenDeleteStudent = useCallback(() => {
+    openDeleteUserModal(id);
+    setDeleteName(fullName);
+    setDeleteMail(email);
+  }, [email, fullName, id, openDeleteUserModal, setDeleteName, setDeleteMail]);
+
   return (
     <div
       onClick={() => console.log("StudentId: ", id)}
@@ -55,6 +68,7 @@ const UserInfoListing: React.FC<UserInfoListingProps> = ({
             <div>{new Date(date).toISOString().split("T")[0]}</div>
           </div>
           <div
+            onClick={handleOpenDeleteStudent}
             className="
               flex 
               flex-col 
@@ -75,4 +89,4 @@ const UserInfoListing: React.FC<UserInfoListingProps> = ({
   );
 };
 
-export default UserInfoListing;
+export default memo(UserInfoListing);

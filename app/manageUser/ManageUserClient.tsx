@@ -7,10 +7,15 @@ import { useRouter } from "next/navigation";
 import Heading from "../components/Heading";
 import UserInfoListing from "../components/listings/UserInfoListing";
 import useVerifyToken from "../hooks/useVerifyToken";
-import { useEffect } from "react";
+import { useCallback, useEffect, useState } from "react";
 import ClientOnly from "../components/ClientOnly";
 import EmptyState from "../components/EmptyState";
 import { useDebouncedState } from "@mantine/hooks";
+import useDeleteModal from "../hooks/useDeleteModal";
+import DeleteModal from "../components/DeleteModal";
+import useDeleteUserModal from "../hooks/useDeleteUserModal";
+import axios from "axios";
+import { toast } from "react-hot-toast";
 
 interface ManageUserClientProps {
   studentsInfo: any;
@@ -24,6 +29,11 @@ const ManageUserClient: React.FC<ManageUserClientProps> = ({
   const [search, setSearch] = useDebouncedState("", 200, { leading: true });
   // const useResultVerifyToken: any = useVerifyToken();
   const router = useRouter();
+  const deleteUseModal = useDeleteUserModal();
+  const [deleteId, setDeleteId] = useState("");
+  const [deleteName, setDeleteName] = useState("");
+  const [deleteMail, setDeleteMail] = useState("");
+  const [disabled, setDisabled] = useState(false);
 
   // useEffect(() => {
   //   if (useResultVerifyToken && useResultVerifyToken.role !== "Admin") {
@@ -38,6 +48,46 @@ const ManageUserClient: React.FC<ManageUserClientProps> = ({
       // console.log(getRole);
     }
   }, [router, getRole]);
+
+  const openDeleteUserModal = useCallback(
+    (id: string) => {
+      setDeleteId(id);
+
+      deleteUseModal.onOpen();
+    },
+    [deleteUseModal]
+  );
+
+  const closeDeleteUserModal = useCallback(() => {
+    setDeleteId("");
+    setDeleteName("");
+    setDeleteMail("");
+    deleteUseModal.onClose();
+  }, [deleteUseModal]);
+
+  const onCancel = useCallback(() => {
+    // setDeleteId(id);
+    // console.log(deleteId);
+    setDisabled(true);
+    axios
+      .delete("/api/deleteStudent", { data: { deleteId } })
+      .then(() => {
+        toast.success("Delete staff successfully");
+        closeDeleteUserModal();
+        router.refresh();
+      })
+      .catch(() => {
+        toast.error("Failed to delete staff");
+      })
+      .finally(() => {
+        // setDeleteId("");
+        setDisabled(false);
+        setDeleteName("");
+        setDeleteMail("");
+
+        // setDeleteStaff(false);
+      });
+  }, [router, deleteId, closeDeleteUserModal]);
 
   if (getRole && getRole.role !== "Admin") {
     // console.log("first");
@@ -148,9 +198,22 @@ const ManageUserClient: React.FC<ManageUserClientProps> = ({
                   fullName={item.applicationUserTableData.fullName}
                   email={item.applicationUserTableData.email}
                   date={item.studentTableData.created}
+                  openDeleteUserModal={openDeleteUserModal}
+                  setDeleteName={setDeleteName}
+                  setDeleteMail={setDeleteMail}
                 />
               );
             })}
+
+          <DeleteModal
+            isOpen={deleteUseModal.isOpen}
+            onConfirmDelete={onCancel}
+            onClose={closeDeleteUserModal}
+            deleteName={deleteName}
+            disabled={disabled}
+            user
+            deleteMail={deleteMail}
+          />
         </div>
       </div>
     </>

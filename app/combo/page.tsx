@@ -8,6 +8,8 @@ import { PackageProps } from "../types";
 const ComboPage = async () => {
   const getPackage = await getPackages();
 
+  // console.log(getPackage);
+
   return (
     <ClientOnly>
       <Container>

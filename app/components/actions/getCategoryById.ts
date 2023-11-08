@@ -1,6 +1,9 @@
 export default async function getCategoryById(categoryId: string) {
   const getCategoryById = await fetch(
-    `http://3.27.132.94/api/v1/categories/categoriesbyid?CategoriesId=${categoryId}`
+    `http://13.210.56.232/api/v1/categories/categoriesbyid?CategoriesId=${categoryId}`,
+    {
+      cache: "no-store",
+    }
   );
 
   if (!getCategoryById.ok) {

@@ -16,6 +16,7 @@ interface StaffInfoListingProps {
   id: string;
   openDeleteModal: (id: string) => void;
   setDeleteName: (value: string) => void;
+  setDeleteMail: (value: string) => void;
 }
 
 const StaffInfoListing: React.FC<StaffInfoListingProps> = ({
@@ -25,6 +26,7 @@ const StaffInfoListing: React.FC<StaffInfoListingProps> = ({
   id,
   openDeleteModal,
   setDeleteName,
+  setDeleteMail,
   // deleteStaff,
   // setDeleteStaff,
 }) => {
@@ -36,6 +38,7 @@ const StaffInfoListing: React.FC<StaffInfoListingProps> = ({
     // console.log(id);
     openDeleteModal(id);
     setDeleteName(fullName);
+    setDeleteMail(email);
   };
 
   // const onCancel = useCallback(

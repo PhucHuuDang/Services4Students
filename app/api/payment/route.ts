@@ -60,7 +60,7 @@ export async function POST(request: Request) {
 
   try {
     const payment = await axios.post(
-      "http://3.27.132.94/api/v1/bookings/bookings",
+      "http://13.210.56.232/api/v1/bookings/bookings",
       {
         startDate: startDate,
         apartmentId: apartmentId,

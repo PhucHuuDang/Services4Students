@@ -63,7 +63,7 @@ const AssignModal: React.FC<AssignModalProps> = ({
 
   const staffId = watch("staffId");
 
-  console.log("staffId: ", staffId);
+  // console.log("staffId: ", staffId);
 
   const onSubmit: SubmitHandler<FieldValues> = (data) => {
     data.bookingDetailId = bookingDetailId;

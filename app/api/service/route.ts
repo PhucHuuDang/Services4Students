@@ -13,11 +13,11 @@ export async function POST(request: Request) {
     createBy,
   } = body;
 
-  console.log(body);
+  // console.log(body);
 
   try {
     const createService = await axios.post(
-      "http://3.27.132.94/api/v1/services/services",
+      "http://13.210.56.232/api/v1/services/services",
       {
         serviceName: serviceName,
         serviceDescription: serviceDescription,

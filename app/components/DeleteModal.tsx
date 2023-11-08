@@ -10,6 +10,8 @@ interface DeleteModalProps {
   onClose: () => void;
   deleteName: string;
   onConfirmDelete: () => void;
+  user?: boolean;
+  deleteMail?: string;
 }
 
 const DeleteModal: React.FC<DeleteModalProps> = ({
@@ -17,9 +19,9 @@ const DeleteModal: React.FC<DeleteModalProps> = ({
   disabled,
   onClose,
   deleteName,
-  // deleteStaff,
-  // setDeleteStaff,
   onConfirmDelete,
+  user,
+  deleteMail,
 }) => {
   const [showModal, setShowModal] = useState(isOpen);
 
@@ -140,10 +142,25 @@ const DeleteModal: React.FC<DeleteModalProps> = ({
                 Are you sure to remove
               </div>
               <div className="text-center p-4 font-semibold">
-                <span className="text-[#ff6347] font-semibold text-lg">
-                  {deleteName}
+                <span className="text-[#ff6347] font-semibold text-xl">
+                  {deleteName}{" "}
                 </span>{" "}
-                Staff
+                {user ? (
+                  <span className="font-semibold">
+                    Student who has email{" "}
+                    <span className="text-[#0e2a5dd4] font-bold text-lg">
+                      {deleteMail}
+                    </span>
+                  </span>
+                ) : (
+                  // "Staff"
+                  <span className="font-semibold">
+                    Staff who has email{" "}
+                    <span className="text-[#0e2a5dd4] font-bold text-lg">
+                      {deleteMail}
+                    </span>
+                  </span>
+                )}
               </div>
               <div
                 className="

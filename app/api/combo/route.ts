@@ -19,7 +19,7 @@ export async function POST(request: Request) {
 
   try {
     const createPackage = await axios.post(
-      "http://3.27.132.94/api/v1/packages/packages",
+      "http://13.210.56.232/api/v1/packages/packages",
       {
         listServiceId: listServiceId,
         packageDescription: packageDescription,

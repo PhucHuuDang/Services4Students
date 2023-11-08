@@ -33,10 +33,13 @@ export default async function getCurrentUser() {
       password = process.env.PASSWORD_ADMIN;
     }
 
-    const currentUser = await axios.post(`http://3.27.132.94/api/Auth/login`, {
-      email: session.user.email as string,
-      password: password,
-    });
+    const currentUser = await axios.post(
+      `http://13.210.56.232/api/Auth/login`,
+      {
+        email: session.user.email as string,
+        password: password,
+      }
+    );
 
     // console.log(currentUser);
 

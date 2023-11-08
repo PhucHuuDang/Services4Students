@@ -23,7 +23,7 @@ export async function DELETE(request: Request) {
 
   try {
     const deleteService = await axios.delete(
-      "http://3.27.132.94/api/v1/services/services",
+      "http://13.210.56.232/api/v1/services/services",
       {
         data: {
           serviceId: id,
