@@ -7,5 +7,7 @@ export const config = {
     "/manageStaff",
     "/properties",
     "/assign",
+    "/dashboard",
+    "/dashboardOrder",
   ],
 };

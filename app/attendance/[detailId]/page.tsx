@@ -9,7 +9,7 @@ type Params = {
 };
 
 const DetailPage = async ({ params: { detailId } }: Params) => {
-  console.log(detailId);
+  // console.log(detailId);
   const attendanceByBookingDetailId = await getAttendByDetailId(detailId);
 
   //   console.log(attendanceByBookingDetailId);

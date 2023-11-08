@@ -212,6 +212,16 @@ const UserMenu: React.FC<UserMenuProps> = ({ currentUser, isAdmin }) => {
                     />
 
                     <MenuItem
+                      label="Manage dashboard"
+                      onClick={() => router.push("/dashboard")}
+                    />
+
+                    <MenuItem
+                      label="Manage dashboard order"
+                      onClick={() => router.push("/dashboardOrder")}
+                    />
+
+                    <MenuItem
                       label="Add more services"
                       onClick={addServiceModal.onOpen}
                     />

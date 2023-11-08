@@ -1,7 +1,7 @@
 "use client";
 
 import { AttendanceByDetailId } from "@/app/types";
-
+import { FcFeedback } from "react-icons/fc";
 interface DetailAttendanceClientProps {
   attendanceByBookingDetailId: AttendanceByDetailId;
 }
@@ -66,8 +66,25 @@ const DetailAttendanceClient: React.FC<DetailAttendanceClientProps> = ({
           // const dateDoPackage = item.dateDoPackage.split("T")[0];
 
           return (
-            <div key={item.id} className=" p-2 rounded-md">
+            <div
+              key={item.id}
+              className="
+                  p-2
+                  rounded-md
+                  flex
+                  flex-row
+                  items-center
+                  gap-2
+                  bg-neutral-100
+                  hover:bg-neutral-200
+                  hover:scale-105
+                  hover:shadow-lg
+                  duration-200
+                  cursor-pointer
+                  "
+            >
               {/* {item.feedbackAvailable} */}
+              <FcFeedback size={24} />
               Feedback
             </div>
           );
