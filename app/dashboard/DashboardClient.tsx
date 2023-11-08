@@ -14,7 +14,7 @@ import {
   Tooltip,
   Legend,
 } from "chart.js";
-// import getBookingMoneyByOneYear from "../components/actions/getBookingMoneyByOneYear";
+
 import { FaShoppingBag } from "react-icons/fa";
 import { formatDistanceToNow, parseISO } from "date-fns";
 import { useRouter } from "next/navigation";
@@ -65,13 +65,13 @@ const DashboardClient: React.FC<DashboardClientProps> = ({
   getChartData,
   getRole,
 }) => {
-  //   const router = useRouter();
-  //   useEffect(() => {
-  //     if (getRole && getRole.role !== "Admin") {
-  //       router.push("/");
-  //       // console.log(getRole);
-  //     }
-  //   }, [router, getRole]);
+  const router = useRouter();
+  useEffect(() => {
+    if (getRole && getRole.role !== "Admin") {
+      router.push("/");
+      // console.log(getRole);
+    }
+  }, [router, getRole]);
 
   const [chartOptions, setChartOptions] = useState({
     plugins: {
@@ -138,17 +138,17 @@ const DashboardClient: React.FC<DashboardClientProps> = ({
 
   //   console.log(getRole);
 
-  //   if (getRole && getRole.role !== "Admin") {
-  //     // console.log("first");
-  //     return (
-  //       <ClientOnly>
-  //         <EmptyState
-  //           title="You are not authorized to access"
-  //           subtitle="Redirect to your page"
-  //         />
-  //       </ClientOnly>
-  //     );
-  //   }
+  if (getRole && getRole.role !== "Admin") {
+    // console.log("first");
+    return (
+      <ClientOnly>
+        <EmptyState
+          title="You are not authorized to access"
+          subtitle="Redirect to your page"
+        />
+      </ClientOnly>
+    );
+  }
 
   return (
     <main className="bg-gray-100 min-h-screen">

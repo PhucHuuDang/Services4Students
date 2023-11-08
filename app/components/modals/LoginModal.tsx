@@ -43,7 +43,7 @@ const LoginModal = () => {
   // the input body of form register
 
   const onSubmit: SubmitHandler<FieldValues> = (data: any) => {
-    setIsLoading(false);
+    setIsLoading(true);
 
     signIn("credentials", {
       ...data,

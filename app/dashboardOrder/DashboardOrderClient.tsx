@@ -25,25 +25,25 @@ const DashboardOrderClient: React.FC<DashboardOrderClientProps> = ({
   getRole,
 }) => {
   // console.log(listBookingOneDay);
-  // const router = useRouter();
-  // useEffect(() => {
-  //   if (getRole && getRole.role !== "Admin") {
-  //     router.push("/");
-  //     console.log(getRole);
-  //   }
-  // }, [router, getRole]);
+  const router = useRouter();
+  useEffect(() => {
+    if (getRole && getRole.role !== "Admin") {
+      router.push("/");
+      console.log(getRole);
+    }
+  }, [router, getRole]);
 
-  // if (getRole && getRole.role !== "Admin") {
-  //   // console.log("first");
-  //   return (
-  //     <ClientOnly>
-  //       <EmptyState
-  //         title="You are not authorized to access"
-  //         subtitle="Redirect to your page"
-  //       />
-  //     </ClientOnly>
-  //   );
-  // }
+  if (getRole && getRole.role !== "Admin") {
+    // console.log("first");
+    return (
+      <ClientOnly>
+        <EmptyState
+          title="You are not authorized to access"
+          subtitle="Redirect to your page"
+        />
+      </ClientOnly>
+    );
+  }
 
   return (
     <div className="p-20">
