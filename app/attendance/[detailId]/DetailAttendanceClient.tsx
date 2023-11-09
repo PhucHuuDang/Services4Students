@@ -1,6 +1,9 @@
 "use client";
 
-import { AttendanceByDetailId } from "@/app/types";
+import FeedbackModal from "@/app/components/modals/FeedbackModal";
+import useFeedbackModal from "@/app/hooks/useFeedbackModal";
+import { AttendanceByDetailId, AttendanceReport } from "@/app/types";
+import { useState } from "react";
 import { FcFeedback } from "react-icons/fc";
 interface DetailAttendanceClientProps {
   attendanceByBookingDetailId: AttendanceByDetailId;
@@ -9,7 +12,31 @@ interface DetailAttendanceClientProps {
 const DetailAttendanceClient: React.FC<DetailAttendanceClientProps> = ({
   attendanceByBookingDetailId,
 }) => {
+  const feedbackModal = useFeedbackModal();
+
+  const [feedbackId, setFeedbackID] = useState("");
+
   // console.log(attendanceByBookingDetailId);
+  // const test = attendanceByBookingDetailId.bookingDetail.attendReport.map(
+  //   (item) => {
+  //     return console.log(item.feedBack.id);
+  //   }
+  // );
+
+  // const handleGetFeedbackId = () => {
+  //   const test = attendanceByBookingDetailId.bookingDetail.attendReport.map(
+  //     (item) => {
+  //       return attendanceByBookingDetailId.attendReports.map((attendId) => {
+  //         return item.id === attendId.id ? item.feedBack.id : "";
+  //       });
+  //     }
+  //   );
+
+  //   console.log(test);
+  // };
+
+  // console.log("feedbackId: ", feedbackId);
+
   return (
     <div
       className="
@@ -62,11 +89,19 @@ const DetailAttendanceClient: React.FC<DetailAttendanceClientProps> = ({
 
       <div className="flex flex-col items-center gap-4">
         <div className="text-lg font-semibold">Feedback</div>
-        {attendanceByBookingDetailId.attendReports.map((item) => {
+        {/* {attendanceByBookingDetailId.attendReports.map((item) => { */}
+        {attendanceByBookingDetailId.bookingDetail.attendReport.map((item) => {
           // const dateDoPackage = item.dateDoPackage.split("T")[0];
+
+          // console.log(item);
 
           return (
             <div
+              onClick={() => {
+                feedbackModal.onOpen();
+                setFeedbackID(item.feedBack.id);
+                // handleGetFeedbackId();
+              }}
               key={item.id}
               className="
                   p-2
@@ -90,6 +125,8 @@ const DetailAttendanceClient: React.FC<DetailAttendanceClientProps> = ({
           );
         })}
       </div>
+
+      <FeedbackModal feedbackId={feedbackId} setFeedbackID={setFeedbackID} />
     </div>
   );
 };
