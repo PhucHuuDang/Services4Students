@@ -11,6 +11,9 @@ interface IParams {
 }
 
 export default async function ContactPage() {
+  // const service_id = process.env.NEXT_PUBLIC_SERVICE_ID as string;
+
+  // console.log(service_id);
   return (
     <ClientOnly>
       {/* <Container></Container> */}

@@ -94,10 +94,9 @@ const Maps = () => {
   };
 
   const onLoad = (autocomplete: any) => {
-    // Set options for the Autocomplete instance
     autocomplete.setOptions({
-      types: ["geocode"], // Limit results to geographic areas
-      componentRestrictions: { country: "VN" }, // Restrict to a specific country (change to your desired country)
+      types: ["geocode"],
+      componentRestrictions: { country: "VN" }, // the region country
     });
 
     // Add event listeners to the Autocomplete instance
@@ -108,7 +107,6 @@ const Maps = () => {
         return;
       }
 
-      // You can access place details such as name, address, latitude, and longitude
       const name = place.name;
       const address = place.formatted_address;
       const lat = place.geometry.location.lat();
@@ -264,6 +262,7 @@ const Maps = () => {
           </div>
         </div>
       </div>
+
       <div className="absolute h-full w-full">
         {/* <div className="h-full w-full absolute"> */}
         <GoogleMap
@@ -271,12 +270,12 @@ const Maps = () => {
           zoom={15}
           mapContainerStyle={{
             width: "100%",
-            height: "85%",
+            height: "100%",
           }}
           options={{
             fullscreenControl: false,
             streetViewControl: false,
-            //   zoomControl: false,
+            zoomControl: false,
             mapTypeControl: false,
           }}
           onLoad={(map) => setMap(map)}

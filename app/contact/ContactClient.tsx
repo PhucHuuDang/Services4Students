@@ -2,7 +2,8 @@
 
 import Container from "../components/Container";
 import Maps from "../components/navbar/Maps";
-import ContactInfo from "./ContactInfo";
+import ContactForm from "../components/inputs/ContactForm";
+import ContactInfo from "../components/listings/ContactInfo";
 
 interface ContactClientProps {
   email?: string;
@@ -16,18 +17,14 @@ const ContactClient = ({ user }: any) => {
     <>
       <div className="pt-20">
         <Container>
-          <ContactInfo />
-        </Container>
-        {/* <div className="flex flex-col h-auto">
-          <div
-            className="
-              h-screen
-              
-              "
-          >
-            <Maps />
+          {/* <div> */}
+          <div className="pt-24 flex flex-row items-center justify-center gap-36">
+            <ContactInfo />
+            <ContactForm />
           </div>
-        </div> */}
+          {/* </div> */}
+          <hr className="mt-16 border-t-2 border-neutral-300" />
+        </Container>
       </div>
       <div
         className="
