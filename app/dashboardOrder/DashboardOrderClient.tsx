@@ -29,7 +29,7 @@ const DashboardOrderClient: React.FC<DashboardOrderClientProps> = ({
   useEffect(() => {
     if (getRole && getRole.role !== "Admin") {
       router.push("/");
-      console.log(getRole);
+      // console.log(getRole);
     }
   }, [router, getRole]);
 
