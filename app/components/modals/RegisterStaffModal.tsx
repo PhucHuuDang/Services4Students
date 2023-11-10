@@ -46,6 +46,7 @@ const RegisterStaffModal: React.FC<RegisterStaffModalProps> = ({
     formState: { errors },
     setValue,
     watch,
+    reset,
   } = useForm<FieldValues>({
     defaultValues: {
       listCategoryId: [],
@@ -108,6 +109,8 @@ const RegisterStaffModal: React.FC<RegisterStaffModalProps> = ({
       .then(() => {
         toast.success("Register Successfully!");
         router.refresh();
+        reset();
+        setStep(STEPS.CATEGORY);
         registerStaffModal.onClose();
       })
       .catch(() => {

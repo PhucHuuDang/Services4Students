@@ -95,8 +95,9 @@ const FeedbackModal: React.FC<FeedbackModalProps> = ({
       .then(() => {
         toast.success("Thanks for your feedback, Have a good day!");
         router.refresh();
-        feedbackModal.onClose();
         reset();
+        setStep(STEPS.IMAGE);
+        feedbackModal.onClose();
       })
       .catch(() => {
         toast.error("Please input all field to send your feedback, thank you!");
