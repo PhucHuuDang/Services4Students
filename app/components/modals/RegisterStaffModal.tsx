@@ -96,10 +96,10 @@ const RegisterStaffModal: React.FC<RegisterStaffModalProps> = ({
   };
 
   const onSubmit: SubmitHandler<FieldValues> = (data) => {
-    setIsLoading(true);
     if (step !== STEPS.REGISTER) {
       return onNext();
     }
+    setIsLoading(true);
     // console.log(data);
     // const test = JSON.stringify(data)
     // console.log(test);
@@ -312,7 +312,7 @@ const RegisterStaffModal: React.FC<RegisterStaffModalProps> = ({
 
   return (
     <Modal
-      // disabled={isLoading}
+      disabled={isLoading}
       isOpen={registerStaffModal.isOpen}
       title="Register"
       body={bodyContent}
