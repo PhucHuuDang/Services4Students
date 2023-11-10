@@ -96,7 +96,7 @@ const RegisterStaffModal: React.FC<RegisterStaffModalProps> = ({
   };
 
   const onSubmit: SubmitHandler<FieldValues> = (data) => {
-    // setIsLoading(true);
+    setIsLoading(true);
     if (step !== STEPS.REGISTER) {
       return onNext();
     }
