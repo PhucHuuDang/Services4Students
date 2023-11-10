@@ -290,6 +290,17 @@ const CartClient: React.FC<CartClientProps> = ({
     setStoreBookingData(updatedStoreBookingDataParent);
   };
 
+  const formatDays = (days: string[]) => {
+    return days
+      .map((day, index) => {
+        if (index < days.length - 1) {
+          return day + " ";
+        }
+        return day;
+      })
+      .join(", ");
+  };
+
   const totalPrice = updateStoreBookingData.reduce((total, price) => {
     return total + price.totalPrice;
   }, 0);
@@ -497,7 +508,7 @@ const CartClient: React.FC<CartClientProps> = ({
                 <div className="text-lg font-semibold">{item.packageName}</div>
                 {/* <div className="font-light text-gray-600">{data.dayDoInWeek}</div> */}
                 <div className="font-light text-gray-600">
-                  {item.dayDoInWeek}
+                  {formatDays(item.dayDoInWeek)}
                 </div>
               </div>
             </div>

@@ -5,16 +5,23 @@ interface ListingHeadProps {
   title: string;
   imageSrc?: string;
   id?: string;
+  subtitle?: string;
 }
 
 const ListingHead: React.FC<ListingHeadProps> = ({
   title,
   imageSrc = "",
   id,
+  subtitle,
 }) => {
   return (
     <>
-      <Heading title={title.toUpperCase()} subtitle="The listing test" center />
+      <Heading
+        title={title.toUpperCase()}
+        // subtitle="The listing detail of page"
+        subtitle={subtitle}
+        center
+      />
 
       <div
         className="

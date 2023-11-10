@@ -33,7 +33,7 @@ const ContactInfo = () => {
 
         {/* <Link href="https://www.facebook.com/HP2K2Official/"> */}
         <Link
-          className="flex flex-row items-center gap-2 hover:text-neutral-900 transition-transform transform hover:translate-x-1 duration-200"
+          className="flex flex-row items-center gap-2 hover:text-[#ff6347] transition-transform transform hover:translate-x-1 duration-200"
           href="https://www.messenger.com/t/100040434947735"
         >
           Get in touch <AiOutlineArrowRight size={16} />

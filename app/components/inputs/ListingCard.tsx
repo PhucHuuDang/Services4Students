@@ -40,6 +40,10 @@ const ListingCard: React.FC<ListingCardProps> = ({
 
   // console.log(packageData);
 
+  // console.log(data);
+
+  const MAX_LENGTH = 94;
+
   const handleCancel = useCallback(
     (e: React.MouseEvent<HTMLButtonElement>) => {
       e.stopPropagation();
@@ -52,6 +56,17 @@ const ListingCard: React.FC<ListingCardProps> = ({
     },
     [actionId, disabled, onAction]
   );
+
+  const formatDays = (days: string[]) => {
+    return days
+      .map((day, index) => {
+        if (index < days.length - 1) {
+          return day + " ";
+        }
+        return day;
+      })
+      .join(", ");
+  };
 
   return (
     <div
@@ -103,22 +118,48 @@ const ListingCard: React.FC<ListingCardProps> = ({
         )}
 
         {packageData ? (
-          <div className="font-light text-neutral-500">
-            {packageData.packageDescription}
+          <div className="flex flex-col justify-center">
+            <div className="font-semibold text-neutral-600">
+              Weeks:{" "}
+              <span className="text-[#ff6347]">
+                {packageData.weekNumberBooking}
+              </span>
+            </div>
+
+            <div className="font-semibold text-neutral-600">
+              Day work per week:{" "}
+              <span className="text-[#ff6347]">
+                {packageData.numberOfPerWeekDoPackage}
+              </span>
+            </div>
+
+            <div className="font-semibold text-neutral-600">
+              Days work:{" "}
+              <span className="text-[#ff6347]">
+                {formatDays(packageData.dayDoInWeek)}
+              </span>
+            </div>
           </div>
         ) : (
           <div className="font-light text-neutral-500">
-            {data?.serviceDescription}
+            {data?.serviceDescription &&
+            data.serviceDescription.length > MAX_LENGTH
+              ? data.serviceDescription.slice(0, MAX_LENGTH) + "..."
+              : data?.serviceDescription}
           </div>
         )}
 
         {packageData ? (
           <div className="flex flex-row items-center gap-1">
-            <div className="font-semibold">{packageData.totalPrice} vnd</div>
+            <div className="font-semibold text-[#ff6347]">
+              {packageData.totalPrice} vnd
+            </div>
           </div>
         ) : (
           <div className="flex flex-row items-center gap-1">
-            <div className="font-semibold">{data?.price} vnd</div>
+            <div className="font-semibold text-[#ff6347]">
+              {data?.price} vnd
+            </div>
           </div>
         )}
 

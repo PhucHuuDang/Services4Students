@@ -14,6 +14,7 @@ import { BsCartCheck } from "react-icons/bs";
 import EmptyState from "@/app/components/EmptyState";
 import ClientOnly from "@/app/components/ClientOnly";
 import useStoreBooking from "@/app/hooks/useStoreBooking";
+import Heading from "@/app/components/Heading";
 
 interface ListingsComboClientProps {
   data: getServicesInAPackage;
@@ -27,6 +28,9 @@ const ListingComboClient: React.FC<ListingsComboClientProps> = ({ data }) => {
   const useStoreBookingShow = useStoreBooking();
 
   const numberOfServices = data.listServiceData.length;
+
+  // console.log(numberOfServices);
+  // console.log(data.listServiceData);
 
   // const handleBooking = () => {
   //   // if (dataBooking.includes(data.packageData)) {
@@ -66,80 +70,17 @@ const ListingComboClient: React.FC<ListingsComboClientProps> = ({ data }) => {
         icon: <BsCartCheck size={22} />,
       });
     }
-
-    // if (dataBooking.length === 0) {
-    //   // setDataBooking([data.packageData]);
-    //   return;
-    // }
   };
-
-  // if (!dataBooking || dataBooking === undefined) {
-  //   return;
-  // }
-
-  // console.log(dataBooking);
-
-  // console.log("storeBookingData: ", storeBookingData);
-
-  // console.log(storeBookingData.length === 0);
-
-  // if (storeBookingData.length === 0) {
-  //   return (
-  //     <ClientOnly>
-  //       <EmptyState
-  //         title="Your cart is empty"
-  //         subtitle="Let turn back and add some product you want our serve"
-  //         showReset
-  //         booking
-  //       />
-  //     </ClientOnly>
-  //   );
-  // }
-
-  // if (storeBookingData.length === 0) {
-  //   return (
-  //     <ClientOnly>
-  //       <EmptyState
-  //         title="Your cart is empty"
-  //         subtitle="Let turn back and add some product you want our serve"
-  //         showReset
-  //         booking
-  //       />
-  //     </ClientOnly>
-  //   );
-  // }
 
   return (
     <Container>
       <div className="max-w-screen-lg mx-auto pt-24">
         <div className="flex flex-col gap-6">
-          {/* {useStoreBookingShow.isOpen ? (
-            // <CartListing data={dataBooking} />
-            storeBookingData.map((data: any) => {
-              return storeBookingData.length === 0 ? (
-                <div>
-                  <ClientOnly>
-                    <EmptyState
-                      title="Your cart is empty"
-                      subtitle="Let turn back and add some product you want our serve"
-                      showReset
-                      booking
-                    />
-                  </ClientOnly>
-                </div>
-              ) : (
-                <div>
-                  <CartListing key={data.id} data={data} />
-                </div>
-              );
-              // <CartListing key={data.id} data={data} />
-            })
-          ) : (
-            <> */}
           <ListingHead
             title={data.packageData.packageName}
             // imageSrc={data.packageData.image}
             // imageSrc="/images/glamping.webp"
+            subtitle="The listing detail of page"
             imageSrc={data.packageData.image}
             id={data.packageData.id}
           />
@@ -217,6 +158,28 @@ const ListingComboClient: React.FC<ListingsComboClientProps> = ({ data }) => {
           </div>
           {/* </>
           )} */}
+        </div>
+
+        <hr className="mt-10 border-t-2 border-neutral-300" />
+
+        <div className="flex flex-col gap-6 mt-10">
+          <Heading
+            title="Description of services that composed in the combo(package) "
+            subtitle="The services that you can have when booking the combo(package)"
+            center
+          />
+
+          {data.listServiceData.map((item) => {
+            return (
+              <div key={item.id} className="flex flex-col gap-8 justify-center">
+                <ListingHead title={item.serviceName} imageSrc={item.image} />
+                <div className="text-lg font-light text-center mb-14">
+                  {item.serviceDescription}
+                </div>
+                <hr />
+              </div>
+            );
+          })}
         </div>
       </div>
 

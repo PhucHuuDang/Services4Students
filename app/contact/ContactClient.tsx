@@ -4,6 +4,7 @@ import Container from "../components/Container";
 import Maps from "../components/navbar/Maps";
 import ContactForm from "../components/inputs/ContactForm";
 import ContactInfo from "../components/listings/ContactInfo";
+import Heading from "../components/Heading";
 
 interface ContactClientProps {
   email?: string;
@@ -18,6 +19,14 @@ const ContactClient = ({ user }: any) => {
       <div className="pt-20">
         <Container>
           {/* <div> */}
+          <div className="pt-10 text-center">
+            <div className="flex flex-col gap-1">
+              <div className="font-bold text-[30px]">Contact Us</div>
+              <div className="font-semibold text-md text-neutral-500">
+                Get in touch
+              </div>
+            </div>
+          </div>
           <div className="pt-24 flex flex-row items-center justify-center gap-36">
             <ContactInfo />
             <ContactForm />

@@ -22,9 +22,10 @@ const ListingClient: React.FC<ListingClientProps> = ({
             title={listingServiceById.serviceName}
             imageSrc={listingServiceById.image}
             id={listingServiceById.id}
+            subtitle="Some detail about the service"
           />
 
-          <div
+          {/* <div
             className="
               grid
               grid-cols-1
@@ -32,13 +33,13 @@ const ListingClient: React.FC<ListingClientProps> = ({
               md:gap-10
               mt-6
           "
-          >
-            <ListingInfo
-              createdBy={listingServiceById.createBy}
-              serviceDescription={listingServiceById.serviceDescription}
-              price={listingServiceById.price}
-            />
-          </div>
+          > */}
+          <ListingInfo
+            createdBy={listingServiceById.createBy}
+            serviceDescription={listingServiceById.serviceDescription}
+            price={listingServiceById.price}
+          />
+          {/* </div> */}
         </div>
       </div>
     </Container>
