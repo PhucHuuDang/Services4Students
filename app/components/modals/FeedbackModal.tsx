@@ -111,7 +111,7 @@ const FeedbackModal: React.FC<FeedbackModalProps> = ({
 
   useEffect(() => {
     setValue("feedBackId", feedbackId);
-  }, [feedbackId]);
+  }, [feedbackId, setValue]);
 
   const actionLabel = useMemo(() => {
     if (step === STEPS.DESCRIPTION) {

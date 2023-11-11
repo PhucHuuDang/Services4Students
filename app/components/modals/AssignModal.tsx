@@ -75,8 +75,8 @@ const AssignModal: React.FC<AssignModalProps> = ({
       .then(() => {
         toast.success("Assign success");
         router.refresh();
-        assignModal.onClose();
         reset();
+        assignModal.onClose();
       })
       .catch(() => {
         toast.error("Assign failed, please check all field again");
@@ -88,7 +88,7 @@ const AssignModal: React.FC<AssignModalProps> = ({
 
   useEffect(() => {
     setValue("bookingDetailId", bookingDetailId);
-  }, [bookingDetailId]);
+  }, [bookingDetailId, setValue]);
 
   const bodyContent = (
     <div className="flex flex-col gap-8">
