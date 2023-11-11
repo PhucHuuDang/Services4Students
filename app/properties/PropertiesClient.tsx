@@ -12,6 +12,8 @@ import axios from "axios";
 import { toast } from "react-hot-toast";
 import ClientOnly from "../components/ClientOnly";
 import EmptyState from "../components/EmptyState";
+import useDeleteProperties from "../hooks/useDeleteProperties";
+import DeleteModal from "../components/DeleteModal";
 
 interface PropertiesProps {
   data: any;
@@ -20,29 +22,54 @@ interface PropertiesProps {
 
 const PropertiesClient: React.FC<PropertiesProps> = ({ data, getRole }) => {
   const router = useRouter();
-  const [deleteId, setDeleteId] = useState("");
+  const [deleteIdProperties, setDeleteIdProperties] = useState("");
+  const [deleteServiceName, setDeleteServiceName] = useState("");
+  const [deleteCreatedBy, setDeleteCreatedBy] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
-  const onCancel = useCallback(
-    (id: any) => {
-      setDeleteId(id);
+  const deleteProperties = useDeleteProperties();
 
-      console.log("deleteId: ", id);
-      axios
-        // .delete(`http://3.27.132.94/api/v1/services/services/${id}`)
-        .delete("/api/service/serviceDeleted", { data: { id } })
-        .then(() => {
-          toast.success("Delete service successfully");
-          router.refresh();
-        })
-        .catch(() => {
-          toast.error("Failed to delete service");
-        })
-        .finally(() => {
-          setDeleteId("");
-        });
+  // console.log(data);
+
+  const openModalDeleteProperties = useCallback(
+    (id: string, serviceName: string, created: string) => {
+      setDeleteIdProperties(id);
+      setDeleteServiceName(serviceName);
+      setDeleteCreatedBy(created);
+      deleteProperties.onOpen();
     },
-    [router]
+    [deleteProperties]
   );
+
+  const closeModalDeleteProperties = useCallback(() => {
+    setDeleteIdProperties("");
+    setDeleteServiceName("");
+    setDeleteCreatedBy("");
+
+    deleteProperties.onClose();
+  }, [deleteProperties]);
+
+  const onCancel = useCallback(() => {
+    setIsLoading(true);
+
+    // console.log("deleteId: ", deleteIdProperties);
+    axios
+      // .delete(`http://3.27.132.94/api/v1/services/services/${id}`)
+      .delete("/api/service/serviceDeleted", { data: { deleteIdProperties } })
+      .then(() => {
+        toast.success("Delete service successfully");
+        router.refresh();
+        deleteProperties.onClose();
+      })
+      .catch(() => {
+        toast.error("Failed to delete service");
+      })
+      .finally(() => {
+        setDeleteServiceName("");
+        setDeleteCreatedBy("");
+        setIsLoading(false);
+      });
+  }, [router, deleteIdProperties, deleteProperties]);
 
   useEffect(() => {
     if (getRole && getRole.role !== "Admin") {
@@ -64,7 +91,9 @@ const PropertiesClient: React.FC<PropertiesProps> = ({ data, getRole }) => {
 
   return (
     <Container>
-      <Heading title="Properties" subtitle="List of your properties" center />
+      <div className="pt-10">
+        <Heading title="Properties" subtitle="List of your properties" center />
+      </div>
       <div
         className="
             pt-20
@@ -88,14 +117,29 @@ const PropertiesClient: React.FC<PropertiesProps> = ({ data, getRole }) => {
                 key={item.id}
                 data={item}
                 actionId={item.id}
-                onAction={onCancel}
-                disabled={deleteId === item.id}
+                // onAction={onCancel}
+                serviceName={item.serviceName}
+                createdBy={item.createBy}
+                disabled={deleteIdProperties === item.id}
                 actionLabel="Delete Service"
+                openModalDeleteProperties={openModalDeleteProperties}
               />
             )
           );
         })}
       </div>
+
+      <DeleteModal
+        isOpen={deleteProperties.isOpen}
+        disabled={isLoading}
+        onConfirmDelete={onCancel}
+        onClose={closeModalDeleteProperties}
+        properties
+        deleteName={deleteServiceName}
+        deleteCreatedBy={deleteCreatedBy}
+
+        // onClose={}
+      />
     </Container>
   );
 };

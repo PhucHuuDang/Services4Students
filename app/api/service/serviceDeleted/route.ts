@@ -9,7 +9,7 @@ export async function DELETE(request: Request) {
 
   const body = await request.json();
 
-  const { id } = body;
+  const { deleteIdProperties } = body;
 
   //   console.log(deleteId);
 
@@ -26,7 +26,7 @@ export async function DELETE(request: Request) {
       "http://13.210.56.232/api/v1/services/services",
       {
         data: {
-          serviceId: id,
+          serviceId: deleteIdProperties,
           deleteBy: deleteBy,
         },
       }

@@ -15,9 +15,11 @@ import Button from "../Button";
 import useLoginModal from "@/app/hooks/useLoginModal";
 import axios from "axios";
 import { toast } from "react-hot-toast";
+import { useRouter } from "next/navigation";
 
 const RegisterModal = () => {
   const registerModal = useRegisterModal();
+  const router = useRouter();
   const loginModal = useLoginModal();
   const [isLoading, setIsLoading] = useState(false);
 
@@ -49,6 +51,7 @@ const RegisterModal = () => {
       .then(() => {
         toast.success("Register Successfully!");
         registerModal.onClose();
+        router.refresh();
         loginModal.onOpen();
       })
       .catch(() => {

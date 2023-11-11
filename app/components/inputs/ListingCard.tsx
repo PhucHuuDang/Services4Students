@@ -4,7 +4,7 @@ import Image from "next/image";
 import Button from "../Button";
 import { PackageProps, ServiceProp } from "@/app/types";
 import { useRouter } from "next/navigation";
-import { useCallback } from "react";
+import { memo, useCallback } from "react";
 interface ListingCardProps {
   onAction?: (id: string) => void;
   serviceId?: string;
@@ -14,6 +14,13 @@ interface ListingCardProps {
   data?: ServiceProp | undefined;
   packageData?: PackageProps;
   actionId?: string;
+  openModalDeleteProperties?: (
+    id: string,
+    serviceName: string,
+    createdBy: string
+  ) => void;
+  serviceName?: string;
+  createdBy?: string;
 }
 
 const ListingCard: React.FC<ListingCardProps> = ({
@@ -25,6 +32,9 @@ const ListingCard: React.FC<ListingCardProps> = ({
   actionId = "",
   data,
   packageData,
+  createdBy = "",
+  serviceName = "",
+  openModalDeleteProperties,
 }) => {
   const router = useRouter();
 
@@ -55,6 +65,17 @@ const ListingCard: React.FC<ListingCardProps> = ({
       onAction?.(actionId);
     },
     [actionId, disabled, onAction]
+  );
+
+  const handleOpenDeleteProperties = useCallback(
+    (e: React.MouseEvent<HTMLButtonElement>) => {
+      e.stopPropagation();
+      if (disabled) {
+        return;
+      }
+      openModalDeleteProperties?.(actionId, serviceName, createdBy);
+    },
+    [openModalDeleteProperties, actionId, disabled, serviceName, createdBy]
   );
 
   const formatDays = (days: string[]) => {
@@ -141,7 +162,7 @@ const ListingCard: React.FC<ListingCardProps> = ({
             </div>
           </div>
         ) : (
-          <div className="font-light text-neutral-500">
+          <div className="font-light text-neutral-500 h-[96px]">
             {data?.serviceDescription &&
             data.serviceDescription.length > MAX_LENGTH
               ? data.serviceDescription.slice(0, MAX_LENGTH) + "..."
@@ -171,9 +192,17 @@ const ListingCard: React.FC<ListingCardProps> = ({
             onClick={handleCancel}
           />
         )}
+        {openModalDeleteProperties && actionLabel && (
+          <Button
+            label={actionLabel}
+            disabled={disabled}
+            small
+            onClick={handleOpenDeleteProperties}
+          />
+        )}
       </div>
     </div>
   );
 };
 
-export default ListingCard;
+export default memo(ListingCard);

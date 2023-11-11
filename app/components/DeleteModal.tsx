@@ -12,6 +12,8 @@ interface DeleteModalProps {
   onConfirmDelete: () => void;
   user?: boolean;
   deleteMail?: string;
+  properties?: boolean;
+  deleteCreatedBy?: string;
 }
 
 const DeleteModal: React.FC<DeleteModalProps> = ({
@@ -22,6 +24,8 @@ const DeleteModal: React.FC<DeleteModalProps> = ({
   onConfirmDelete,
   user,
   deleteMail,
+  properties,
+  deleteCreatedBy,
 }) => {
   const [showModal, setShowModal] = useState(isOpen);
 
@@ -145,7 +149,14 @@ const DeleteModal: React.FC<DeleteModalProps> = ({
                 <span className="text-[#ff6347] font-semibold text-xl">
                   {deleteName}{" "}
                 </span>{" "}
-                {user ? (
+                {properties ? (
+                  <span className="font-semibold">
+                    Service that created by{" "}
+                    <span className="text-[#0e2a5dd4] font-bold text-lg">
+                      {deleteCreatedBy}
+                    </span>
+                  </span>
+                ) : user ? (
                   <span className="font-semibold">
                     Student who has email{" "}
                     <span className="text-[#0e2a5dd4] font-bold text-lg">

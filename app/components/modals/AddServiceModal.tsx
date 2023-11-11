@@ -107,6 +107,8 @@ const AddServicesModal: React.FC<AddServiceModalProps> = ({
       return onNext();
     }
 
+    setIsLoading(true);
+
     // logic here
 
     axios
@@ -322,6 +324,7 @@ const AddServicesModal: React.FC<AddServiceModalProps> = ({
 
   return (
     <Modal
+      disabled={isLoading}
       isOpen={addServiceModal.isOpen}
       onClose={addServiceModal.onClose}
       onSubmit={handleSubmit(onSubmit)}

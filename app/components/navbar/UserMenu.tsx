@@ -49,8 +49,6 @@ const UserMenu: React.FC<UserMenuProps> = ({ currentUser, isAdmin }) => {
     addServiceModal.onOpen();
   }, [currentUser, addServiceModal, loginModal]);
 
-  const onEscClose = useCallback(() => {}, []);
-
   console.log(isAdmin);
 
   // console.log(loginModal.onOpen);
@@ -209,6 +207,11 @@ const UserMenu: React.FC<UserMenuProps> = ({ currentUser, isAdmin }) => {
                     <MenuItem
                       label="Manage Properties"
                       onClick={() => router.push("/properties")}
+                    />
+
+                    <MenuItem
+                      label="Assign task for staff"
+                      onClick={() => router.push("/assign")}
                     />
 
                     <MenuItem
