@@ -194,7 +194,7 @@ const ManageUserClient: React.FC<ManageUserClientProps> = ({
               return (
                 <UserInfoListing
                   key={item.applicationUserTableData.id}
-                  id={item.applicationUserTableData.id}
+                  id={item.studentTableData.id}
                   fullName={item.applicationUserTableData.fullName}
                   email={item.applicationUserTableData.email}
                   date={item.studentTableData.created}
