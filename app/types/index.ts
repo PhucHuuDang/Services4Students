@@ -170,6 +170,10 @@ export type AttendanceByDetailId = {
   attendReports: AttendReport[];
 };
 
+export type BookingsProps = {
+  bookingDetailData: DetailsProps;
+};
+
 // {
 //   "id": "437ad544-b85c-427c-a109-19ca76706a56",
 //   "studentName": null,

@@ -5,16 +5,20 @@ import useFeedbackModal from "@/app/hooks/useFeedbackModal";
 import { AttendanceByDetailId, AttendanceReport } from "@/app/types";
 import { useState } from "react";
 import { FcFeedback } from "react-icons/fc";
+import { AiOutlineFileDone } from "react-icons/ai";
 interface DetailAttendanceClientProps {
   attendanceByBookingDetailId: AttendanceByDetailId;
+  reportWork?: boolean;
 }
 
 const DetailAttendanceClient: React.FC<DetailAttendanceClientProps> = ({
   attendanceByBookingDetailId,
+  reportWork,
 }) => {
   const feedbackModal = useFeedbackModal();
 
   const [feedbackId, setFeedbackID] = useState("");
+  const [reportWorkId, setReportWorkId] = useState("");
 
   // console.log(attendanceByBookingDetailId);
   // const test = attendanceByBookingDetailId.bookingDetail.attendReport.map(
@@ -81,7 +85,15 @@ const DetailAttendanceClient: React.FC<DetailAttendanceClientProps> = ({
 
           return (
             <div key={item.id} className=" p-2 rounded-md">
-              {item.attendenceStatus === 0 ? "Not yet" : "Finished"}
+              {item.attendenceStatus === 0 ? (
+                <span className="text-red-500 font-semibold text-md">
+                  Not yet
+                </span>
+              ) : (
+                <span className="text-green-700 font-semibold text-md">
+                  Finished
+                </span>
+              )}
             </div>
           );
         })}
@@ -95,7 +107,7 @@ const DetailAttendanceClient: React.FC<DetailAttendanceClientProps> = ({
 
           // console.log(item);
 
-          return (
+          return !reportWork ? (
             <div
               onClick={() => {
                 feedbackModal.onOpen();
@@ -121,6 +133,33 @@ const DetailAttendanceClient: React.FC<DetailAttendanceClientProps> = ({
               {/* {item.feedbackAvailable} */}
               <FcFeedback size={24} />
               Feedback
+            </div>
+          ) : (
+            <div
+              onClick={() => {
+                feedbackModal.onOpen();
+                setReportWorkId(item.id);
+                // handleGetFeedbackId();
+              }}
+              key={item.id}
+              className="
+                  p-2
+                  rounded-md
+                  flex
+                  flex-row
+                  items-center
+                  gap-2
+                  bg-neutral-100
+                  hover:bg-neutral-200
+                  hover:scale-105
+                  hover:shadow-lg
+                  duration-200
+                  cursor-pointer
+                  "
+            >
+              {/* {item.feedbackAvailable} */}
+              <AiOutlineFileDone size={24} />
+              Report Work
             </div>
           );
         })}

@@ -16,6 +16,7 @@ interface ApartmentDetailProps {
   getInfo: any | null;
   regions: RegionsType[];
   packages: PackageProps[];
+  reportWork?: boolean;
 }
 
 const ApartmentDetail: React.FC<ApartmentDetailProps> = ({
@@ -23,6 +24,7 @@ const ApartmentDetail: React.FC<ApartmentDetailProps> = ({
   getInfo,
   regions,
   packages,
+  reportWork,
 }) => {
   //   console.log(packages);
 
@@ -108,7 +110,9 @@ const ApartmentDetail: React.FC<ApartmentDetailProps> = ({
                   //   onClick={() => console.log(value.id)}
                   onClick={() => {
                     handlePackageClick(packageId.id);
-                    router.push(`/attendance/${value.id}`);
+                    !reportWork
+                      ? router.push(`/attendance/${value.id}`)
+                      : router.push(`reportWork/${value.id}`);
                   }}
                   className={`
                   

@@ -25,6 +25,8 @@ export default async function Layout({
 
   // console.log(getDataBookingByStuId);
 
+  // console.log(getDataBookingByStuId);
+
   if (!getDataBookingByStuId) {
     return (
       <ClientOnly>
