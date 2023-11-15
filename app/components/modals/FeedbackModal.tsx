@@ -136,8 +136,8 @@ const FeedbackModal: React.FC<FeedbackModalProps> = ({
   let bodyContent = (
     <div className="flex flex-col gap-8">
       <Heading
-        title="Add a photo of your service"
-        subtitle="Show customers what your service looks like"
+        title="Add a photo for your feedback"
+        subtitle="You can response for us about the quantity of serve"
         center
       />
 

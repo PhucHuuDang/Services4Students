@@ -72,17 +72,24 @@ const DetailAttendanceClient: React.FC<DetailAttendanceClientProps> = ({
           onClick={reviewFeedbackModal.onOpen}
           className="
                 absolute
-                w-[150px]
+                w-[200px]
                 text-center
                 right-0
                 top-[-100px]
-                p-2
+                p-3
                 px-6
                 rounded-lg
                 cursor-pointer
-                bg-red-400"
+                border-[1px]
+                bg-[#ee6a53]
+                hover:bg-[#f03d1d]
+                hover:scale-105
+                hover:bg-neutral
+
+                duration-200
+                "
         >
-          FeedBack
+          Review Feedback
         </div>
       </div>
       <div
