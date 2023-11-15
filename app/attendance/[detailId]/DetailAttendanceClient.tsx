@@ -63,6 +63,7 @@ const DetailAttendanceClient: React.FC<DetailAttendanceClientProps> = ({
   // };
 
   // console.log("feedbackId: ", feedbackId);
+  // console.log(attendanceByBookingDetailId);
 
   return (
     <>
@@ -163,7 +164,7 @@ const DetailAttendanceClient: React.FC<DetailAttendanceClientProps> = ({
                     //   feedbackModal.onOpen();
                     //   setFeedbackID(item.feedBack.id);
                     // }
-                    if (item.feedBack.feedBackStatus === 0) {
+                    if (item.feedBack.feedBackStatus === 1) {
                       feedbackModal.onOpen();
                       setFeedbackID(item.feedBack.id);
                       // console.log(item.feedBack.id);
@@ -182,7 +183,7 @@ const DetailAttendanceClient: React.FC<DetailAttendanceClientProps> = ({
               duration-200
              
               ${
-                item.feedBack.feedBackStatus !== 0
+                item.feedBack.feedBackStatus !== 1
                   ? "disabled opacity-40 cursor-not-allowed text-neutral-700"
                   : "hover:bg-neutral-200 hover:scale-105 hover:shadow-lg cursor-pointer"
               }
@@ -206,31 +207,20 @@ const DetailAttendanceClient: React.FC<DetailAttendanceClientProps> = ({
                   }}
                   key={item.id}
                   className={`
-              p-2
-              rounded-md
-              flex
-              flex-row
-              items-center
-              gap-2
-              bg-neutral-100
-              hover:bg-neutral-200
-              hover:scale-105
-              hover:shadow-lg
-              duration-200
-              cursor-pointer
+                  p-2
+                  rounded-md
+                  flex
+                  flex-row
+                  items-center
+                  gap-2
+                  bg-neutral-100
+                  duration-200
               ${
                 item.attendenceStatus !== 0
                   ? "disabled opacity-40 cursor-not-allowed text-neutral-700"
-                  : ""
-              }
-
-              ${item.id === disabledReportId ? "disabled" : ""}
-              ${item.id === disabledReportId ? "disabled:opacity-70" : ""}
-              ${
-                item.id === disabledReportId
-                  ? "disabled:cursor-not-allowed"
                   : "hover:bg-neutral-200 hover:scale-105 hover:shadow-lg cursor-pointer"
               }
+              
               
         
               `}

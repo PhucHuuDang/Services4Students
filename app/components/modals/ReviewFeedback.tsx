@@ -182,7 +182,7 @@ const ReviewFeedbackModal: React.FC<ReviewFeedbackModalProps> = ({
                             {item.feedBackName}
                           </span>
                         </div>
-                        <div className="flex flex-row items-center">
+                        <div className="flex justify-center">
                           Rating:{" "}
                           <span className="ml-3 text-[#ff6347] font-bold">
                             <Rate
