@@ -21,8 +21,24 @@ enum STEPS {
   SERVICE_ID = 0,
   IMAGES = 1,
   DESCRIPTION = 2,
-  INFO_CREATED = 3,
+  DAYS = 3,
+  INFO_CREATED = 4,
 }
+
+const options = [
+  { value: "2", label: "Monday" },
+  { value: "3", label: "TuesDay" },
+  { value: "4", label: "Wednesday" },
+  { value: "5", label: "Thursday" },
+  { value: "6", label: "Friday" },
+  { value: "7", label: "Saturday" },
+  { value: "1", label: "Sunday" },
+];
+
+type OptionsProps = {
+  value: string;
+  label: string;
+};
 
 const ComboModal: React.FC<ComboModalProps> = ({ getService }) => {
   const [isLoading, setIsLoading] = useState(false);
@@ -52,8 +68,10 @@ const ComboModal: React.FC<ComboModalProps> = ({ getService }) => {
 
   const listServiceId = watch("listServiceId");
   const imageUrl = watch("imageUrl");
+  const dayDoServiceInWeek = watch("dayDoServiceInWeek");
 
   //   console.log(listServiceId);
+  // console.log(dayDoServiceInWeek);
 
   const setCustomValue = (id: string, value: any) => {
     setValue(id, value, {
@@ -77,6 +95,8 @@ const ComboModal: React.FC<ComboModalProps> = ({ getService }) => {
     if (step !== STEPS.INFO_CREATED) {
       return onNext();
     }
+    setIsLoading(true);
+    // console.log(data);
 
     axios
       .post("/api/combo", data)
@@ -219,6 +239,53 @@ const ComboModal: React.FC<ComboModalProps> = ({ getService }) => {
     );
   }
 
+  if (step === STEPS.DAYS) {
+    bodyContent = (
+      <div className="flex flex-col gap-8">
+        <Heading title="Choose days to work in week" center />
+        <div
+          className="
+               grid
+               grid-cols-1
+               md:grid-cols-2
+               gap-3
+               max-h-[50vh]
+               overflow-auto
+               mt-4
+
+        "
+        >
+          {options.map((item: OptionsProps) => {
+            return (
+              <div key={item.value} className="col-span-1">
+                <CategoryInput
+                  onClick={(dayDoServiceInWeekValue) => {
+                    if (dayDoServiceInWeek.includes(dayDoServiceInWeekValue)) {
+                      const updatedString = dayDoServiceInWeek.replace(
+                        dayDoServiceInWeekValue,
+                        ""
+                      );
+                      setCustomValue("dayDoServiceInWeek", updatedString);
+                    } else {
+                      setCustomValue(
+                        "dayDoServiceInWeek",
+                        dayDoServiceInWeek + dayDoServiceInWeekValue
+                      );
+                    }
+                  }}
+                  id={item.value}
+                  // selected={listServiceId.includes(item.value)}
+                  selected={dayDoServiceInWeek.includes(item.value)}
+                  label={item.label}
+                />
+              </div>
+            );
+          })}
+        </div>
+      </div>
+    );
+  }
+
   if (step === STEPS.INFO_CREATED) {
     bodyContent = (
       <div className="flex flex-col gap-8">
@@ -237,14 +304,14 @@ const ComboModal: React.FC<ComboModalProps> = ({ getService }) => {
           required
         />
 
-        <Input
+        {/* <Input
           id="dayDoServiceInWeek"
           label="Day work in week"
           disabled={isLoading}
           register={register}
           errors={errors}
           required
-        />
+        /> */}
 
         <Input
           id="createBy"

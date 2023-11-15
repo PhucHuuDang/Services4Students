@@ -90,8 +90,8 @@ const DetailAttendanceClient: React.FC<DetailAttendanceClientProps> = ({
       <div className="flex flex-col items-center gap-4">
         <div className="text-lg font-semibold">Attendance Status</div>
         {attendanceByBookingDetailId.attendReports.map((item) => {
+          // console.log(item);
           // const dateDoPackage = item.dateDoPackage.split("T")[0];
-
           return (
             <div key={item.id} className=" p-2 rounded-md">
               {item.attendenceStatus === 0 ? (
