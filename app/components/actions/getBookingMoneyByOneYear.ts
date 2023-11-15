@@ -62,7 +62,8 @@ export default async function getBookingMoneyByOneYear(
 
   try {
     const response = await fetch(
-      `http://13.210.56.232/api/v1/bookings/datetime?StartDate=${startDate}&EndDate=${endDate}`,
+      // `http://13.210.56.232/api/v1/bookings/datetime?StartDate=${startDate}&EndDate=${endDate}`,
+      `http://housevn.azurewebsites.net/api/v1/bookings/datetime?StartDate=${startDate}&EndDate=${endDate}`,
       {
         cache: "no-store",
         signal: controller.signal,

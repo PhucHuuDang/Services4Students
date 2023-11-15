@@ -1,6 +1,7 @@
 export default async function getNumberAccountStudent() {
   const response = await fetch(
-    "http://13.210.56.232/api/v1/students/gettotalstudentregistered",
+    // "http://13.210.56.232/api/v1/students/gettotalstudentregistered",
+    "https://housevn.azurewebsites.net/api/v1/students/gettotalstudentregistered",
     {
       cache: "no-store",
     }
