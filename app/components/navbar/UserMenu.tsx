@@ -261,7 +261,7 @@ const UserMenu: React.FC<UserMenuProps> = ({ currentUser, isAdmin }) => {
                   </>
                 ) : isAdmin === "Staff" ? (
                   <>
-                    <MenuItem label="See feedback" onClick={() => {}} />
+                    <MenuItem label="Review feedback" onClick={() => {}} />
 
                     <MenuItem
                       label="Report work"

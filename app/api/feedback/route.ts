@@ -12,7 +12,7 @@ export async function PUT(request: Request) {
     feedBackRating,
   } = body;
 
-  //   console.log(body);
+  // console.log(body);
 
   try {
     const feedbackApi = await axios.put(

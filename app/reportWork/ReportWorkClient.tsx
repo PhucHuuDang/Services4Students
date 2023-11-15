@@ -46,7 +46,7 @@ const ReportWorkClient: React.FC<ReportWorkClientProps> = ({
       items-center
       md:left-[10%]   
       md:top-[10%]    
-      lg:left-[80%]   
+      lg:left-[73%]   
       lg:top-[20%]    
       2xl:left-[480px]
       

@@ -114,30 +114,45 @@ const DetailAttendanceClient: React.FC<DetailAttendanceClientProps> = ({
         {attendanceByBookingDetailId.bookingDetail.attendReport.map((item) => {
           // const dateDoPackage = item.dateDoPackage.split("T")[0];
 
-          // console.log(item);
+          console.log(item);
+
+          // console.log(item.feedBack.feedBackStatus);
+          // console.log(!item.feedBack.feedBackDescription);
 
           return !reportWork ? (
             <div
               onClick={() => {
-                feedbackModal.onOpen();
-                setFeedbackID(item.feedBack.id);
-                // handleGetFeedbackId();
+                // feedbackModal.onOpen();
+                // setFeedbackID(item.feedBack.id);
+
+                // if (item.feedBack.feedBackStatus === 0) {
+                //   feedbackModal.onOpen();
+                //   setFeedbackID(item.feedBack.id);
+                // }
+                if (item.feedBack.feedBackStatus === 0) {
+                  feedbackModal.onOpen();
+                  setFeedbackID(item.feedBack.id);
+                  // handleGetFeedbackId();
+                }
               }}
               key={item.id}
-              className="
-                  p-2
-                  rounded-md
-                  flex
-                  flex-row
-                  items-center
-                  gap-2
-                  bg-neutral-100
-                  hover:bg-neutral-200
-                  hover:scale-105
-                  hover:shadow-lg
-                  duration-200
-                  cursor-pointer
-                  "
+              className={`
+              p-2
+              rounded-md
+              flex
+              flex-row
+              items-center
+              gap-2
+              bg-neutral-100
+              duration-200
+             
+              ${
+                item.feedBack.feedBackStatus !== 0
+                  ? "disabled opacity-40 cursor-not-allowed text-neutral-700"
+                  : "hover:bg-neutral-200 hover:scale-105 hover:shadow-lg cursor-pointer"
+              }
+        
+              `}
             >
               {/* {item.feedbackAvailable} */}
               <FcFeedback size={24} />

@@ -34,7 +34,7 @@ const FeedbackModal: React.FC<FeedbackModalProps> = ({
   const feedbackModal = useFeedbackModal();
   const router = useRouter();
 
-  const rateValueConvert = rateValue.toString();
+  let rateValueConvert = rateValue.toString();
 
   //   console.log(rateValue);
   //   console.log("rateValueConvert: ", rateValueConvert);
@@ -63,6 +63,10 @@ const FeedbackModal: React.FC<FeedbackModalProps> = ({
       shouldTouch: true,
     });
   };
+
+  useEffect(() => {
+    setValue("feedBackRating", rateValueConvert);
+  }, [rateValueConvert, setValue]);
 
   //   useEffect(() => {}, []);
 

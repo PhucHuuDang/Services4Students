@@ -522,7 +522,12 @@ const CartClient: React.FC<CartClientProps> = ({
             <div className="flex items-center gap-2">
               Times do per week:
               <p className="text-[#ff6347] font-semibold">
-                {item.numberOfPerWeekDoPackage}
+                {/* {item.numberOfPerWeekDoPackage} */}
+                {
+                  storeBookingData.find(
+                    (priceInitial) => priceInitial.id === item.id
+                  )?.numberOfPerWeekDoPackage
+                }
               </p>
             </div>
             {/* <div>times do per week: {data.numberOfPerWeekDoPackage}</div> */}
