@@ -7,6 +7,7 @@ interface MenuItemProps {
   label: string;
   serviceLabel?: string;
   icon?: IconType;
+  services?: boolean;
 }
 
 const MenuItem: React.FC<MenuItemProps> = ({
@@ -14,6 +15,7 @@ const MenuItem: React.FC<MenuItemProps> = ({
   label,
   serviceLabel,
   icon: Icon,
+  services,
 }) => {
   return (
     <div
@@ -24,6 +26,13 @@ const MenuItem: React.FC<MenuItemProps> = ({
           hover:bg-neutral-100
           font-semibold
           transition
+          
+          ${
+            services
+              ? "text-md hover:shadow-lg duration-200  rounded-lg border-[1px]"
+              : ""
+          }
+
           ${
             Icon
               ? "flex flex-row items-center justify-items-center relative gap-3 "

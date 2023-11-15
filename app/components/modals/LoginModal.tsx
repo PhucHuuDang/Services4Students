@@ -52,14 +52,14 @@ const LoginModal = () => {
       .then((callback) => {
         setIsLoading(true);
 
-        console.log(callback);
+        // console.log(callback);
 
         if (callback?.ok) {
-          console.log(callback.status);
+          // console.log(callback.status);
           // console.log(callback.url);
           toast.success("Log in successfully!");
           router.refresh();
-          router.push("/authorize");
+          // router.push("/authorize");
           loginModal.onClose();
         }
 
@@ -74,11 +74,6 @@ const LoginModal = () => {
       .finally(() => {
         setIsLoading(false);
       });
-
-    const getData = JSON.stringify(data.password);
-
-    console.log(getData);
-    console.log(data);
   };
 
   const bodyContent = (

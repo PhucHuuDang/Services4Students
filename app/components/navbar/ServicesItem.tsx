@@ -13,6 +13,8 @@ import { PiFireExtinguisherFill } from "react-icons/pi";
 import { FaCouch } from "react-icons/fa";
 import { MdOutlineDeliveryDining } from "react-icons/md";
 import { useRouter } from "next/navigation";
+import { ServiceProp } from "@/app/types";
+import CategoryInput from "../inputs/CategoryInput";
 
 interface ServicesItemProps {
   onClick: () => void;
@@ -21,6 +23,7 @@ interface ServicesItemProps {
   onClose?: () => void;
   serviceLabel?: string;
   isOpenComboServices?: boolean;
+  services?: ServiceProp[] | undefined;
 }
 
 const ServicesItem: React.FC<ServicesItemProps> = ({
@@ -30,12 +33,15 @@ const ServicesItem: React.FC<ServicesItemProps> = ({
   onClose,
   serviceLabel,
   isOpenComboServices,
+  services,
 }) => {
   const [showMenuServices, setShowMenuServices] = useState(isOpen);
   const [showMenuComboServices, setShowMenuComboServices] =
     useState(isOpenComboServices);
 
   const router = useRouter();
+
+  // console.log(services);
 
   useEffect(() => {
     // isOpen will be change and every time isOpen change is call setShowMenuServices
@@ -97,48 +103,71 @@ const ServicesItem: React.FC<ServicesItemProps> = ({
         `}
       >
         {isOpen && (
-          <>
-            {/* <div className="flex flex-row items-center"> */}
-            {/* <MdCleaningServices size={24} /> */}
-            <MenuItem
-              onClick={() => {}}
-              label="Cleaning the apartment "
-              icon={MdCleaningServices}
-            />
-            {/* </div> */}
+          // <>
 
-            <MenuItem
-              onClick={() => {}}
-              label="Delivery water bottle "
-              icon={FaBottleWater}
-            />
+          //   <MenuItem
+          //     onClick={() => {}}
+          //     label="Cleaning the apartment "
+          //     icon={MdCleaningServices}
+          //   />
+          //   {/* </div> */}
 
-            <MenuItem
-              onClick={() => {}}
-              label="Food booking"
-              icon={IoFastFoodOutline}
-            />
+          //   <MenuItem
+          //     onClick={() => {}}
+          //     label="Delivery water bottle "
+          //     icon={FaBottleWater}
+          //   />
 
-            <MenuItem
-              onClick={() => {}}
-              label="Washing clothes"
-              icon={GiWashingMachine}
-            />
+          //   <MenuItem
+          //     onClick={() => {}}
+          //     label="Food booking"
+          //     icon={IoFastFoodOutline}
+          //   />
 
-            <MenuItem
-              onClick={() => {}}
-              label="Cleaning door curtain"
-              icon={FaMattressPillow}
-            />
+          //   <MenuItem
+          //     onClick={() => {}}
+          //     label="Washing clothes"
+          //     icon={GiWashingMachine}
+          //   />
 
-            <MenuItem
-              onClick={() => {}}
-              label="Washing clothes"
-              icon={GiTheaterCurtains}
-            />
+          //   <MenuItem
+          //     onClick={() => {}}
+          //     label="Cleaning door curtain"
+          //     icon={FaMattressPillow}
+          //   />
 
-            <MenuItem onClick={() => {}} label="Cleaning sofa" icon={LuSofa} />
-          </>
+          //   <MenuItem
+          //     onClick={() => {}}
+          //     label="Washing clothes"
+          //     icon={GiTheaterCurtains}
+          //   />
+
+          //   <MenuItem onClick={() => {}} label="Cleaning sofa" icon={LuSofa} />
+          // </>
+          <div
+            className="
+            grid
+            grid-cols-1
+            md:grid-cols-2
+            gap-3
+            max-h-[50vh]
+            overflow-auto
+            mt-4
+                    
+
+          
+          "
+          >
+            {services?.map((item: ServiceProp) => (
+              <div key={item.id} className="col-span-1">
+                <MenuItem
+                  services
+                  label={item.serviceName}
+                  onClick={() => router.push(`/listings/${item.id}`)}
+                />
+              </div>
+            ))}
+          </div>
         )}
 
         {isOpenComboServices && (

@@ -8,8 +8,13 @@ import { useCallback, useState, memo } from "react";
 import useServicesModal from "@/app/hooks/useServicesModal";
 import MenuItem from "./MenuItem";
 import SearchModal from "../modals/SearchModal";
+import { ServiceProp } from "@/app/types";
 
-const Search = () => {
+interface SearchProps {
+  services?: any;
+}
+
+const Search: React.FC<SearchProps> = ({ services }) => {
   const router = useRouter();
   const [isOpen, setIsOpen] = useState(false);
   const [isOpenComboServices, setIsOpenComboServices] = useState(false);
@@ -43,6 +48,7 @@ const Search = () => {
           onClick={toggleServices}
           isOpen={isOpen}
           label="Services"
+          services={services}
           // serviceLabel="Cleaning the house"
         />
       </div>

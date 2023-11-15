@@ -50,7 +50,11 @@ export default async function RootLayout({
             <RegisterModal />
             <RegisterStaffModal getCatagories={getCategoryId} />
             <ComboModal getService={getService} />
-            <Navbar currentUser={currentUser} getRole={getRole} />
+            <Navbar
+              currentUser={currentUser}
+              getRole={getRole}
+              getService={getService}
+            />
           </ClientOnly>
           <BookingProvider>
             <div className="pb-20 pt=28">{children}</div>

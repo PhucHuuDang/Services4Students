@@ -10,10 +10,12 @@ import Search from "./Search";
 import UserMenu from "./UserMenu";
 import useVerifyToken from "@/app/hooks/useVerifyToken";
 import { useSession } from "next-auth/react";
+import { ServiceProp } from "@/app/types";
 
 interface NavbarProps {
   currentUser?: any | null;
   getRole?: any | null;
+  getService?: any;
 }
 
 interface TokenProps {
@@ -26,7 +28,11 @@ interface TokenProps {
   exp?: number;
 }
 
-const Navbar: React.FC<NavbarProps> = ({ currentUser, getRole }) => {
+const Navbar: React.FC<NavbarProps> = ({
+  currentUser,
+  getRole,
+  getService,
+}) => {
   const router = useRouter();
   const isMainPage = useSearchParams();
   const pathName = usePathname();
@@ -74,7 +80,7 @@ const Navbar: React.FC<NavbarProps> = ({ currentUser, getRole }) => {
         <Container>
           <div className="flex flex-row items-center justify-between gap-3 md:gap-1 md:w-full">
             <Logo />
-            <Search />
+            <Search services={getService} />
             <UserMenu
               // currentUser={currentUser}
               currentUser={getRole}
