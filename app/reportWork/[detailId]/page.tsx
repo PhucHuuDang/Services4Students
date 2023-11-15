@@ -1,6 +1,7 @@
 import DetailAttendanceClient from "@/app/attendance/[detailId]/DetailAttendanceClient";
 import ClientOnly from "@/app/components/ClientOnly";
 import getAttendByDetailId from "@/app/components/actions/get AttendByDetailId";
+import getReviewFeedback from "@/app/components/actions/getReviewFeeback";
 import getRoleUser from "@/app/components/actions/getRoleUser";
 import { JwtPayload } from "jsonwebtoken";
 
@@ -14,6 +15,10 @@ type Params = {
 const ReportWorkDetailPage = async ({ params: { detailId } }: Params) => {
   const getRole = await getRoleUser();
   const detailBookingDetailId = await getAttendByDetailId(detailId);
+
+  const reviewFeedback = await getReviewFeedback(
+    detailBookingDetailId.bookingDetail.id
+  );
 
   // const isJwtPayload = (value: any): value is JwtPayload => {
   //   return typeof value === "object" && "role" in value;
@@ -29,6 +34,7 @@ const ReportWorkDetailPage = async ({ params: { detailId } }: Params) => {
         reportWork
         attendanceByBookingDetailId={detailBookingDetailId}
         getRole={getRole}
+        reviewFeedback={reviewFeedback}
       />
     </ClientOnly>
   );

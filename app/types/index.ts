@@ -174,6 +174,14 @@ export type BookingsProps = {
   bookingDetailData: DetailsProps;
 };
 
+export type ReviewFeedbackProps = {
+  feedBackName: string | null;
+  feedBackDescription: string | null;
+  feedBackImage: string | null;
+  feedBackRating: string | null;
+  feedBackStatus: number;
+};
+
 // {
 //   "id": "437ad544-b85c-427c-a109-19ca76706a56",
 //   "studentName": null,

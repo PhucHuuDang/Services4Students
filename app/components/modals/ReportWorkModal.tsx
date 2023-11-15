@@ -105,7 +105,7 @@ const ReportWorkModal: React.FC<ReportWorkModalProps> = ({
     data.attendReportId = attendReportId;
     data.staffId = staffId;
     setIsLoading(true);
-    console.log(data);
+    // console.log(data);
 
     axios
       .put("/api/reportWork", data)
