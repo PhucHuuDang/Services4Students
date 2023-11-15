@@ -114,7 +114,7 @@ const DetailAttendanceClient: React.FC<DetailAttendanceClientProps> = ({
         {attendanceByBookingDetailId.bookingDetail.attendReport.map((item) => {
           // const dateDoPackage = item.dateDoPackage.split("T")[0];
 
-          console.log(item);
+          // console.log(item);
 
           // console.log(item.feedBack.feedBackStatus);
           // console.log(!item.feedBack.feedBackDescription);
@@ -161,9 +161,13 @@ const DetailAttendanceClient: React.FC<DetailAttendanceClientProps> = ({
           ) : (
             <div
               onClick={() => {
-                reportWorkModal.onOpen();
-                setAttendReportId(item.id);
-                // handleGetFeedbackId();
+                if (item.attendenceStatus === 0) {
+                  reportWorkModal.onOpen();
+                  setAttendReportId(item.id);
+                }
+
+                // reportWorkModal.onOpen();
+                // setAttendReportId(item.id);
               }}
               key={item.id}
               className={`
@@ -179,12 +183,18 @@ const DetailAttendanceClient: React.FC<DetailAttendanceClientProps> = ({
               hover:shadow-lg
               duration-200
               cursor-pointer
+              ${
+                item.attendenceStatus !== 0
+                  ? "disabled opacity-40 cursor-not-allowed text-neutral-700"
+                  : ""
+              }
+
               ${item.id === disabledReportId ? "disabled" : ""}
               ${item.id === disabledReportId ? "disabled:opacity-70" : ""}
               ${
                 item.id === disabledReportId
                   ? "disabled:cursor-not-allowed"
-                  : ""
+                  : "hover:bg-neutral-200 hover:scale-105 hover:shadow-lg cursor-pointer"
               }
               
         
