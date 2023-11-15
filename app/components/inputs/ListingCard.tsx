@@ -5,6 +5,7 @@ import Button from "../Button";
 import { PackageProps, ServiceProp } from "@/app/types";
 import { useRouter } from "next/navigation";
 import { memo, useCallback } from "react";
+
 interface ListingCardProps {
   onAction?: (id: string) => void;
   serviceId?: string;
@@ -178,8 +179,8 @@ const ListingCard: React.FC<ListingCardProps> = ({
           </div>
         ) : (
           <div className="flex flex-row items-center gap-1">
-            <div className="font-semibold text-[#ff6347]">
-              {data?.price} vnd
+            <div className="font-semibold text-[#ff6347] flex items-center">
+              {data?.price} $
             </div>
           </div>
         )}

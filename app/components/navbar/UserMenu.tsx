@@ -7,6 +7,7 @@ import { memo, useCallback, useState } from "react";
 import { AiOutlineShoppingCart } from "react-icons/ai";
 import { useRouter } from "next/navigation";
 import { BsSearch } from "react-icons/bs";
+import { AiOutlineSchedule } from "react-icons/ai";
 
 import Avatar from "../Avatar";
 import MenuItem from "./MenuItem";
@@ -111,6 +112,23 @@ const UserMenu: React.FC<UserMenuProps> = ({ currentUser, isAdmin }) => {
             >
               <AiOutlineShoppingCart size={21} />
               <div>Add more services</div>
+            </div>
+          ) : isAdmin === "Staff" ? (
+            <div
+              // onClick={useStoreBookingShow.onOpen}
+              onClick={() => router.push("/reportWork")}
+              className="
+            flex
+            flex-row
+            items-center
+            gap-3
+            p-1
+            md:p-0
+            lg:p-1
+            "
+            >
+              <AiOutlineSchedule size={21} />
+              <div>Report work</div>
             </div>
           ) : (
             <div
@@ -241,6 +259,17 @@ const UserMenu: React.FC<UserMenuProps> = ({ currentUser, isAdmin }) => {
 
                     <MenuItem label="Log out" onClick={() => signOut()} />
                   </>
+                ) : isAdmin === "Staff" ? (
+                  <>
+                    <MenuItem label="See feedback" onClick={() => {}} />
+
+                    <MenuItem
+                      label="Report work"
+                      onClick={() => router.push("/reportWork")}
+                    />
+
+                    <MenuItem label="Log out" onClick={() => signOut()} />
+                  </>
                 ) : (
                   <>
                     <MenuItem
@@ -252,8 +281,6 @@ const UserMenu: React.FC<UserMenuProps> = ({ currentUser, isAdmin }) => {
                       label="Attendance work"
                       onClick={() => router.push("/attendance")}
                     />
-
-                    <MenuItem label="My reservations" onClick={() => {}} />
 
                     <MenuItem label="Log out" onClick={() => signOut()} />
                   </>

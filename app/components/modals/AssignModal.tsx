@@ -16,6 +16,7 @@ type StaffType = {
     staffName: string;
     birthday: string;
     address: string;
+    isDelete: boolean;
   };
 };
 
@@ -37,6 +38,7 @@ const AssignModal: React.FC<AssignModalProps> = ({
   // console.log("bookingDetailId: ", bookingDetailId);
 
   // console.log("bookingDetailIdProp: ", bookingDetailIdProp);
+  // console.log(dataStaffs);
 
   const {
     register,
@@ -111,17 +113,20 @@ const AssignModal: React.FC<AssignModalProps> = ({
       "
       >
         {dataStaffs.map((item: StaffType) => {
+          // console.log(item);
           return (
-            <div key={item.staffData.id} className="col-span-1">
-              <CategoryInput
-                onClick={(staffId) => setCustomValue("staffId", staffId)}
-                // icon={GiWashingMachine}
-                // icon={GiWashingMachine || item.image}
-                id={item.staffData.id}
-                selected={staffId === item.staffData.id}
-                label={item.staffData.staffName}
-              />
-            </div>
+            !item.staffData.isDelete && (
+              <div key={item.staffData.id} className="col-span-1">
+                <CategoryInput
+                  onClick={(staffId) => setCustomValue("staffId", staffId)}
+                  // icon={GiWashingMachine}
+                  // icon={GiWashingMachine || item.image}
+                  id={item.staffData.id}
+                  selected={staffId === item.staffData.id}
+                  label={item.staffData.staffName}
+                />
+              </div>
+            )
           );
         })}
       </div>

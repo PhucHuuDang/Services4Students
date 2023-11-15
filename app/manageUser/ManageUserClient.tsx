@@ -192,16 +192,18 @@ const ManageUserClient: React.FC<ManageUserClientProps> = ({
             })
             .map((item: any) => {
               return (
-                <UserInfoListing
-                  key={item.applicationUserTableData.id}
-                  id={item.studentTableData.id}
-                  fullName={item.applicationUserTableData.fullName}
-                  email={item.applicationUserTableData.email}
-                  date={item.studentTableData.created}
-                  openDeleteUserModal={openDeleteUserModal}
-                  setDeleteName={setDeleteName}
-                  setDeleteMail={setDeleteMail}
-                />
+                !item.studentTableData.isDelete && (
+                  <UserInfoListing
+                    key={item.applicationUserTableData.id}
+                    id={item.studentTableData.id}
+                    fullName={item.applicationUserTableData.fullName}
+                    email={item.applicationUserTableData.email}
+                    date={item.studentTableData.created}
+                    openDeleteUserModal={openDeleteUserModal}
+                    setDeleteName={setDeleteName}
+                    setDeleteMail={setDeleteMail}
+                  />
+                )
               );
             })}
 

@@ -6,19 +6,26 @@ import { AttendanceByDetailId, AttendanceReport } from "@/app/types";
 import { useState } from "react";
 import { FcFeedback } from "react-icons/fc";
 import { AiOutlineFileDone } from "react-icons/ai";
+import ReportWorkModal from "@/app/components/modals/ReportWorkModal";
+import useReportWorkModal from "@/app/hooks/useReportWorkModal";
 interface DetailAttendanceClientProps {
   attendanceByBookingDetailId: AttendanceByDetailId;
   reportWork?: boolean;
+  getRole?: any;
 }
 
 const DetailAttendanceClient: React.FC<DetailAttendanceClientProps> = ({
   attendanceByBookingDetailId,
   reportWork,
+  getRole,
 }) => {
   const feedbackModal = useFeedbackModal();
+  const reportWorkModal = useReportWorkModal();
 
   const [feedbackId, setFeedbackID] = useState("");
-  const [reportWorkId, setReportWorkId] = useState("");
+  const [attendReportId, setAttendReportId] = useState("");
+
+  const [disabledReportId, setDisabledReportId] = useState("");
 
   // console.log(attendanceByBookingDetailId);
   // const test = attendanceByBookingDetailId.bookingDetail.attendReport.map(
@@ -40,6 +47,8 @@ const DetailAttendanceClient: React.FC<DetailAttendanceClientProps> = ({
   // };
 
   // console.log("feedbackId: ", feedbackId);
+
+  // console.log(attendanceByBookingDetailId);
 
   return (
     <div
@@ -137,25 +146,34 @@ const DetailAttendanceClient: React.FC<DetailAttendanceClientProps> = ({
           ) : (
             <div
               onClick={() => {
-                feedbackModal.onOpen();
-                setReportWorkId(item.id);
+                reportWorkModal.onOpen();
+                setAttendReportId(item.id);
                 // handleGetFeedbackId();
               }}
               key={item.id}
-              className="
-                  p-2
-                  rounded-md
-                  flex
-                  flex-row
-                  items-center
-                  gap-2
-                  bg-neutral-100
-                  hover:bg-neutral-200
-                  hover:scale-105
-                  hover:shadow-lg
-                  duration-200
-                  cursor-pointer
-                  "
+              className={`
+              p-2
+              rounded-md
+              flex
+              flex-row
+              items-center
+              gap-2
+              bg-neutral-100
+              hover:bg-neutral-200
+              hover:scale-105
+              hover:shadow-lg
+              duration-200
+              cursor-pointer
+              ${item.id === disabledReportId ? "disabled" : ""}
+              ${item.id === disabledReportId ? "disabled:opacity-70" : ""}
+              ${
+                item.id === disabledReportId
+                  ? "disabled:cursor-not-allowed"
+                  : ""
+              }
+              
+        
+              `}
             >
               {/* {item.feedbackAvailable} */}
               <AiOutlineFileDone size={24} />
@@ -166,6 +184,10 @@ const DetailAttendanceClient: React.FC<DetailAttendanceClientProps> = ({
       </div>
 
       <FeedbackModal feedbackId={feedbackId} setFeedbackID={setFeedbackID} />
+      <ReportWorkModal
+        attendReportId={attendReportId}
+        setDisabledReportId={setDisabledReportId}
+      />
     </div>
   );
 };

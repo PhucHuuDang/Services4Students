@@ -2,6 +2,7 @@ import ClientOnly from "../components/ClientOnly";
 import getBookingByStuId from "../components/actions/getBookingByStuId";
 import getRegions from "../components/actions/getRegions";
 import getRoleUser from "../components/actions/getRoleUser";
+import ReportWorkClient from "../reportWork/ReportWorkClient";
 import AttendanceClient from "./AttendanceClient";
 
 const AttendancePage = async () => {
@@ -24,12 +25,14 @@ const AttendancePage = async () => {
   return (
     <div className="">
       <ClientOnly>
-        {/* <AttendanceClient
+        <AttendanceClient
           getInfo={getInfo}
           getDataBookingByStuId={getDataBookingByStuId}
           regions={regions}
-        /> */}
-        <div>Page Attendance</div>
+        />
+        {/* <ReportWorkClient attendance /> */}
+
+        {/* <Ate */}
       </ClientOnly>
     </div>
   );

@@ -43,7 +43,7 @@ export default async function Layout({
       }
     }
 
-    console.log(arrayData);
+    // console.log(arrayData);
   } catch (error) {
     console.error("Error fetching data:", error);
   }
@@ -62,7 +62,7 @@ export default async function Layout({
 
       <div className="pl-10 pt-20">
         <div className="text-2xl font-semibold text-neutral-700 sm:w-[25%] md:w-[20%] lg:w-[27%] xl:w-[20%]">
-          Package serve for your apartment
+          The apartment you was assign to work
         </div>
       </div>
       <div className="flex flex-row gap-10 sm:gap-[3rem] md:gap-[2rem] xl:gap-24 2xl:gap-[8rem]">

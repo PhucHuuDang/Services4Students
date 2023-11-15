@@ -4,6 +4,7 @@ import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 import getBookingByStuId from "../components/actions/getBookingByStuId";
 import { BookingByStuIdProps } from "../types";
+import { GrSchedules } from "react-icons/gr";
 
 type RegionsType = {
   id: string;
@@ -21,30 +22,29 @@ const AttendanceClient: React.FC<AttendanceClientProps> = ({
   getDataBookingByStuId,
   regions,
 }) => {
-  const [dataBookingById, setDataBookingById] = useState([]);
-  // console.log(getInfo.userIdInTableDb);
-
-  // const stuId = getInfo.userIdInTableDb;
-
-  // const { data: session } = useSession();
-  console.log(getDataBookingByStuId);
-
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     const callApi = await getBookingByStuId(stuId);
-
-  //     setDataBookingById(callApi);
-  //   };
-
-  //   fetchData();
-  // }, [stuId]);
-
-  // console.log(dataBookingById);
-
-  //   console.log(session);
-  // console.log(getInfo);
-
-  return <div>AttendanceClient Page</div>;
+  return (
+    <div
+      className="
+      relative
+      flex
+      justify-center
+      items-center
+      md:left-[10%]   
+      md:top-[10%]    
+      lg:left-[80%]   
+      lg:top-[20%]    
+      2xl:left-[480px]
+      
+          "
+    >
+      <div className="flex flex-col items-center gap-1 animate-bounce duration-700">
+        <GrSchedules size={50} />
+        <span className="text-md font-semibold">
+          Choose your apartment to track schedule work
+        </span>
+      </div>
+    </div>
+  );
 };
 
 export default AttendanceClient;

@@ -112,7 +112,7 @@ const ApartmentDetail: React.FC<ApartmentDetailProps> = ({
                     handlePackageClick(packageId.id);
                     !reportWork
                       ? router.push(`/attendance/${value.id}`)
-                      : router.push(`reportWork/${value.id}`);
+                      : router.push(`/reportWork/${value.id}`);
                   }}
                   className={`
                   

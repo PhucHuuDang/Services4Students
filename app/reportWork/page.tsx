@@ -1,9 +1,15 @@
 import ClientOnly from "../components/ClientOnly";
+import getRoleUser from "../components/actions/getRoleUser";
+import ReportWorkClient from "./ReportWorkClient";
 
-const ReportWorkPage = () => {
+const ReportWorkPage = async () => {
+  const getRole = await getRoleUser();
+
   return (
     <ClientOnly>
-      <div>ReportWorkPage</div>
+      <div>
+        <ReportWorkClient getRole={getRole} />
+      </div>
     </ClientOnly>
   );
 };
