@@ -88,7 +88,6 @@ const ServicesItem: React.FC<ServicesItemProps> = ({
             text-sm
             translate
             duration-300
-            cursor-pointer
             ${
               showMenuServices || showMenuComboServices
                 ? "translate-y-0"
@@ -103,70 +102,33 @@ const ServicesItem: React.FC<ServicesItemProps> = ({
         `}
       >
         {isOpen && (
-          // <>
-
-          //   <MenuItem
-          //     onClick={() => {}}
-          //     label="Cleaning the apartment "
-          //     icon={MdCleaningServices}
-          //   />
-          //   {/* </div> */}
-
-          //   <MenuItem
-          //     onClick={() => {}}
-          //     label="Delivery water bottle "
-          //     icon={FaBottleWater}
-          //   />
-
-          //   <MenuItem
-          //     onClick={() => {}}
-          //     label="Food booking"
-          //     icon={IoFastFoodOutline}
-          //   />
-
-          //   <MenuItem
-          //     onClick={() => {}}
-          //     label="Washing clothes"
-          //     icon={GiWashingMachine}
-          //   />
-
-          //   <MenuItem
-          //     onClick={() => {}}
-          //     label="Cleaning door curtain"
-          //     icon={FaMattressPillow}
-          //   />
-
-          //   <MenuItem
-          //     onClick={() => {}}
-          //     label="Washing clothes"
-          //     icon={GiTheaterCurtains}
-          //   />
-
-          //   <MenuItem onClick={() => {}} label="Cleaning sofa" icon={LuSofa} />
-          // </>
           <div
             className="
             grid
             grid-cols-1
             md:grid-cols-2
-            gap-3
             max-h-[50vh]
             overflow-auto
             mt-4
+            hover:cursor-pointer
                     
 
           
           "
           >
-            {services?.map((item: ServiceProp) => (
-              <div key={item.id} className="col-span-1">
-                <MenuItem
-                  services
-                  label={item.serviceName}
-                  onClick={() => router.push(`/listings/${item.id}`)}
-                />
-              </div>
-            ))}
+            {services?.map((item: ServiceProp) => {
+              return (
+                !item.isDelete && (
+                  <div key={item.id} className="col-span-1 py-2 px-3">
+                    <MenuItem
+                      services
+                      label={item.serviceName}
+                      onClick={() => router.push(`/listings/${item.id}`)}
+                    />
+                  </div>
+                )
+              );
+            })}
           </div>
         )}
 

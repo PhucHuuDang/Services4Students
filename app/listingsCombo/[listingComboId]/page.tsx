@@ -13,6 +13,9 @@ type Params = {
 const ListingsComboPage = async ({ params: { listingComboId } }: Params) => {
   const getServicesInAPackage = await getServicesInPackageId(listingComboId);
 
+  // console.log("getServicesInAPackage: ", getServicesInAPackage);
+  // console.log("listingComboId: ", listingComboId);
+
   if (getServicesInAPackage.length === 0) {
     return (
       <EmptyState

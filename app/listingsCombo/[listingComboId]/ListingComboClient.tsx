@@ -118,11 +118,13 @@ const ListingComboClient: React.FC<ListingsComboClientProps> = ({ data }) => {
             >
               {data.listServiceData.map((item) => {
                 return (
-                  <ListingServiceName
-                    key={item.id}
-                    serviceName={item.serviceName}
-                    serviceId={item.id}
-                  />
+                  !item.isDelete && (
+                    <ListingServiceName
+                      key={item.id}
+                      serviceName={item.serviceName}
+                      serviceId={item.id}
+                    />
+                  )
                 );
               })}
             </div>
@@ -171,19 +173,22 @@ const ListingComboClient: React.FC<ListingsComboClientProps> = ({ data }) => {
 
           {data.listServiceData.map((item) => {
             return (
-              <div key={item.id} className="flex flex-col gap-8 justify-center">
-                <ListingHead title={item.serviceName} imageSrc={item.image} />
-                <div className="text-lg font-light text-center mb-14">
-                  {item.serviceDescription}
+              !item.isDelete && (
+                <div
+                  key={item.id}
+                  className="flex flex-col gap-8 justify-center"
+                >
+                  <ListingHead title={item.serviceName} imageSrc={item.image} />
+                  <div className="text-lg font-light text-center mb-14">
+                    {item.serviceDescription}
+                  </div>
+                  <hr />
                 </div>
-                <hr />
-              </div>
+              )
             );
           })}
         </div>
       </div>
-
-      {/* <button onClick={useStoreBookingShow.onClose}>Click</button> */}
     </Container>
   );
 };

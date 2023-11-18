@@ -15,6 +15,7 @@ interface ListingCardProps {
   data?: ServiceProp | undefined;
   packageData?: PackageProps;
   actionId?: string;
+  combo?: boolean;
   openModalDeleteProperties?: (
     id: string,
     serviceName: string,
@@ -30,6 +31,7 @@ const ListingCard: React.FC<ListingCardProps> = ({
   disabled,
   serviceId,
   categoryId,
+  combo,
   actionId = "",
   data,
   packageData,
@@ -112,12 +114,7 @@ const ListingCard: React.FC<ListingCardProps> = ({
           <Image
             fill
             alt="Listing"
-            // src={data.image || "/images/glamping.webp"}
-            // src={"/images/glamping.webp"}
             src={packageData ? packageData.image : (data?.image as any)}
-            // src={
-            //   "https://res.cloudinary.com/dqqqgyqjl/image/upload/v1697074879/ptgwqf7gyglk9goenock.webp"
-            // }
             className="
               object-cover
               h-full
@@ -132,7 +129,7 @@ const ListingCard: React.FC<ListingCardProps> = ({
         {/* name of services */}
 
         {packageData ? (
-          <div className="font-semibold text-lg">
+          <div className="font-semibold text-lg min-h-[56px]">
             {packageData?.packageName}
           </div>
         ) : (
@@ -140,7 +137,7 @@ const ListingCard: React.FC<ListingCardProps> = ({
         )}
 
         {packageData ? (
-          <div className="flex flex-col justify-center">
+          <div className="flex flex-col min-h-[100px]">
             <div className="font-semibold text-neutral-600">
               Weeks:{" "}
               <span className="text-[#ff6347]">
@@ -155,7 +152,7 @@ const ListingCard: React.FC<ListingCardProps> = ({
               </span>
             </div>
 
-            <div className="font-semibold text-neutral-600">
+            <div className="font-semibold text-neutral-600 min-h-[40px]">
               Days work:{" "}
               <span className="text-[#ff6347]">
                 {formatDays(packageData.dayDoInWeek)}

@@ -14,6 +14,7 @@ interface DeleteModalProps {
   deleteMail?: string;
   properties?: boolean;
   deleteCreatedBy?: string;
+  combo?: boolean;
 }
 
 const DeleteModal: React.FC<DeleteModalProps> = ({
@@ -26,35 +27,13 @@ const DeleteModal: React.FC<DeleteModalProps> = ({
   deleteMail,
   properties,
   deleteCreatedBy,
+  combo,
 }) => {
   const [showModal, setShowModal] = useState(isOpen);
 
   useEffect(() => {
     setShowModal(isOpen);
   }, [isOpen]);
-
-  // const handleClose = useCallback(() => {
-  //   if (disabled) {
-  //     return;
-  //   }
-
-  //   setShowModal(false);
-
-  //   setTimeout(() => {
-  //     onClose();
-  //   }, 300);
-  // }, [disabled, onClose]);
-
-  // const handleAgree = useCallback(() => {
-  //   setDeleteStaff(true);
-  //   handleClose();
-  // }, [handleClose, setDeleteStaff]);
-
-  const handleClose = useCallback(() => {
-    setTimeout(() => {
-      onClose();
-    }, 300);
-  }, [onClose]);
 
   if (!isOpen) {
     return null;
@@ -151,7 +130,7 @@ const DeleteModal: React.FC<DeleteModalProps> = ({
                 </span>{" "}
                 {properties ? (
                   <span className="font-semibold">
-                    Service that created by{" "}
+                    {combo ? "Combo" : "Service"} that created by{" "}
                     <span className="text-[#0e2a5dd4] font-bold text-lg">
                       {deleteCreatedBy}
                     </span>

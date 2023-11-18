@@ -269,7 +269,8 @@ const ComboModal: React.FC<ComboModalProps> = ({ getService }) => {
                     } else {
                       setCustomValue(
                         "dayDoServiceInWeek",
-                        dayDoServiceInWeek + dayDoServiceInWeekValue
+                        // dayDoServiceInWeek + dayDoServiceInWeekValue
+                        dayDoServiceInWeek.concat(dayDoServiceInWeekValue)
                       );
                     }
                   }}
@@ -304,15 +305,6 @@ const ComboModal: React.FC<ComboModalProps> = ({ getService }) => {
           required
         />
 
-        {/* <Input
-          id="dayDoServiceInWeek"
-          label="Day work in week"
-          disabled={isLoading}
-          register={register}
-          errors={errors}
-          required
-        /> */}
-
         <Input
           id="createBy"
           label="Created BY"
@@ -327,6 +319,7 @@ const ComboModal: React.FC<ComboModalProps> = ({ getService }) => {
 
   return (
     <Modal
+      disabled={isLoading}
       isOpen={comboModal.isOpen}
       onClose={comboModal.onClose}
       onSubmit={handleSubmit(onSubmit)}
