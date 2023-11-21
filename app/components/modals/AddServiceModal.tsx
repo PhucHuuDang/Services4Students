@@ -202,19 +202,21 @@ const AddServicesModal: React.FC<AddServiceModalProps> = ({
       >
         {getCategoryId.map((item: GetCategory) => {
           return (
-            <div key={item.id} className="col-span-1">
-              <CategoryInput
-                onClick={(categoryId) =>
-                  setCustomValue("categoryId", categoryId)
-                }
-                // icon={GiWashingMachine}
-                icon={GiWashingMachine || item.image}
-                // onClick={(value) => console.log(value)}
-                id={item.id}
-                selected={categoryId === item.id}
-                label={item.categoryName}
-              />
-            </div>
+            !item.isDelete && (
+              <div key={item.id} className="col-span-1">
+                <CategoryInput
+                  onClick={(categoryId) =>
+                    setCustomValue("categoryId", categoryId)
+                  }
+                  // icon={GiWashingMachine}
+                  icon={GiWashingMachine || item.image}
+                  // onClick={(value) => console.log(value)}
+                  id={item.id}
+                  selected={categoryId === item.id}
+                  label={item.categoryName}
+                />
+              </div>
+            )
           );
         })}
       </div>

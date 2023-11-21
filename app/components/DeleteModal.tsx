@@ -15,6 +15,7 @@ interface DeleteModalProps {
   properties?: boolean;
   deleteCreatedBy?: string;
   combo?: boolean;
+  category?: boolean;
 }
 
 const DeleteModal: React.FC<DeleteModalProps> = ({
@@ -28,6 +29,7 @@ const DeleteModal: React.FC<DeleteModalProps> = ({
   properties,
   deleteCreatedBy,
   combo,
+  category,
 }) => {
   const [showModal, setShowModal] = useState(isOpen);
 
@@ -142,6 +144,8 @@ const DeleteModal: React.FC<DeleteModalProps> = ({
                       {deleteMail}
                     </span>
                   </span>
+                ) : category ? (
+                  <span className="font-semibold">CateGory </span>
                 ) : (
                   // "Staff"
                   <span className="font-semibold">

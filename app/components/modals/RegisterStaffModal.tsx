@@ -158,30 +158,32 @@ const RegisterStaffModal: React.FC<RegisterStaffModalProps> = ({
     >
       {getCatagories.map((item) => {
         return (
-          <div key={item.id} className="col-span-1">
-            <CategoryInput
-              onClick={(listCategoryIdValue) => {
-                if (listCategoryId.includes(listCategoryIdValue)) {
-                  const removeId = listCategoryId.filter(
-                    (id: string) => listCategoryIdValue !== id
-                  );
+          !item.isDelete && (
+            <div key={item.id} className="col-span-1">
+              <CategoryInput
+                onClick={(listCategoryIdValue) => {
+                  if (listCategoryId.includes(listCategoryIdValue)) {
+                    const removeId = listCategoryId.filter(
+                      (id: string) => listCategoryIdValue !== id
+                    );
 
-                  setCustomValue("listCategoryId", [...removeId]);
-                } else {
-                  setCustomValue("listCategoryId", [
-                    listCategoryIdValue,
-                    ...listCategoryId,
-                  ]);
-                }
-              }}
-              // onClick={() => setCustomValue(item.id)}
-              icon={GiWashingMachine || item.image}
-              id={item.id}
-              // selected={listCategoryId}
-              selected={listCategoryId.includes(item.id)}
-              label={item.categoryName}
-            />
-          </div>
+                    setCustomValue("listCategoryId", [...removeId]);
+                  } else {
+                    setCustomValue("listCategoryId", [
+                      listCategoryIdValue,
+                      ...listCategoryId,
+                    ]);
+                  }
+                }}
+                // onClick={() => setCustomValue(item.id)}
+                icon={GiWashingMachine || item.image}
+                id={item.id}
+                // selected={listCategoryId}
+                selected={listCategoryId.includes(item.id)}
+                label={item.categoryName}
+              />
+            </div>
+          )
         );
       })}
     </div>

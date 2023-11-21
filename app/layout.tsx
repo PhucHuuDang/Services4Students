@@ -17,6 +17,7 @@ import ComboModal from "./components/modals/ComboModal";
 import Provider from "../providers/Provider";
 import getRoleUser from "./components/actions/getRoleUser";
 import { BookingProvider } from "@/providers/BookingProvider";
+import CategoriesModal from "./components/modals/CategoriesModal";
 
 export const metadata = {
   title: "Services for students",
@@ -50,6 +51,8 @@ export default async function RootLayout({
             <RegisterModal />
             <RegisterStaffModal getCatagories={getCategoryId} />
             <ComboModal getService={getService} />
+            <CategoriesModal categories={getCategoryId} />
+
             <Navbar
               currentUser={currentUser}
               getRole={getRole}

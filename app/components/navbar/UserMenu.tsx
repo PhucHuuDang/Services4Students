@@ -20,6 +20,7 @@ import useRegisterStaffModal from "@/app/hooks/useRegisterStaffModal";
 import useAddServiceModal from "@/app/hooks/useAddServiceModal";
 import useComboModal from "@/app/hooks/useComboModal";
 import useStoreBooking from "@/app/hooks/useStoreBooking";
+import useManageCategoriesModal from "@/app/hooks/useManageCategoriesModal";
 
 interface UserMenuProps {
   currentUser?: any | null;
@@ -36,6 +37,8 @@ const UserMenu: React.FC<UserMenuProps> = ({ currentUser, isAdmin }) => {
   const addServiceModal = useAddServiceModal();
   const searchModal = useSearchModal();
   const comboModal = useComboModal();
+  const manageCategories = useManageCategoriesModal();
+
   const useStoreBookingShow = useStoreBooking();
 
   const toggleOpen = useCallback(() => {
@@ -230,6 +233,11 @@ const UserMenu: React.FC<UserMenuProps> = ({ currentUser, isAdmin }) => {
                     <MenuItem
                       label="Manage Properties"
                       onClick={() => router.push("/properties")}
+                    />
+
+                    <MenuItem
+                      label="Manage Categories"
+                      onClick={manageCategories.onOpen}
                     />
 
                     <MenuItem
