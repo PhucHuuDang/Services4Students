@@ -9,36 +9,39 @@ import { BsFillHouseAddFill } from "react-icons/bs";
 import Image from "next/image";
 import { PackageProps, PaymentMethodProps, ServiceProp } from "@/app/types";
 import { useCallback, useEffect, useMemo, useState } from "react";
-import ClientOnly from "../components/ClientOnly";
-import EmptyState from "../components/EmptyState";
 import { useBooking } from "@/providers/BookingProvider";
-import Heading from "../components/Heading";
-import Logo from "../components/navbar/Logo";
-import useApartmentModal from "../hooks/useApartmentModal";
-import Button from "../components/Button";
-import PaymentSelect from "../components/inputs/PaymentSelect";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
-import DoServiceApartmentSelect from "../components/inputs/DoServiceApartmentSelect";
 import { toast } from "react-hot-toast";
 import axios from "axios";
+import useApartmentModal from "@/app/hooks/useApartmentModal";
+import ClientOnly from "@/app/components/ClientOnly";
+import EmptyState from "@/app/components/EmptyState";
+import Logo from "@/app/components/navbar/Logo";
+import Heading from "@/app/components/Heading";
+import DoServiceApartmentSelect from "@/app/components/inputs/DoServiceApartmentSelect";
+import PaymentSelect from "@/app/components/inputs/PaymentSelect";
 
-interface CartClientProps {
+interface ServicesCartProps {
   data?: PackageProps | undefined;
   getApartmentByStudentId: any | null;
   getStudentId: any | null;
-  paymentMethods: PaymentMethodProps[];
+  paymentMethods?: PaymentMethodProps[];
 }
 
-const CartClient: React.FC<CartClientProps> = ({
+const ServicesCart: React.FC<ServicesCartProps> = ({
   data,
   getApartmentByStudentId,
   getStudentId,
   paymentMethods,
 }) => {
-  const { storeBookingData, setStoreBookingData } = useBooking();
+  const { servicesBooked, setServicesBooked } = useBooking();
+
   const [updateStoreBookingData, setUpdateStoreBookingData] = useState<
-    PackageProps[]
+    ServiceProp[]
   >([]);
+
+  // const [serviceBooked, setServicesBooked] = useState<ServiceProp[]>([]);
+
   const [disabled, setDisabled] = useState(false);
   const useApartment = useApartmentModal();
 
@@ -48,33 +51,13 @@ const CartClient: React.FC<CartClientProps> = ({
 
   const options = { timeZone: vietnamTimeZone };
 
-  //   const formattedDate = currentDate.toLocaleDateString("en-US", options);
-  //   const formattedTime = currentDate.toLocaleTimeString("en-US", options);
-
   const year = currentDate.getFullYear();
   const month = String(currentDate.getMonth() + 1).padStart(2, "0"); // Months are 0-based, so we add 1 and pad with 0 if needed.
   const day = String(currentDate.getDate()).padStart(2, "0"); // Pad with 0 if needed.
 
   const formattedDate = `${year}-${month}-${day}`;
 
-  //   const dateTimeString = `${formattedDate}`;
   const dateTimeString = formattedDate;
-  //   const dateTimeString = `${formattedDate} ${formattedTime}`;
-
-  //   console.log(storeBookingData);
-
-  //   console.log("getApartmentByStudentId: ", getApartmentByStudentId);
-
-  //   if (typeof window !== "undefined") {
-  //     if (!getStudentId) {
-  //       console.log("Removing 'cart' from localStorage.");
-  //       window.localStorage.removeItem("cart");
-  //     }
-  //   }
-
-  //   console.log(getApartmentByStudentId);
-
-  // console.log(getStudentId);
 
   const {
     register,
@@ -132,40 +115,38 @@ const CartClient: React.FC<CartClientProps> = ({
 
   const listPackage = watch("listPackage");
 
-  //   console.log(listPackage);
-
-  //   console.log("apartmentId: ", apartmentId);
-
-  //   console.log("paymentMethodId: ", paymentMethodId);
-
   useEffect(() => {
     if (typeof window !== "undefined") {
       if (!getStudentId) {
-        window.localStorage.removeItem("cart");
-        window.localStorage.removeItem("updateCart");
+        window.localStorage.removeItem("serviceCart");
+        // window.localStorage.removeItem("updateCart");
         console.log("Removed 'cart' from localStorage.");
-        setStoreBookingData([]);
+        // setStoreBookingData([]);
         setUpdateStoreBookingData([]);
       }
     }
-  }, [getStudentId, setStoreBookingData]);
+  }, [getStudentId]);
 
   // store updateCart to localStorage
 
   useEffect(() => {
     if (typeof window !== "undefined") {
-      localStorage.setItem("updateCart", JSON.stringify(storeBookingData));
+      localStorage.setItem("updateServiceCart", JSON.stringify(servicesBooked));
     }
-  }, [storeBookingData]);
+  }, [servicesBooked]);
 
   useEffect(() => {
     if (typeof window !== "undefined") {
       const updateCartStored = JSON.parse(
-        localStorage.getItem("updateCart") || "[]"
+        localStorage.getItem("updateServiceCart") || "[]"
       );
       setUpdateStoreBookingData(updateCartStored);
     }
   }, []);
+
+  // console.log(updateStoreBookingData);
+
+  // console.log(serviceBooked);
 
   const onSubmit: SubmitHandler<FieldValues> = (data) => {
     // console.log(data);
@@ -221,14 +202,14 @@ const CartClient: React.FC<CartClientProps> = ({
       }
     );
 
-    const updatedStoreBookingDataParent = storeBookingData.filter((item) => {
+    const updatedStoreBookingDataParent = servicesBooked.filter((item) => {
       return item.id !== id;
     });
 
     setUpdateStoreBookingData(updatedStoreBookingDataChild);
 
     // Also, ensure that the parent state (`storeBookingData`) is updated
-    setStoreBookingData(updatedStoreBookingDataParent);
+    setServicesBooked(updatedStoreBookingDataParent);
   };
 
   const formatDays = (days: string[]) => {
@@ -243,7 +224,7 @@ const CartClient: React.FC<CartClientProps> = ({
   };
 
   const totalPrice = updateStoreBookingData.reduce((total, price) => {
-    return total + price.totalPrice;
+    return total + price.price;
   }, 0);
 
   //   console.log(totalPrice);
@@ -251,31 +232,28 @@ const CartClient: React.FC<CartClientProps> = ({
   const handleMinusItem = (id: string) => {
     const updatedStoreBookingData = updateStoreBookingData.map((item) => {
       if (item.id === id) {
-        // Increment the value of numberOfPerWeekDoPackage by 1
-
-        if (item.packageItem <= 1) {
+        if (item.quantity !== undefined && item.quantity <= 1) {
           return {
             ...item,
           };
         }
 
-        const originalItem = storeBookingData.find(
+        const originalItem = servicesBooked.find(
           (original) => original.id === id
         );
         if (originalItem) {
-          // Increment the value of numberOfPerWeekDoPackage and totalPrice based on the original item
-          const newNumberOfPerWeekDoPackage =
-            item.numberOfPerWeekDoPackage -
-            originalItem.numberOfPerWeekDoPackage;
-          const newTotalPrice = item.totalPrice - originalItem.totalPrice;
+          // const newNumberOfPerWeekDoPackage =
+          //   item.numberOfPerWeekDoPackage -
+          //   originalItem.numberOfPerWeekDoPackage;
+          const newTotalPrice = item.price - originalItem.price;
 
           return {
             ...item,
-            numberOfPerWeekDoPackage: newNumberOfPerWeekDoPackage,
-            weekNumberBooking:
-              item.weekNumberBooking - originalItem.weekNumberBooking,
-            totalPrice: newTotalPrice,
-            packageItem: item.packageItem - 1,
+            // numberOfPerWeekDoPackage: newNumberOfPerWeekDoPackage,
+            // weekNumberBooking:
+            //   item.weekNumberBooking - originalItem.weekNumberBooking,
+            price: newTotalPrice,
+            quantity: item.quantity !== undefined ? item.quantity - 1 : 1,
           };
         }
       }
@@ -288,35 +266,21 @@ const CartClient: React.FC<CartClientProps> = ({
   const handlePlusItem = (id: string) => {
     const updatedStoreBookingData = updateStoreBookingData.map((item) => {
       if (item.id === id) {
-        // Increment the value of numberOfPerWeekDoPackage by 1
-
-        // const oldPrice
-        // return {
-        //   ...item,
-        //   numberOfPerWeekDoPackage:
-        //     item.numberOfPerWeekDoPackage + item.numberOfPerWeekDoPackage,
-        //   weekNumberBooking: item.weekNumberBooking + item.weekNumberBooking,
-        //   totalPrice: item.totalPrice + item.totalPrice,
-        //   packageItem: item.packageItem + 1,
-        // };
-
-        const originalItem = storeBookingData.find(
+        const originalItem = servicesBooked.find(
           (original) => original.id === id
         );
         if (originalItem) {
           // Increment the value of numberOfPerWeekDoPackage and totalPrice based on the original item
-          const newNumberOfPerWeekDoPackage =
-            item.numberOfPerWeekDoPackage +
-            originalItem.numberOfPerWeekDoPackage;
-          const newTotalPrice = item.totalPrice + originalItem.totalPrice;
+
+          const newTotalPrice = item.price + originalItem.price;
 
           return {
             ...item,
-            numberOfPerWeekDoPackage: newNumberOfPerWeekDoPackage,
-            weekNumberBooking:
-              item.weekNumberBooking + originalItem.weekNumberBooking,
-            totalPrice: newTotalPrice,
-            packageItem: item.packageItem + 1,
+            // numberOfPerWeekDoPackage: newNumberOfPerWeekDoPackage,
+            // weekNumberBooking:
+            //   item.weekNumberBooking + originalItem.weekNumberBooking,
+            price: newTotalPrice,
+            quantity: item.quantity !== undefined ? item.quantity + 1 : 1,
           };
         }
       }
@@ -326,7 +290,7 @@ const CartClient: React.FC<CartClientProps> = ({
     setUpdateStoreBookingData(updatedStoreBookingData);
   };
 
-  if (storeBookingData.length === 0) {
+  if (servicesBooked.length === 0) {
     return (
       <ClientOnly>
         <EmptyState
@@ -341,19 +305,12 @@ const CartClient: React.FC<CartClientProps> = ({
 
   return (
     <>
-      <div className="my-8 flex flex-row justify-center items-center gap-4">
+      {/* <div classNasme="my-8 flex flex-row justify-center items-center gap-4">
         <Logo />
         <Heading
           title="SpaceT Cart"
           subtitle="Hope you guys give us a chance to serve for you!"
         />
-        {/* <div className="flex items-center justify-center gap-4">
-            <Logo />
-            <Heading
-              title="SpaceT Cart"
-              subtitle="Hope you guys give us a chance to serve for you!"
-            />
-          </div> */}
 
         <div
           className="
@@ -367,7 +324,6 @@ const CartClient: React.FC<CartClientProps> = ({
                     gap-4   
                     "
         >
-          {/* relative left-96  */}
           <div className="text-lg text-neutral-700 font-semibold">
             {!getApartmentByStudentId ? (
               <>Look likes you have nothing any apartment info</>
@@ -413,12 +369,11 @@ const CartClient: React.FC<CartClientProps> = ({
             )}
           </div>
         </div>
-      </div>
-      {/* {storeBookingData.map((item) => { */}
+      </div> */}
 
       <div className="pt-10">
         <hr className="mb-8" />
-        <Heading title="Your Combos(packages) you booked!" center />
+        <Heading title="Your Services you booked!" center />
       </div>
       {updateStoreBookingData.map((item) => {
         return (
@@ -450,45 +405,42 @@ const CartClient: React.FC<CartClientProps> = ({
               />
 
               <div className="flex flex-col gap-1">
-                {/* <div className="text-lg font-semibold">{data.packageName}</div> */}
-                <div className="text-lg font-semibold">{item.packageName}</div>
-                {/* <div className="font-light text-gray-600">{data.dayDoInWeek}</div> */}
+                <div className="text-lg font-semibold">{item.serviceName}</div>
                 <div className="font-light text-gray-600">
-                  {formatDays(item.dayDoInWeek)}
+                  {/* {formatDays(item.dayDoInWeek)} */}
+                  test
                 </div>
               </div>
             </div>
-            <div className="flex items-center gap-2">
+            {/* <div className="flex items-center gap-2">
               Week booking:{" "}
               <p className="text-[#ff6347] font-semibold">
                 {item.weekNumberBooking}
               </p>
-            </div>
+            </div> */}
             {/* <div>week booking: {data.weekNumberBooking}</div> */}
             <div className="flex items-center gap-2">
-              Times do per week:
-              <p className="text-[#ff6347] font-semibold">
-                {/* {item.numberOfPerWeekDoPackage} */}
+              Times do per week:3
+              {/* <p className="text-[#ff6347] font-semibold">
+
                 {
-                  storeBookingData.find(
+                  servicesBooked.find(
                     (priceInitial) => priceInitial.id === item.id
                   )?.numberOfPerWeekDoPackage
                 }
-              </p>
+              </p> */}
             </div>
-            {/* <div>times do per week: {data.numberOfPerWeekDoPackage}</div> */}
-            {/* <div>price: {item.totalPrice}</div> */}
-            {/* <div>price: {data.totalPrice}</div> */}
             <div key={item.id}>
               Price:{" "}
               {
-                storeBookingData.find(
+                servicesBooked.find(
                   (priceInitial) => priceInitial.id === item.id
-                )?.totalPrice
+                )?.price
               }
             </div>
             <div className="flex items-center gap-5">
               <div
+                // onClick={() => handleMinusItem(item.id)}
                 onClick={() => handleMinusItem(item.id)}
                 className="
                         bg-neutral-300
@@ -501,8 +453,9 @@ const CartClient: React.FC<CartClientProps> = ({
               >
                 <AiOutlineMinus />
               </div>
-              {item.packageItem}
+              {item.quantity}
               <div
+                // onClick={() => handlePlusItem(item.id)}
                 onClick={() => handlePlusItem(item.id)}
                 className="
                     bg-neutral-300
@@ -517,7 +470,7 @@ const CartClient: React.FC<CartClientProps> = ({
               </div>
             </div>
             <div className="text-[#ff6347] font-semibold">
-              Price: {item.totalPrice}
+              Price: {item.price}
             </div>
             <div
               onClick={() => removeCart(item.id)}
@@ -539,7 +492,7 @@ const CartClient: React.FC<CartClientProps> = ({
         />
       </div> */}
 
-      <div
+      {/* <div
         className="
             z-29
             fixed
@@ -552,29 +505,24 @@ const CartClient: React.FC<CartClientProps> = ({
             mr-28
             "
       >
-        {/* <div className=""></div> */}
         <div className="container mx-auto flex items-center justify-end gap-40 mr-80">
-          {/* <div className="text-lg text-neutral-800 ">
-            Total payment: {totalPrice}
-          </div> */}
+        
 
           <div className="flex items-center gap-2 text-lg">
             Total payment:
             <p className="text-[#ff6347] font-semibold">{totalPrice}</p>
           </div>
 
-          {/* <div> */}
           <PaymentSelect
             onChange={(value) => setCustomValue("paymentMethodId", value)}
             paymentMethod={paymentMethods}
           />
-          {/* </div> */}
 
           <div
-            // onClick={handleSubmit(onSubmit)}
             onClick={validateSubmit}
             className={`
                 mr-20
+                cursor-pointer
                 rounded-lg
                 flex
                 items-center
@@ -588,11 +536,9 @@ const CartClient: React.FC<CartClientProps> = ({
                 hover:text-neutral-900
                 transition
                 duration-200
-                ${
-                  disabled
-                    ? "disabled opacity-75 cursor-not-allowed text-neutral-700"
-                    : "hover:bg-[#f34728] hover:shadow-lg cursor-pointer"
-                }
+                hover:bg-[#f34728]
+                hover:shadow-lg
+                ${disabled ? "opacity-75 pointer-events-none" : ""}
 
             
             `}
@@ -600,11 +546,10 @@ const CartClient: React.FC<CartClientProps> = ({
             <MdOutlinePayment size={30} />
             Payment
           </div>
-          {/* <Button icon={MdOutlinePayment} onClick={() => {}} label="Payment" /> */}
         </div>
-      </div>
+      </div> */}
     </>
   );
 };
 
-export default CartClient;
+export default ServicesCart;

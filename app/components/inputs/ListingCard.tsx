@@ -1,10 +1,15 @@
 "use client";
 
+import { toast } from "react-hot-toast";
+import { BsCartCheck } from "react-icons/bs";
+
+import { useRouter } from "next/navigation";
+import { memo, useCallback, useEffect, useState } from "react";
+
+import { PackageProps, ServiceProp } from "@/app/types";
+
 import Image from "next/image";
 import Button from "../Button";
-import { PackageProps, ServiceProp } from "@/app/types";
-import { useRouter } from "next/navigation";
-import { memo, useCallback } from "react";
 
 interface ListingCardProps {
   onAction?: (id: string) => void;
@@ -16,6 +21,7 @@ interface ListingCardProps {
   packageData?: PackageProps;
   actionId?: string;
   combo?: boolean;
+  comboBooking?: boolean;
   openModalDeleteProperties?: (
     id: string,
     serviceName: string,
@@ -23,6 +29,11 @@ interface ListingCardProps {
   ) => void;
   serviceName?: string;
   createdBy?: string;
+
+  handleBookingService?: (
+    e: React.MouseEvent<HTMLButtonElement>,
+    value: ServiceProp
+  ) => void;
 }
 
 const ListingCard: React.FC<ListingCardProps> = ({
@@ -32,14 +43,17 @@ const ListingCard: React.FC<ListingCardProps> = ({
   serviceId,
   categoryId,
   combo,
+  comboBooking,
   actionId = "",
   data,
   packageData,
   createdBy = "",
   serviceName = "",
   openModalDeleteProperties,
+  handleBookingService,
 }) => {
   const router = useRouter();
+  // const [servicesBooked, setServicesBooked] = useState<ServiceProp[]>([]);
 
   const routerListing = useCallback(() => {
     packageData
@@ -55,7 +69,7 @@ const ListingCard: React.FC<ListingCardProps> = ({
 
   // console.log(data);
 
-  const MAX_LENGTH = 94;
+  const MAX_LENGTH = 54;
 
   const handleCancel = useCallback(
     (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -160,7 +174,7 @@ const ListingCard: React.FC<ListingCardProps> = ({
             </div>
           </div>
         ) : (
-          <div className="font-light text-neutral-500 h-[96px]">
+          <div className="font-light text-neutral-500 h-[65px]">
             {data?.serviceDescription &&
             data.serviceDescription.length > MAX_LENGTH
               ? data.serviceDescription.slice(0, MAX_LENGTH) + "..."
@@ -169,15 +183,19 @@ const ListingCard: React.FC<ListingCardProps> = ({
         )}
 
         {packageData ? (
-          <div className="flex flex-row items-center gap-1">
-            <div className="font-semibold text-[#ff6347]">
-              {packageData.totalPrice} $
-            </div>
+          <div className="flex text-lg flex-row items-center gap-2">
+            <span className="font-semibold text-[#ff6347] ">
+              {packageData.totalPrice}
+            </span>{" "}
+            $
           </div>
         ) : (
           <div className="flex flex-row items-center gap-1">
-            <div className="font-semibold text-[#ff6347] flex items-center">
-              {data?.price} $
+            <div className=" flex items-center justify-center text-lg gap-2">
+              <span className="font-semibold text-[#ff6347] ">
+                {data?.price}
+              </span>{" "}
+              $
             </div>
           </div>
         )}
@@ -196,6 +214,13 @@ const ListingCard: React.FC<ListingCardProps> = ({
             disabled={disabled}
             small
             onClick={handleOpenDeleteProperties}
+          />
+        )}
+        {comboBooking && actionLabel && (
+          <Button
+            label={actionLabel}
+            disabled={disabled}
+            onClick={(e) => handleBookingService?.(e, data as any)}
           />
         )}
       </div>

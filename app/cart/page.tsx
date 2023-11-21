@@ -5,6 +5,7 @@ import getRegions from "../components/actions/getRegions";
 import getRoleUser from "../components/actions/getRoleUser";
 import ApartmentModal from "../components/modals/ApartmentModal";
 import CartClient from "./CartClient";
+import ServicesCart from "./components/ServicesCart";
 
 const CartPage = async () => {
   const regions = await getRegions();
@@ -32,6 +33,10 @@ const CartPage = async () => {
           getApartmentByStudentId={getApartmentByStudentId}
           getStudentId={getStudentId}
           paymentMethods={paymentMethods}
+        />
+        <ServicesCart
+          getApartmentByStudentId={getApartmentByStudentId}
+          getStudentId={getStudentId}
         />
         <ApartmentModal getStudentId={getStudentId} regions={regions} />
       </div>

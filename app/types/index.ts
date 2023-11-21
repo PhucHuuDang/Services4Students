@@ -12,6 +12,7 @@ export type ServiceProp = {
   lastModified: string;
   lastModifiedBy: null;
   isDelete: boolean;
+  quantity?: number;
 };
 
 export type PackageProps = {

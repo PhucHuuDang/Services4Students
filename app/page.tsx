@@ -6,13 +6,14 @@ import ClientOnly from "./components/ClientOnly";
 import Container from "./components/Container";
 import ListingCard from "./components/inputs/ListingCard";
 import Banner from "./components/navbar/Banner";
+import MainPageClient from "./components/MainPageClient";
 
 export default async function Home() {
   const services = await getServices();
 
   return (
     <ClientOnly>
-      <div
+      {/* <div
         className="
         z-0
         w-full
@@ -23,17 +24,6 @@ export default async function Home() {
           <Banner />
         </div>
         <Container>
-          {/* <div
-            className="
-            absolute 
-            block 
-            bottom-0 
-            left-0 
-            right-0 
-            bg-white 
-            max-h-0
-            "
-          > */}
           <div
             className="
                 p-10
@@ -57,27 +47,16 @@ export default async function Home() {
                     serviceId={service.id}
                     categoryId={service.categoryId}
                     data={service}
+                    comboBooking
+                    actionLabel="Booking"
                   />
                 )
               );
             })}
           </div>
-          {/* </div> */}
         </Container>
-        {/* <div className="relative flex flex-col h-100%">
-          <div
-            className="
-              absolute 
-              left-0 
-              top-0
-              h-100%
-              
-              "
-          >
-            <Maps />
-          </div>
-        </div> */}
-      </div>
+      </div> */}
+      <MainPageClient services={services} />
     </ClientOnly>
   );
 }
