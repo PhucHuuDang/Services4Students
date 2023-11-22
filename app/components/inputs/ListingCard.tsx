@@ -10,6 +10,8 @@ import { PackageProps, ServiceProp } from "@/app/types";
 
 import Image from "next/image";
 import Button from "../Button";
+import { IconType } from "react-icons";
+import useUpdateComboModal from "@/app/hooks/useUpdateComboModal";
 
 interface ListingCardProps {
   onAction?: (id: string) => void;
@@ -34,6 +36,8 @@ interface ListingCardProps {
     e: React.MouseEvent<HTMLButtonElement>,
     value: ServiceProp
   ) => void;
+  icon?: IconType;
+  dataUpdateFunc?: (packageData: PackageProps) => void;
 }
 
 const ListingCard: React.FC<ListingCardProps> = ({
@@ -51,8 +55,12 @@ const ListingCard: React.FC<ListingCardProps> = ({
   serviceName = "",
   openModalDeleteProperties,
   handleBookingService,
+  icon: Icon,
+  dataUpdateFunc,
 }) => {
   const router = useRouter();
+  const updateComboModal = useUpdateComboModal();
+
   // const [servicesBooked, setServicesBooked] = useState<ServiceProp[]>([]);
 
   const routerListing = useCallback(() => {
@@ -95,6 +103,17 @@ const ListingCard: React.FC<ListingCardProps> = ({
     [openModalDeleteProperties, actionId, disabled, serviceName, createdBy]
   );
 
+  const openUpdateModal = useCallback(
+    (e: React.MouseEvent<SVGElement>, actionId: string, packageData: any) => {
+      e.stopPropagation();
+      // console.log(actionId);
+      // console.log(packageData);
+      dataUpdateFunc?.(packageData);
+      updateComboModal.onOpen();
+    },
+    [updateComboModal, dataUpdateFunc]
+  );
+
   const formatDays = (days: string[]) => {
     return days
       .map((day, index) => {
@@ -114,9 +133,39 @@ const ListingCard: React.FC<ListingCardProps> = ({
       className="
           col-span-1 
           cursor-pointer 
-          group"
+          group
+      
+      "
     >
-      <div className="flex flex-col gap-2 w-full">
+      <div
+        className={`
+              flex
+              flex-col
+              gap-2
+              w-full
+            ${combo ? "relative" : ""}
+      `}
+      >
+        {combo && Icon && (
+          <Icon
+            onClick={(e) => openUpdateModal(e, actionId, packageData)}
+            size={32}
+            className="
+                absolute
+                right-0
+                top-0
+                z-10
+                p-1
+                bg-white
+                rounded-lg
+                hover:bg-neutral-300
+                opacity-70
+                transition
+                duration-200
+
+                "
+          />
+        )}
         <div
           className="
                 aspect-square 

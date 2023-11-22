@@ -19,7 +19,7 @@ export async function DELETE(request: Request) {
       }
     );
 
-    console.log(deleteStaff);
+    // console.log(deleteStaff);
 
     if (deleteStaff.status === 200) {
       const deleteSuccess = deleteStaff.data;

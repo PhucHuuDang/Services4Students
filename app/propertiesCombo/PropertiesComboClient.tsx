@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { PackageProps } from "../types";
+import { PackageProps, ServiceProp } from "../types";
 import { useCallback, useEffect, useState } from "react";
 import useDeleteComboConfirm from "../hooks/useDeleteComboConfirm";
 import ClientOnly from "../components/ClientOnly";
@@ -12,21 +12,29 @@ import ListingCard from "../components/inputs/ListingCard";
 import DeleteModal from "../components/DeleteModal";
 import axios from "axios";
 import { toast } from "react-hot-toast";
+import { FaRegEdit } from "react-icons/fa";
+import useUpdateComboModal from "../hooks/useUpdateComboModal";
+import UpdateComboModal from "../components/modals/UpdateComboModal";
 
 interface PropertiesComboClientProps {
   getRole: any | null;
   packages: PackageProps[];
+  services: ServiceProp[];
 }
 
 const PropertiesComboClient: React.FC<PropertiesComboClientProps> = ({
   getRole,
   packages,
+  services,
 }) => {
   const router = useRouter();
   const deleteComboConfirm = useDeleteComboConfirm();
   const [deleteIdProperties, setDeleteIdProperties] = useState("");
   const [deleteServiceName, setDeleteServiceName] = useState("");
   const [deleteCreatedBy, setDeleteCreatedBy] = useState("");
+
+  const [dataUpdate, setDataUpdate] = useState<PackageProps | null>(null);
+
   const [isLoading, setIsLoading] = useState(false);
 
   const openModalDeleteProperties = useCallback(
@@ -46,6 +54,10 @@ const PropertiesComboClient: React.FC<PropertiesComboClientProps> = ({
 
     deleteComboConfirm.onClose();
   }, [deleteComboConfirm]);
+
+  const dataUpdateFunc = useCallback((packageData: PackageProps) => {
+    setDataUpdate(packageData);
+  }, []);
 
   const onCancel = useCallback(() => {
     setIsLoading(true);
@@ -122,6 +134,8 @@ const PropertiesComboClient: React.FC<PropertiesComboClientProps> = ({
                 actionLabel="Delete Package(combo)"
                 openModalDeleteProperties={openModalDeleteProperties}
                 combo
+                dataUpdateFunc={dataUpdateFunc}
+                icon={FaRegEdit}
               />
             )
           );
@@ -139,6 +153,7 @@ const PropertiesComboClient: React.FC<PropertiesComboClientProps> = ({
 
         // onClose={}
       />
+      <UpdateComboModal getService={services} dataUpdate={dataUpdate} />
     </Container>
   );
 };

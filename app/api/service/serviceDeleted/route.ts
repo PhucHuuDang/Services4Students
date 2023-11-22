@@ -32,7 +32,7 @@ export async function DELETE(request: Request) {
       }
     );
 
-    console.log(deleteService.status);
+    // console.log(deleteService.status);
 
     if (deleteService.status === 200) {
       const deleteSuccess = deleteService.data;

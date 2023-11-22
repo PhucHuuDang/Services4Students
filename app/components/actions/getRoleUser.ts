@@ -17,7 +17,7 @@ export default async function getRoleUser() {
     }
 
     if (!session || !session.user || !session.user.token) {
-      console.log("Session or token is missing:", session);
+      // console.log("Session or token is missing:", session);
       return null;
     }
     const token = session.user.token as string;

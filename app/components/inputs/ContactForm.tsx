@@ -7,20 +7,9 @@ import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import { toast } from "react-hot-toast";
 
 const ContactForm = () => {
-  // const [username, setUsername] = useState("");
-  // const [email, setEmail] = useState("");
-  // const [message, setMessage] = useState("");
-  // const usernameRef = useRef<HTMLInputElement>(null);
-
   const service_id = process.env.NEXT_PUBLIC_SERVICE_ID as string;
   const template_id = process.env.NEXT_PUBLIC_TEMPLATE_ID as string;
   const public_key = process.env.NEXT_PUBLIC_PUBLIC_KEY as string;
-
-  // console.log(service_id);
-  // console.log(template_id);
-  // console.log(public_key);
-
-  // console.log(process.env.NEXT_PUBLIC_SERVICE_ID as string);
 
   const {
     register,
@@ -47,16 +36,11 @@ const ContactForm = () => {
       },
     };
 
-    // console.log(dataSend);
     axios
       .post("https://api.emailjs.com/api/v1.0/email/send", dataSend)
       .then((data) => {
-        // console.log(data);
         toast.success("successful");
         reset();
-        // if (usernameRef.current) {
-        //   usernameRef.current.focus();
-        // }
       })
       .catch((err) => {
         console.log(err);
@@ -72,12 +56,8 @@ const ContactForm = () => {
       </div>
       <div className="relative">
         <input
-          // onChange={(e) => setSearch(e.target.value)}
           id="user_name"
           {...register("user_name", { required: true })}
-          // ref={usernameRef}
-          // value={username}
-          // onChange={(e) => setUsername(e.target.value)}
           className={`
           
           peer
@@ -102,7 +82,6 @@ const ContactForm = () => {
           `}
         />
         <label
-          // -translate-y-3
           className={`
                 absolute
                 text-md
@@ -131,9 +110,7 @@ const ContactForm = () => {
       <div className="relative">
         <input
           id="user_email"
-          // value={email}
           {...register("user_mail", { required: true })}
-          // onChange={(e) => setEmail(e.target.value)}
           className={`
           
           peer
@@ -187,11 +164,8 @@ const ContactForm = () => {
 
       <div className="relative ">
         <textarea
-          // onChange={(e) => setSearch(e.target.value)}
           id="message"
           {...register("message", { required: true })}
-          // value={message}
-          // onChange={(e) => setMessage(e.target.value)}
           className={`
               peer
               w-[400px]
@@ -220,8 +194,6 @@ const ContactForm = () => {
           `}
         />
         <label
-          // -translate-y-3
-
           htmlFor="message"
           className={`
                 absolute
