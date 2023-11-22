@@ -1,6 +1,7 @@
 export default async function getServicesInPackageId(listingComboId: string) {
   const response = await fetch(
-    `http://13.210.56.232/api/v1/packages/packageandservicebypackageid?PackageId=${listingComboId}`,
+    // `http://13.210.56.232/api/v1/packages/packageandservicebypackageid?PackageId=${listingComboId}`,
+    `https://housevn.azurewebsites.net/api/v1/packages/packageandservicebypackageid?PackageId=${listingComboId}`,
     {
       cache: "no-store",
     }

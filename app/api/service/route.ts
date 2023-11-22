@@ -7,24 +7,27 @@ export async function POST(request: Request) {
   const {
     serviceName,
     serviceDescription,
-    price,
+    originalPrice,
+    unit,
+    discountPercent,
     imageURL,
     categoryId,
-    createBy,
   } = body;
 
   // console.log(body);
 
   try {
     const createService = await axios.post(
-      "http://13.210.56.232/api/v1/services/services",
+      // "http://13.210.56.232/api/v1/services/services",
+      "https://housevn.azurewebsites.net/api/v1/services",
       {
         serviceName: serviceName,
         serviceDescription: serviceDescription,
-        price: price,
+        originalPrice: originalPrice,
+        unit: unit,
+        discountPercent: discountPercent,
         imageURL: imageURL,
         categoryId: categoryId,
-        createBy: createBy,
       }
     );
 

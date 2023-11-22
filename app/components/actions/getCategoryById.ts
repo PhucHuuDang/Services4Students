@@ -1,6 +1,7 @@
 export default async function getCategoryById(categoryId: string) {
   const getCategoryById = await fetch(
-    `http://13.210.56.232/api/v1/categories/categoriesbyid?CategoriesId=${categoryId}`,
+    // `http://13.210.56.232/api/v1/categories/categoriesbyid?CategoriesId=${categoryId}`,
+    `https://housevn.azurewebsites.net/api/v1/categories/categoriesbyid?CategoriesId=${categoryId}`,
     {
       cache: "no-store",
     }

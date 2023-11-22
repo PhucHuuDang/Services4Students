@@ -20,7 +20,8 @@ export async function PUT(request: Request) {
 
   try {
     const createPackage = await axios.put(
-      "http://13.210.56.232/api/v1/packages/packages",
+      // "http://13.210.56.232/api/v1/packages/packages",
+      "https://housevn.azurewebsites.net/api/v1/packages",
       {
         packageId: packageId,
         listServiceId: listServiceId,

@@ -12,7 +12,8 @@ export async function DELETE(request: Request) {
 
   try {
     const deleteUser = await axios.delete(
-      "http://13.210.56.232/api/v1/students/delete-student-by-id",
+      // "http://13.210.56.232/api/v1/students/delete-student-by-id",
+      "https://housevn.azurewebsites.net/api/v1/students/delete-student-by-id",
       {
         data: {
           id: deleteId,

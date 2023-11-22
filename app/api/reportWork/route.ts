@@ -16,7 +16,8 @@ export async function PUT(request: Request) {
 
   try {
     const reportApi = await axios.put(
-      "http://13.210.56.232/api/v1/reportworks",
+      // "http://13.210.56.232/api/v1/reportworks",
+      "https://housevn.azurewebsites.net/api/v1/reportworks",
       {
         staffId: staffId,
         attendReportId: attendReportId,

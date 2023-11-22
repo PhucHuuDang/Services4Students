@@ -15,11 +15,12 @@ export async function POST(request: Request) {
     createBy,
   } = body;
 
-  // console.log(body);
+  console.log(body);
 
   try {
     const createPackage = await axios.post(
-      "http://13.210.56.232/api/v1/packages/packages",
+      // "http://13.210.56.232/api/v1/packages/packages",
+      "https://housevn.azurewebsites.net/api/v1/packages",
       {
         listServiceId: listServiceId,
         packageDescription: packageDescription,

@@ -15,7 +15,8 @@ export async function POST(request: Request) {
   try {
     console.log("Route register");
     const apiResponse = await axios.post(
-      "http://13.210.56.232/api/v1/students/register-student",
+      // "http://13.210.56.232/api/v1/students/register-student",
+      "https://housevn.azurewebsites.net/api/v1/students/register-student",
       {
         userName: userName,
         fullName: fullName,

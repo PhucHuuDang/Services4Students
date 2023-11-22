@@ -34,7 +34,8 @@ export default async function getCurrentUser() {
     }
 
     const currentUser = await axios.post(
-      `http://13.210.56.232/api/Auth/login`,
+      // `http://13.210.56.232/api/Auth/login`,
+      `https://housevn.azurewebsites.net/api/Auth/login`,
       {
         email: session.user.email as string,
         password: password,

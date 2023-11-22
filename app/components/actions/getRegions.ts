@@ -1,6 +1,6 @@
 export default async function getRegions() {
   const response = await fetch(
-    "http://13.210.56.232/api/v1/region/get-all-region",
+    "https://housevn.azurewebsites.net/api/v1/region/get-all-region",
     {
       cache: "no-store",
     }

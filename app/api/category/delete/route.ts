@@ -12,7 +12,8 @@ export async function DELETE(request: Request) {
 
   try {
     const createCategory = await axios.delete(
-      "http://13.210.56.232/api/v1/categories/categories",
+      // "http://13.210.56.232/api/v1/categories/categories",
+      "https://housevn.azurewebsites.net/api/v1/categories/categories",
       {
         data: {
           categoryId: deleteId,

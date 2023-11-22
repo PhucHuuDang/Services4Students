@@ -9,7 +9,8 @@ export async function POST(request: Request) {
   // console.log(body);
   try {
     const apiResponse = await axios.post(
-      "http://13.210.56.232/api/v1/apartment/register-apartment",
+      "https://housevn.azurewebsites.net/api/v1/apartment/register-apartment",
+      // "https://housevn.azurewebsites.net/api/v1/apartment/get-all-apartment",
       {
         studentId: studentId,
         regionId: regionId,

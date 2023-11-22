@@ -16,7 +16,8 @@ export async function PUT(request: Request) {
 
   try {
     const feedbackApi = await axios.put(
-      "http://13.210.56.232/api/v1/feedbacks",
+      // "http://13.210.56.232/api/v1/feedbacks",
+      "https://housevn.azurewebsites.net/api/v1/feedbacks",
       {
         feedBackId: feedBackId,
         feedBackName: feedBackName,

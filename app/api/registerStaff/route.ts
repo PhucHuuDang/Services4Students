@@ -14,7 +14,8 @@ export async function POST(request: Request) {
 
   try {
     const apiResponse = await axios.post(
-      "http://13.210.56.232/api/v1/staffs/staffs",
+      // "http://13.210.56.232/api/v1/staffs/staffs",
+      "https://housevn.azurewebsites.net/api/v1/staffs/staffs",
       {
         listCategoryId: listCategoryId,
         userName: userName,

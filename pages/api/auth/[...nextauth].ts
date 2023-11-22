@@ -47,7 +47,8 @@ export const authOptions: AuthOptions = {
 
         // 3.27.132.94
 
-        const user = await axios.post("http://13.210.56.232/api/Auth/login", {
+        // const user = await axios.post("http://13.210.56.232/api/Auth/login", {
+        const user = await axios.post("https://housevn.azurewebsites.net/api/Auth/login", {
           email: credentials.email,
           password: credentials.password,
         });

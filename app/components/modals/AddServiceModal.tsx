@@ -22,7 +22,7 @@ enum STEPS {
   IMAGES = 1,
   DESCRIPTION = 2,
   PRICE = 3,
-  CREATED = 4,
+  // CREATED = 4,
 }
 
 type GetCategory = {
@@ -67,10 +67,11 @@ const AddServicesModal: React.FC<AddServiceModalProps> = ({
     defaultValues: {
       serviceName: "",
       serviceDescription: "",
-      price: "",
+      originalPrice: 1,
+      unit: "",
+      discountPercent: 1,
       imageURL: "",
       categoryId: "",
-      createBy: "",
     },
   });
 
@@ -103,7 +104,7 @@ const AddServicesModal: React.FC<AddServiceModalProps> = ({
   }, [addServiceModal, categoryModal]);
 
   const onSubmit: SubmitHandler<FieldValues> = (data) => {
-    if (step !== STEPS.CREATED) {
+    if (step !== STEPS.PRICE) {
       return onNext();
     }
 
@@ -129,7 +130,7 @@ const AddServicesModal: React.FC<AddServiceModalProps> = ({
   };
 
   const actionLabel = useMemo(() => {
-    if (step === STEPS.CREATED) {
+    if (step === STEPS.PRICE) {
       return "Create";
     }
 
@@ -279,8 +280,8 @@ const AddServicesModal: React.FC<AddServiceModalProps> = ({
           center
         />
         <Input
-          id="price"
-          label="Price"
+          id="originalPrice"
+          label="Original Price"
           formatPrice
           type="number"
           disabled={isLoading}
@@ -288,33 +289,22 @@ const AddServicesModal: React.FC<AddServiceModalProps> = ({
           errors={errors}
           required
         />
-      </div>
-    );
-  }
-
-  if (step === STEPS.CREATED) {
-    bodyContent = (
-      <div className="flex flex-col gap-8">
-        <Heading
-          title="Confirm your authorization"
-          subtitle="Thanks for provide more service"
-          center
-        />
-
-        {/* <Input
-          id="price"
-          label="Price"
-          formatPrice
-          type="number"
-          disabled={isLoading}
-          register={register}
-          errors={errors}
-          required
-        /> */}
 
         <Input
-          id="createBy"
-          label="Create By"
+          id="discountPercent"
+          label="Discount Percent"
+          formatPrice
+          type="number"
+          disabled={isLoading}
+          register={register}
+          errors={errors}
+          required
+        />
+
+        <Input
+          id="unit"
+          label="Unit for service"
+          formatPrice
           disabled={isLoading}
           register={register}
           errors={errors}
@@ -323,6 +313,28 @@ const AddServicesModal: React.FC<AddServiceModalProps> = ({
       </div>
     );
   }
+
+  // if (step === STEPS.CREATED) {
+  //   bodyContent = (
+  //     <div className="flex flex-col gap-8">
+  //       <Heading
+  //         title="Set unit for the serivce"
+  //         subtitle="Thanks for provide more service"
+  //         center
+  //       />
+
+  //       <Input
+  //         id="unit"
+  //         label="Unit for service"
+  //         formatPrice
+  //         disabled={isLoading}
+  //         register={register}
+  //         errors={errors}
+  //         required
+  //       />
+  //     </div>
+  //   );
+  // }
 
   return (
     <Modal

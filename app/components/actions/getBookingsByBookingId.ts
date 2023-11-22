@@ -2,7 +2,8 @@
 
 export default async function getBookingsByBookingId(id: string) {
   const getData = await fetch(
-    `http://13.210.56.232/api/v1/bookings/bookingid?BookingId=${id}`,
+    // `http://13.210.56.232/api/v1/bookings/bookingid?BookingId=${id}`,
+    `https://housevn.azurewebsites.net/api/v1/bookings/bookingid?BookingId=${id}`,
     {
       cache: "no-store",
     }

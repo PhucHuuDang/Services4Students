@@ -1,6 +1,6 @@
 export default async function getServices() {
   const services = await fetch(
-    "http://13.210.56.232/api/v1/services/services",
+    "https://housevn.azurewebsites.net/api/v1/services",
     {
       cache: "no-store",
     }

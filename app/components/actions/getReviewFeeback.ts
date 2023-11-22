@@ -1,7 +1,8 @@
 // http://3.27.132.94/api/v1/attendreport/bookingdetailid?BookingDetailId=
 export default async function getReviewFeedback(id: string) {
   const response = await fetch(
-    `http://13.210.56.232/api/v1/feedbacks/bookingdetail/${id}`,
+    // `http://13.210.56.232/api/v1/feedbacks/bookingdetail/${id}`,
+    `https://housevn.azurewebsites.net/api/v1/feedbacks/bookingdetail/${id}`,
     {
       cache: "no-store",
     }
