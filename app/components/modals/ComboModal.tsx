@@ -1,7 +1,7 @@
 "use client";
 
 import { ServiceProp } from "@/app/types";
-import { useMemo, useState } from "react";
+import { use, useCallback, useEffect, useMemo, useState } from "react";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import Modal from "./Modal";
 import useComboModal from "@/app/hooks/useComboModal";
@@ -19,10 +19,11 @@ interface ComboModalProps {
 
 enum STEPS {
   SERVICE_ID = 0,
-  IMAGES = 1,
-  DESCRIPTION = 2,
-  DAYS = 3,
-  INFO_CREATED = 4,
+  QUANTITY = 1,
+  IMAGES = 2,
+  DESCRIPTION = 3,
+  // INFO_CREATED = 3,
+  // DAYS = 3,
 }
 
 const options = [
@@ -56,13 +57,11 @@ const ComboModal: React.FC<ComboModalProps> = ({ getService }) => {
   } = useForm<FieldValues>({
     defaultValues: {
       listServiceId: [],
+      quantity: 1,
       packageDescription: "",
       packageName: "",
-      weekNumberBooking: 1,
-      numberOfPerWeekDoPackage: 1,
-      dayDoServiceInWeek: "",
+      discountPercent: "",
       imageUrl: "",
-      createBy: "",
     },
   });
 
@@ -70,16 +69,36 @@ const ComboModal: React.FC<ComboModalProps> = ({ getService }) => {
   const imageUrl = watch("imageUrl");
   const dayDoServiceInWeek = watch("dayDoServiceInWeek");
 
-  //   console.log(listServiceId);
+  const [quantityCount, setQuantityCount] = useState(1);
+
+  const listServiceWithQuantity = watch("listServiceWithQuantity");
+
+  console.log(listServiceId);
   // console.log(dayDoServiceInWeek);
 
-  const setCustomValue = (id: string, value: any) => {
-    setValue(id, value, {
-      shouldValidate: true,
-      shouldDirty: true,
-      shouldTouch: true,
-    });
-  };
+  const setCustomValue = useCallback(
+    (id: string, value: any) => {
+      // if (id === "listServiceWithQuantity") {
+      //   const updateListService = value.map((item: any) => ({
+      //     serviceId: listServiceId,
+      //     quantity: item.quantity,
+      //   }));
+
+      //   setValue(id, updateListService, {
+      //     shouldValidate: true,
+      //     shouldDirty: true,
+      //     shouldTouch: true,
+      //   });
+      // } else {
+      setValue(id, value, {
+        shouldValidate: true,
+        shouldDirty: true,
+        shouldTouch: true,
+      });
+      // }
+    },
+    [setValue]
+  );
 
   const onBack = () => {
     setStep((value) => value - 1);
@@ -92,7 +111,7 @@ const ComboModal: React.FC<ComboModalProps> = ({ getService }) => {
   // toggle function is here
 
   const onSubmit: SubmitHandler<FieldValues> = (data) => {
-    if (step !== STEPS.INFO_CREATED) {
+    if (step !== STEPS.DESCRIPTION) {
       return onNext();
     }
     setIsLoading(true);
@@ -118,7 +137,7 @@ const ComboModal: React.FC<ComboModalProps> = ({ getService }) => {
   };
 
   const actionLabel = useMemo(() => {
-    if (step === STEPS.INFO_CREATED) {
+    if (step === STEPS.DESCRIPTION) {
       return "Create";
     }
 
@@ -132,6 +151,25 @@ const ComboModal: React.FC<ComboModalProps> = ({ getService }) => {
 
     return "Back";
   }, [step]);
+
+  const updateGetService = getService.map((item) => {
+    return {
+      ...item,
+      quantity: 1,
+    };
+  });
+
+  const handleQuantityChange = (serviceId: string, quantityCount: number) => {
+    // Find the service in the list and update its quantity
+    const updatedServices = getService.map((service) =>
+      service.id === serviceId
+        ? { ...service, quantity: quantityCount }
+        : service
+    );
+
+    // Update the state or form value with the updated services
+    setCustomValue("listServiceWithQuantity", updatedServices);
+  };
 
   let bodyContent = (
     <div className="flex flex-col gap-8">
@@ -183,6 +221,27 @@ const ComboModal: React.FC<ComboModalProps> = ({ getService }) => {
     </div>
   );
 
+  if (step === STEPS.QUANTITY) {
+    bodyContent = (
+      <div className="flex flex-col gap-8">
+        <Heading
+          title="Set amount, day do for Combo and author"
+          subtitle=""
+          center
+        />
+
+        <Input
+          id="quantity"
+          label="Quantity"
+          disabled={isLoading}
+          register={register}
+          errors={errors}
+          required
+        />
+      </div>
+    );
+  }
+
   if (step === STEPS.IMAGES) {
     bodyContent = (
       <div className="flex flex-col gap-8">
@@ -228,8 +287,8 @@ const ComboModal: React.FC<ComboModalProps> = ({ getService }) => {
         />
 
         <Input
-          id="weekNumberBooking"
-          label="Weeks Booking"
+          id="discountPercent"
+          label="Discount Percent"
           disabled={isLoading}
           register={register}
           errors={errors}
@@ -239,83 +298,75 @@ const ComboModal: React.FC<ComboModalProps> = ({ getService }) => {
     );
   }
 
-  if (step === STEPS.DAYS) {
-    bodyContent = (
-      <div className="flex flex-col gap-8">
-        <Heading title="Choose days to work in week" center />
-        <div
-          className="
-               grid
-               grid-cols-1
-               md:grid-cols-2
-               gap-3
-               max-h-[50vh]
-               overflow-auto
-               mt-4
+  // if (step === STEPS.DAYS) {
+  //   bodyContent = (
+  //     <div className="flex flex-col gap-8">
+  //       <Heading title="Choose days to work in week" center />
+  //       <div
+  //         className="
+  //              grid
+  //              grid-cols-1
+  //              md:grid-cols-2
+  //              gap-3
+  //              max-h-[50vh]
+  //              overflow-auto
+  //              mt-4
 
-        "
-        >
-          {options.map((item: OptionsProps) => {
-            return (
-              <div key={item.value} className="col-span-1">
-                <CategoryInput
-                  onClick={(dayDoServiceInWeekValue) => {
-                    if (dayDoServiceInWeek.includes(dayDoServiceInWeekValue)) {
-                      const updatedString = dayDoServiceInWeek.replace(
-                        dayDoServiceInWeekValue,
-                        ""
-                      );
-                      setCustomValue("dayDoServiceInWeek", updatedString);
-                    } else {
-                      setCustomValue(
-                        "dayDoServiceInWeek",
-                        // dayDoServiceInWeek + dayDoServiceInWeekValue
-                        dayDoServiceInWeek.concat(dayDoServiceInWeekValue)
-                      );
-                    }
-                  }}
-                  id={item.value}
-                  // selected={listServiceId.includes(item.value)}
-                  selected={dayDoServiceInWeek.includes(item.value)}
-                  label={item.label}
-                />
-              </div>
-            );
-          })}
-        </div>
-      </div>
-    );
-  }
+  //       "
+  //       >
+  //         {options.map((item: OptionsProps) => {
+  //           return (
+  //             <div key={item.value} className="col-span-1">
+  //               <CategoryInput
+  //                 onClick={(dayDoServiceInWeekValue) => {
+  //                   if (dayDoServiceInWeek.includes(dayDoServiceInWeekValue)) {
+  //                     const updatedString = dayDoServiceInWeek.replace(
+  //                       dayDoServiceInWeekValue,
+  //                       ""
+  //                     );
+  //                     setCustomValue("dayDoServiceInWeek", updatedString);
+  //                   } else {
+  //                     setCustomValue(
+  //                       "dayDoServiceInWeek",
+  //                       // dayDoServiceInWeek + dayDoServiceInWeekValue
+  //                       dayDoServiceInWeek.concat(dayDoServiceInWeekValue)
+  //                     );
+  //                   }
+  //                 }}
+  //                 id={item.value}
+  //                 // selected={listServiceId.includes(item.value)}
+  //                 selected={dayDoServiceInWeek.includes(item.value)}
+  //                 label={item.label}
+  //               />
+  //             </div>
+  //           );
+  //         })}
+  //       </div>
+  //     </div>
+  //   );
+  // }
 
-  if (step === STEPS.INFO_CREATED) {
-    bodyContent = (
-      <div className="flex flex-col gap-8">
-        <Heading
-          title="Set amount, day do for Combo and author"
-          subtitle=""
-          center
-        />
+  // if (step === STEPS.INFO_CREATED) {
+  //   bodyContent = (
+  //     <div className="flex flex-col gap-8">
+  //       <Heading
+  //         title="Set amount, day do for Combo and author"
+  //         subtitle=""
+  //         center
+  //       />
 
-        <Input
-          id="numberOfPerWeekDoPackage"
-          label="Number of working turns per week"
-          disabled={isLoading}
-          register={register}
-          errors={errors}
-          required
-        />
+  //       <Input
+  //         id="quantity"
+  //         label="Quantity"
+  //         disabled={isLoading}
+  //         register={register}
+  //         errors={errors}
+  //         required
+  //       />
 
-        <Input
-          id="createBy"
-          label="Created BY"
-          disabled={isLoading}
-          register={register}
-          errors={errors}
-          required
-        />
-      </div>
-    );
-  }
+  //     </div>
+  //   );
+  // }
 
   return (
     <Modal

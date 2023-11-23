@@ -6,13 +6,11 @@ export async function POST(request: Request) {
 
   const {
     listServiceId,
+    quantity,
     packageDescription,
     packageName,
-    weekNumberBooking,
-    numberOfPerWeekDoPackage,
-    dayDoServiceInWeek,
+    discountPercent,
     imageUrl,
-    createBy,
   } = body;
 
   console.log(body);
@@ -23,13 +21,11 @@ export async function POST(request: Request) {
       "https://housevn.azurewebsites.net/api/v1/packages",
       {
         listServiceId: listServiceId,
+        quantity: quantity,
         packageDescription: packageDescription,
         packageName: packageName,
-        weekNumberBooking: weekNumberBooking,
-        numberOfPerWeekDoPackage: numberOfPerWeekDoPackage,
-        dayDoServiceInWeek: dayDoServiceInWeek,
+        discountPercent: discountPercent,
         imageUrl: imageUrl,
-        createBy: createBy,
       }
     );
 

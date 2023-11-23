@@ -26,14 +26,14 @@ interface CartClientProps {
   data?: PackageProps | undefined;
   getApartmentByStudentId: any | null;
   getStudentId: any | null;
-  paymentMethods: PaymentMethodProps[];
+  // paymentMethods: PaymentMethodProps[];
 }
 
 const CartClient: React.FC<CartClientProps> = ({
   data,
   getApartmentByStudentId,
   getStudentId,
-  paymentMethods,
+  // paymentMethods,
 }) => {
   const { storeBookingData, setStoreBookingData } = useBooking();
   const [updateStoreBookingData, setUpdateStoreBookingData] = useState<
@@ -454,32 +454,33 @@ const CartClient: React.FC<CartClientProps> = ({
                 <div className="text-lg font-semibold">{item.packageName}</div>
                 {/* <div className="font-light text-gray-600">{data.dayDoInWeek}</div> */}
                 <div className="font-light text-gray-600">
-                  {formatDays(item.dayDoInWeek)}
+                  {/* {formatDays(item.dayDoInWeek)} */}
+                  test
                 </div>
               </div>
             </div>
-            <div className="flex items-center gap-2">
+            {/* <div className="flex items-center gap-2">
               Week booking:{" "}
               <p className="text-[#ff6347] font-semibold">
                 {item.weekNumberBooking}
               </p>
+            </div> */}
+            <div className="flex flex-row items-center gap-2 mr-4">
+              <span>Original Price: </span>
+              <del className="font-light text-[#ed9080]">
+                {item.totalOriginalPrice}
+              </del>{" "}
+              <span>$</span>
             </div>
             {/* <div>week booking: {data.weekNumberBooking}</div> */}
-            <div className="flex items-center gap-2">
-              Times do per week:
-              <p className="text-[#ff6347] font-semibold">
-                {/* {item.numberOfPerWeekDoPackage} */}
-                {
-                  storeBookingData.find(
-                    (priceInitial) => priceInitial.id === item.id
-                  )?.numberOfPerWeekDoPackage
-                }
-              </p>
+            <div className="flex flex-row items-center gap-2 mr-4">
+              <span>Discounted Percent: </span>
+              {item.discountPercent}%
             </div>
             {/* <div>times do per week: {data.numberOfPerWeekDoPackage}</div> */}
             {/* <div>price: {item.totalPrice}</div> */}
             {/* <div>price: {data.totalPrice}</div> */}
-            <div key={item.id}>
+            <div key={item.id} className="mr-4">
               Price:{" "}
               {
                 storeBookingData.find(
@@ -564,10 +565,10 @@ const CartClient: React.FC<CartClientProps> = ({
           </div>
 
           {/* <div> */}
-          <PaymentSelect
+          {/* <PaymentSelect
             onChange={(value) => setCustomValue("paymentMethodId", value)}
             paymentMethod={paymentMethods}
-          />
+          /> */}
           {/* </div> */}
 
           <div

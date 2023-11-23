@@ -114,16 +114,16 @@ const ListingCard: React.FC<ListingCardProps> = ({
     [updateComboModal, dataUpdateFunc]
   );
 
-  const formatDays = (days: string[]) => {
-    return days
-      .map((day, index) => {
-        if (index < days.length - 1) {
-          return day + " ";
-        }
-        return day;
-      })
-      .join(", ");
-  };
+  // const formatDays = (days: string[]) => {
+  //   return days
+  //     .map((day, index) => {
+  //       if (index < days.length - 1) {
+  //         return day + " ";
+  //       }
+  //       return day;
+  //     })
+  //     .join(", ");
+  // };
 
   return (
     <div
@@ -200,27 +200,10 @@ const ListingCard: React.FC<ListingCardProps> = ({
         )}
 
         {packageData ? (
-          <div className="flex flex-col min-h-[100px]">
-            <div className="font-semibold text-neutral-600">
-              Weeks:{" "}
-              <span className="text-[#ff6347]">
-                {packageData.weekNumberBooking}
-              </span>
-            </div>
-
-            <div className="font-semibold text-neutral-600">
-              Day work per week:{" "}
-              <span className="text-[#ff6347]">
-                {packageData.numberOfPerWeekDoPackage}
-              </span>
-            </div>
-
-            <div className="font-semibold text-neutral-600 min-h-[40px]">
-              Days work:{" "}
-              <span className="text-[#ff6347]">
-                {formatDays(packageData.dayDoInWeek)}
-              </span>
-            </div>
+          <div className="font-light text-neutral-500 h-[65px]">
+            {packageData.packageDescription.length > MAX_LENGTH
+              ? packageData.packageDescription.slice(0, MAX_LENGTH) + "..."
+              : packageData.packageDescription}
           </div>
         ) : (
           <div className="font-light text-neutral-500 h-[65px]">
@@ -232,19 +215,33 @@ const ListingCard: React.FC<ListingCardProps> = ({
         )}
 
         {packageData ? (
-          <div className="flex text-lg flex-row items-center gap-2">
-            <span className="font-semibold text-[#ff6347] ">
-              {packageData.totalPrice}
-            </span>{" "}
-            $
+          <div className="flex text-md flex-row items-center gap-4">
+            <div className="flex flex-row items-center gap-2">
+              <del className="font-light text-[#ed9080]">
+                {packageData.totalOriginalPrice}
+              </del>{" "}
+              <span>$</span>
+            </div>
+
+            <div className="flex flex-row items-center gap-2">
+              <span className="font-light text-[#ff6347] ">
+                {packageData.totalPrice}
+              </span>{" "}
+              <span>$</span>
+            </div>
           </div>
         ) : (
-          <div className="flex flex-row items-center gap-1">
-            <div className=" flex items-center justify-center text-lg gap-2">
-              <span className="font-semibold text-[#ff6347] ">
-                {data?.price}
-              </span>{" "}
-              $
+          <div className="flex flex-row text-md items-center gap-4">
+            <div className="flex flex-row items-center gap-2">
+              <del className="font-light text-[#ed9080]">
+                {data?.originalPrice}
+              </del>{" "}
+              <span>$</span>
+            </div>
+
+            <div className="flex flex-row items-center gap-2">
+              <span className="font-light text-[#ff6347] ">{data?.price}</span>{" "}
+              <span>$</span>
             </div>
           </div>
         )}

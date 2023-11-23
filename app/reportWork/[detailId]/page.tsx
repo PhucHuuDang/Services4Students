@@ -1,6 +1,6 @@
 import DetailAttendanceClient from "@/app/attendance/[detailId]/DetailAttendanceClient";
 import ClientOnly from "@/app/components/ClientOnly";
-import getAttendByDetailId from "@/app/components/actions/get AttendByDetailId";
+import getAttendByDetailId from "@/app/components/actions/getAttendByDetailId";
 import getReviewFeedback from "@/app/components/actions/getReviewFeeback";
 import getRoleUser from "@/app/components/actions/getRoleUser";
 import { JwtPayload } from "jsonwebtoken";

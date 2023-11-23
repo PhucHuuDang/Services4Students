@@ -1,6 +1,6 @@
 import ClientOnly from "@/app/components/ClientOnly";
 import DetailAttendanceClient from "./DetailAttendanceClient";
-import getAttendByDetailId from "@/app/components/actions/get AttendByDetailId";
+import getAttendByDetailId from "@/app/components/actions/getAttendByDetailId";
 import getReviewFeedback from "@/app/components/actions/getReviewFeeback";
 
 type Params = {

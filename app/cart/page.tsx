@@ -10,7 +10,7 @@ import ServicesCart from "./components/ServicesCart";
 const CartPage = async () => {
   const regions = await getRegions();
   const getStudentId: any = await getRoleUser();
-  const paymentMethods = await getPaymentMethod();
+  // const paymentMethods = await getPaymentMethod();
 
   //   console.log("getStudentId: ", getStudentId);
 
@@ -32,7 +32,7 @@ const CartPage = async () => {
         <CartClient
           getApartmentByStudentId={getApartmentByStudentId}
           getStudentId={getStudentId}
-          paymentMethods={paymentMethods}
+          // paymentMethods={paymentMethods}
         />
         <ServicesCart
           getApartmentByStudentId={getApartmentByStudentId}

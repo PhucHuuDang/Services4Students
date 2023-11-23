@@ -303,6 +303,8 @@ const ServicesCart: React.FC<ServicesCartProps> = ({
     );
   }
 
+  // console.log(updateStoreBookingData);
+
   return (
     <>
       {/* <div classNasme="my-8 flex flex-row justify-center items-center gap-4">
@@ -412,24 +414,15 @@ const ServicesCart: React.FC<ServicesCartProps> = ({
                 </div>
               </div>
             </div>
-            {/* <div className="flex items-center gap-2">
-              Week booking:{" "}
-              <p className="text-[#ff6347] font-semibold">
-                {item.weekNumberBooking}
-              </p>
-            </div> */}
-            {/* <div>week booking: {data.weekNumberBooking}</div> */}
-            <div className="flex items-center gap-2">
-              Times do per week:3
-              {/* <p className="text-[#ff6347] font-semibold">
 
-                {
-                  servicesBooked.find(
-                    (priceInitial) => priceInitial.id === item.id
-                  )?.numberOfPerWeekDoPackage
-                }
-              </p> */}
+            <div className="flex flex-row items-center gap-1">
+              <span>Original Price: </span>
+              <del className="font-light text-[#ed9080]">
+                {item.originalPrice}
+              </del>{" "}
+              <span>$/{item.unit}</span>
             </div>
+
             <div key={item.id}>
               Price:{" "}
               {
@@ -437,6 +430,7 @@ const ServicesCart: React.FC<ServicesCartProps> = ({
                   (priceInitial) => priceInitial.id === item.id
                 )?.price
               }
+              $/{item.unit}
             </div>
             <div className="flex items-center gap-5">
               <div
@@ -470,8 +464,9 @@ const ServicesCart: React.FC<ServicesCartProps> = ({
               </div>
             </div>
             <div className="text-[#ff6347] font-semibold">
-              Price: {item.price}
+              Price: {item.price}$
             </div>
+
             <div
               onClick={() => removeCart(item.id)}
               className="hover:cursor-pointer p-1"

@@ -5,6 +5,8 @@ export type ServiceProp = {
   serviceName: string;
   serviceDescription: string;
   price: number;
+  unit: string;
+  originalPrice: number;
   image: string;
   categoryId: string;
   created: string;
@@ -20,9 +22,10 @@ export type PackageProps = {
   packageName: string;
   weekNumberBooking: number;
   numberOfPerWeekDoPackage: number;
-  dayDoInWeek: string[];
   image: string | undefined;
   totalPrice: number;
+  discountPercent: number;
+  totalOriginalPrice: number;
   packageDescription: string;
   created: string;
   packageItem: number;
