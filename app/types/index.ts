@@ -15,6 +15,7 @@ export type ServiceProp = {
   lastModifiedBy: null;
   isDelete: boolean;
   quantity?: number;
+  discountPercent: number;
 };
 
 export type PackageProps = {

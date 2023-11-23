@@ -1,4 +1,5 @@
 import ClientOnly from "../components/ClientOnly";
+import getCategories from "../components/actions/getCategories";
 import getRoleUser from "../components/actions/getRoleUser";
 import getServices from "../components/actions/getServices";
 import PropertiesClient from "./PropertiesClient";
@@ -6,6 +7,7 @@ import PropertiesClient from "./PropertiesClient";
 const PropertiesPage = async () => {
   const getListServices = await getServices();
   const getRole = await getRoleUser();
+  const category = await getCategories();
 
   // if (getListServices.length === 0) {
   //   return (
@@ -26,7 +28,11 @@ const PropertiesPage = async () => {
       
       "
       >
-        <PropertiesClient data={getListServices} getRole={getRole} />
+        <PropertiesClient
+          data={getListServices}
+          category={category}
+          getRole={getRole}
+        />
       </div>
     </ClientOnly>
   );

@@ -1,9 +1,10 @@
 "use client";
 
+import { FaRegEdit } from "react-icons/fa";
+
 import { useRouter } from "next/navigation";
 import { useCallback, useState, useEffect } from "react";
-
-import { ServiceProp } from "@/app/types";
+import { GetCategory, ServiceProp } from "@/app/types";
 
 import Container from "../components/Container";
 import Heading from "../components/Heading";
@@ -14,18 +15,29 @@ import ClientOnly from "../components/ClientOnly";
 import EmptyState from "../components/EmptyState";
 import useDeleteProperties from "../hooks/useDeleteProperties";
 import DeleteModal from "../components/DeleteModal";
+import UpdateServiceModal from "../components/modals/UpdateServiceModal";
+import useUpdateServiceModal from "../hooks/useUpdateServiceModal";
 
 interface PropertiesProps {
   data: any;
   getRole: any;
+  category: GetCategory[];
 }
 
-const PropertiesClient: React.FC<PropertiesProps> = ({ data, getRole }) => {
+const PropertiesClient: React.FC<PropertiesProps> = ({
+  data,
+  getRole,
+  category,
+}) => {
   const router = useRouter();
   const [deleteIdProperties, setDeleteIdProperties] = useState("");
   const [deleteServiceName, setDeleteServiceName] = useState("");
   const [deleteCreatedBy, setDeleteCreatedBy] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+
+  const updateServiceModal = useUpdateServiceModal();
+
+  const [dataUpdate, setDataUpdate] = useState<ServiceProp | null>(null);
 
   const deleteProperties = useDeleteProperties();
 
@@ -48,6 +60,10 @@ const PropertiesClient: React.FC<PropertiesProps> = ({ data, getRole }) => {
 
     deleteProperties.onClose();
   }, [deleteProperties]);
+
+  const dataUpdateFunc = useCallback((category: ServiceProp) => {
+    setDataUpdate(category);
+  }, []);
 
   const onCancel = useCallback(() => {
     setIsLoading(true);
@@ -122,7 +138,10 @@ const PropertiesClient: React.FC<PropertiesProps> = ({ data, getRole }) => {
                 createdBy={item.createBy}
                 disabled={deleteIdProperties === item.id}
                 actionLabel="Delete Service"
+                dataUpdateServiceFunc={dataUpdateFunc}
                 openModalDeleteProperties={openModalDeleteProperties}
+                icon={FaRegEdit}
+                service
               />
             )
           );
@@ -140,6 +159,8 @@ const PropertiesClient: React.FC<PropertiesProps> = ({ data, getRole }) => {
 
         // onClose={}
       />
+
+      <UpdateServiceModal getCategoryId={category} dataUpdate={dataUpdate} />
     </Container>
   );
 };

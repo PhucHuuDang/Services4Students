@@ -21,10 +21,9 @@ interface UpdateComboModalProps {
 
 enum STEPS {
   SERVICE_ID = 0,
-  IMAGES = 1,
-  DESCRIPTION = 2,
-  DAYS = 3,
-  INFO_CREATED = 4,
+  QUANTITY = 1,
+  IMAGES = 2,
+  DESCRIPTION = 3,
 }
 
 const options = [
@@ -63,13 +62,11 @@ const UpdateComboModal: React.FC<UpdateComboModalProps> = ({
     defaultValues: {
       packageId: dataUpdate?.id,
       listServiceId: [],
+      quantity: 1,
       packageDescription: dataUpdate?.packageDescription,
       packageName: dataUpdate?.packageName,
-      weekNumberBooking: dataUpdate?.weekNumberBooking,
-      numberOfPerWeekDoPackage: dataUpdate?.numberOfPerWeekDoPackage,
-      dayDoServiceInWeek: "",
+      discountPercent: dataUpdate?.discountPercent,
       imageUrl: "",
-      createBy: dataUpdate?.createBy,
     },
   });
 
@@ -93,16 +90,10 @@ const UpdateComboModal: React.FC<UpdateComboModalProps> = ({
   useEffect(() => {
     if (dataUpdate !== null) {
       setValue("packageId", dataUpdate?.id);
-
       setValue("packageDescription", dataUpdate?.packageDescription);
       setValue("packageName", dataUpdate?.packageName);
-      setValue("weekNumberBooking", dataUpdate?.weekNumberBooking);
-      setValue(
-        "numberOfPerWeekDoPackage",
-        dataUpdate?.numberOfPerWeekDoPackage
-      );
+      setValue("discountPercent", dataUpdate?.discountPercent);
       setValue("imageUrl", dataUpdate?.image);
-      setValue("createBy", dataUpdate?.createBy);
     }
   }, [dataUpdate, setValue]);
 
@@ -117,7 +108,7 @@ const UpdateComboModal: React.FC<UpdateComboModalProps> = ({
   // toggle function is here
 
   const onSubmit: SubmitHandler<FieldValues> = (data) => {
-    if (step !== STEPS.INFO_CREATED) {
+    if (step !== STEPS.DESCRIPTION) {
       return onNext();
     }
     setIsLoading(true);
@@ -143,7 +134,7 @@ const UpdateComboModal: React.FC<UpdateComboModalProps> = ({
   };
 
   const actionLabel = useMemo(() => {
-    if (step === STEPS.INFO_CREATED) {
+    if (step === STEPS.DESCRIPTION) {
       return "Update";
     }
 
@@ -210,6 +201,26 @@ const UpdateComboModal: React.FC<UpdateComboModalProps> = ({
       </div>
     </div>
   );
+  if (step === STEPS.QUANTITY) {
+    bodyContent = (
+      <div className="flex flex-col gap-8">
+        <Heading
+          title="Choose quantity of your service to do of combo"
+          subtitle="The number of times to do the service in a combo"
+          center
+        />
+
+        <Input
+          id="quantity"
+          label="Update quantity of your service to do"
+          disabled={isLoading}
+          register={register}
+          errors={errors}
+          required
+        />
+      </div>
+    );
+  }
 
   if (step === STEPS.IMAGES) {
     bodyContent = (
@@ -256,8 +267,8 @@ const UpdateComboModal: React.FC<UpdateComboModalProps> = ({
         />
 
         <Input
-          id="weekNumberBooking"
-          label="Weeks Booking"
+          id="discountPercent"
+          label="Discount Percent"
           disabled={isLoading}
           register={register}
           errors={errors}
@@ -267,85 +278,85 @@ const UpdateComboModal: React.FC<UpdateComboModalProps> = ({
     );
   }
 
-  if (step === STEPS.DAYS) {
-    bodyContent = (
-      <div className="flex flex-col gap-8">
-        <Heading title="Update days to work in week" center />
-        <div
-          className="
-               grid
-               grid-cols-1
-               md:grid-cols-2
-               gap-3
-               max-h-[50vh]
-               overflow-auto
-               mt-4
+  // if (step === STEPS.DAYS) {
+  //   bodyContent = (
+  //     <div className="flex flex-col gap-8">
+  //       <Heading title="Update days to work in week" center />
+  //       <div
+  //         className="
+  //              grid
+  //              grid-cols-1
+  //              md:grid-cols-2
+  //              gap-3
+  //              max-h-[50vh]
+  //              overflow-auto
+  //              mt-4
 
-        "
-        >
-          {options.map((item: OptionsProps) => {
-            return (
-              <div key={item.value} className="col-span-1">
-                <CategoryInput
-                  onClick={(dayDoServiceInWeekValue) => {
-                    if (dayDoServiceInWeek.includes(dayDoServiceInWeekValue)) {
-                      if (typeof dayDoServiceInWeek === "string") {
-                        const updatedString = dayDoServiceInWeek.replace(
-                          dayDoServiceInWeekValue,
-                          ""
-                        );
-                        setCustomValue("dayDoServiceInWeek", updatedString);
-                      }
-                    } else {
-                      setCustomValue(
-                        "dayDoServiceInWeek",
-                        // dayDoServiceInWeek + dayDoServiceInWeekValue
-                        dayDoServiceInWeek.concat(dayDoServiceInWeekValue)
-                      );
-                    }
-                  }}
-                  id={item.value}
-                  // selected={listServiceId.includes(item.value)}
-                  selected={dayDoServiceInWeek.includes(item.value)}
-                  label={item.label}
-                />
-              </div>
-            );
-          })}
-        </div>
-      </div>
-    );
-  }
+  //       "
+  //       >
+  //         {options.map((item: OptionsProps) => {
+  //           return (
+  //             <div key={item.value} className="col-span-1">
+  //               <CategoryInput
+  //                 onClick={(dayDoServiceInWeekValue) => {
+  //                   if (dayDoServiceInWeek.includes(dayDoServiceInWeekValue)) {
+  //                     if (typeof dayDoServiceInWeek === "string") {
+  //                       const updatedString = dayDoServiceInWeek.replace(
+  //                         dayDoServiceInWeekValue,
+  //                         ""
+  //                       );
+  //                       setCustomValue("dayDoServiceInWeek", updatedString);
+  //                     }
+  //                   } else {
+  //                     setCustomValue(
+  //                       "dayDoServiceInWeek",
+  //                       // dayDoServiceInWeek + dayDoServiceInWeekValue
+  //                       dayDoServiceInWeek.concat(dayDoServiceInWeekValue)
+  //                     );
+  //                   }
+  //                 }}
+  //                 id={item.value}
+  //                 // selected={listServiceId.includes(item.value)}
+  //                 selected={dayDoServiceInWeek.includes(item.value)}
+  //                 label={item.label}
+  //               />
+  //             </div>
+  //           );
+  //         })}
+  //       </div>
+  //     </div>
+  //   );
+  // }
 
-  if (step === STEPS.INFO_CREATED) {
-    bodyContent = (
-      <div className="flex flex-col gap-8">
-        <Heading
-          title="Update amount, day do for Combo and author"
-          subtitle=""
-          center
-        />
+  // if (step === STEPS.INFO_CREATED) {
+  //   bodyContent = (
+  //     <div className="flex flex-col gap-8">
+  //       <Heading
+  //         title="Update amount, day do for Combo and author"
+  //         subtitle=""
+  //         center
+  //       />
 
-        <Input
-          id="numberOfPerWeekDoPackage"
-          label="Number of working turns per week"
-          disabled={isLoading}
-          register={register}
-          errors={errors}
-          required
-        />
+  //       <Input
+  //         id="numberOfPerWeekDoPackage"
+  //         label="Number of working turns per week"
+  //         disabled={isLoading}
+  //         register={register}
+  //         errors={errors}
+  //         required
+  //       />
 
-        <Input
-          id="createBy"
-          label="Created BY"
-          disabled={isLoading}
-          register={register}
-          errors={errors}
-          required
-        />
-      </div>
-    );
-  }
+  //       <Input
+  //         id="createBy"
+  //         label="Created BY"
+  //         disabled={isLoading}
+  //         register={register}
+  //         errors={errors}
+  //         required
+  //       />
+  //     </div>
+  //   );
+  // }
 
   return (
     <Modal

@@ -6,14 +6,11 @@ export async function PUT(request: Request) {
 
   const {
     packageId,
+    quantity,
     listServiceId,
     packageDescription,
     packageName,
-    weekNumberBooking,
-    numberOfPerWeekDoPackage,
-    dayDoServiceInWeek,
     imageUrl,
-    createBy,
   } = body;
 
   // console.log(body);
@@ -24,14 +21,11 @@ export async function PUT(request: Request) {
       "https://housevn.azurewebsites.net/api/v1/packages",
       {
         packageId: packageId,
+        quantity: quantity,
         listServiceId: listServiceId,
         packageDescription: packageDescription,
         packageName: packageName,
-        weekNumberBooking: weekNumberBooking,
-        numberOfPerWeekDoPackage: numberOfPerWeekDoPackage,
-        dayDoServiceInWeek: dayDoServiceInWeek,
         imageUrl: imageUrl,
-        createBy: createBy,
       }
     );
 

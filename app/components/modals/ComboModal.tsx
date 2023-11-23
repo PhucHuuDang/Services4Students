@@ -73,7 +73,7 @@ const ComboModal: React.FC<ComboModalProps> = ({ getService }) => {
 
   const listServiceWithQuantity = watch("listServiceWithQuantity");
 
-  console.log(listServiceId);
+  // console.log(listServiceId);
   // console.log(dayDoServiceInWeek);
 
   const setCustomValue = useCallback(

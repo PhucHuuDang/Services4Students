@@ -30,7 +30,7 @@ const CategoryInput: React.FC<CategoryInputProps> = ({
   combo,
 }) => {
   const [quantity, setQuantity] = useState<number>(initialQuantity || 0);
-  console.log(quantity);
+  // console.log(quantity);
 
   // const handleMinusItem = () => {
   //   setQuantity((prevQuantity) => Math.max(prevQuantity - 1, 0));

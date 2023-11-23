@@ -19,6 +19,8 @@ const MainPageClient: React.FC<MainPageClientProps> = ({ services }) => {
   // const services = await getServices();
   // const [servicesBooked, setServicesBooked] = useState<ServiceProp[]>([]);
 
+  // console.log(services);
+
   const { servicesBooked, setServicesBooked } = useBooking();
 
   const handleBookingService = useCallback(

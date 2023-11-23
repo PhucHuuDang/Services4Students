@@ -6,7 +6,7 @@ export async function DELETE(request: Request) {
 
   const { deleteIdProperties } = body;
 
-  const deleteBy = "Hữu Phúc";
+  // const deleteBy = "Hữu Phúc";
 
   //   console.log(body);
 
@@ -17,7 +17,7 @@ export async function DELETE(request: Request) {
       {
         data: {
           packageId: deleteIdProperties,
-          deleteBy: deleteBy,
+          // deleteBy: deleteBy,
         },
       }
     );

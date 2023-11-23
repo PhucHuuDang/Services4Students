@@ -12,6 +12,7 @@ import Image from "next/image";
 import Button from "../Button";
 import { IconType } from "react-icons";
 import useUpdateComboModal from "@/app/hooks/useUpdateComboModal";
+import useUpdateServiceModal from "@/app/hooks/useUpdateServiceModal";
 
 interface ListingCardProps {
   onAction?: (id: string) => void;
@@ -38,6 +39,8 @@ interface ListingCardProps {
   ) => void;
   icon?: IconType;
   dataUpdateFunc?: (packageData: PackageProps) => void;
+  dataUpdateServiceFunc?: (serviceData: ServiceProp) => void;
+  service?: boolean;
 }
 
 const ListingCard: React.FC<ListingCardProps> = ({
@@ -57,9 +60,13 @@ const ListingCard: React.FC<ListingCardProps> = ({
   handleBookingService,
   icon: Icon,
   dataUpdateFunc,
+  dataUpdateServiceFunc,
+  service,
 }) => {
   const router = useRouter();
   const updateComboModal = useUpdateComboModal();
+
+  const updateServiceModal = useUpdateServiceModal();
 
   // const [servicesBooked, setServicesBooked] = useState<ServiceProp[]>([]);
 
@@ -104,14 +111,33 @@ const ListingCard: React.FC<ListingCardProps> = ({
   );
 
   const openUpdateModal = useCallback(
-    (e: React.MouseEvent<SVGElement>, actionId: string, packageData: any) => {
+    (
+      e: React.MouseEvent<SVGElement>,
+      actionId: string,
+      packageData: any,
+      data: any
+    ) => {
       e.stopPropagation();
       // console.log(actionId);
       // console.log(packageData);
-      dataUpdateFunc?.(packageData);
-      updateComboModal.onOpen();
+      // combo
+      //   ? dataUpdateFunc?.(packageData) && updateComboModal.onOpen()
+      //   : dataUpdateServiceFunc?.(data) && updateServiceModal.onOpen();
+      if (combo) {
+        dataUpdateFunc?.(packageData);
+        updateComboModal.onOpen();
+      } else {
+        dataUpdateServiceFunc?.(data);
+        updateServiceModal.onOpen();
+      }
     },
-    [updateComboModal, dataUpdateFunc]
+    [
+      updateComboModal,
+      dataUpdateFunc,
+      dataUpdateServiceFunc,
+      updateServiceModal,
+      combo,
+    ]
   );
 
   // const formatDays = (days: string[]) => {
@@ -143,14 +169,15 @@ const ListingCard: React.FC<ListingCardProps> = ({
               flex-col
               gap-2
               w-full
-            ${combo ? "relative" : ""}
+            ${combo || service ? "relative" : ""}
       `}
       >
-        {combo && Icon && (
-          <Icon
-            onClick={(e) => openUpdateModal(e, actionId, packageData)}
-            size={32}
-            className="
+        {combo || service
+          ? Icon && (
+              <Icon
+                onClick={(e) => openUpdateModal(e, actionId, packageData, data)}
+                size={32}
+                className="
                 absolute
                 right-0
                 top-0
@@ -164,8 +191,9 @@ const ListingCard: React.FC<ListingCardProps> = ({
                 duration-200
 
                 "
-          />
-        )}
+              />
+            )
+          : ""}
         <div
           className="
                 aspect-square 
@@ -177,7 +205,11 @@ const ListingCard: React.FC<ListingCardProps> = ({
           <Image
             fill
             alt="Listing"
-            src={packageData ? packageData.image : (data?.image as any)}
+            src={
+              packageData
+                ? (packageData.image as string)
+                : (data?.image as string) ?? "/images/Image_not_available.png"
+            }
             className="
               object-cover
               h-full
@@ -196,7 +228,9 @@ const ListingCard: React.FC<ListingCardProps> = ({
             {packageData?.packageName}
           </div>
         ) : (
-          <div className="font-semibold text-lg">{data?.serviceName}</div>
+          <div className="font-semibold text-lg min-h-[56px]">
+            {data?.serviceName}
+          </div>
         )}
 
         {packageData ? (
@@ -231,7 +265,7 @@ const ListingCard: React.FC<ListingCardProps> = ({
             </div>
           </div>
         ) : (
-          <div className="flex flex-row text-md items-center gap-4">
+          <div className="flex flex-row text-md items-center gap-4 mt-3">
             <div className="flex flex-row items-center gap-2">
               <del className="font-light text-[#ed9080]">
                 {data?.originalPrice}

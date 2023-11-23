@@ -2,22 +2,9 @@ import axios from "axios";
 import { NextResponse } from "next/server";
 
 export async function DELETE(request: Request) {
-  //   const { deleteId } = params;
-  //   { params }: { params: IParams }
-  //
-  //   const { deleteId } = query;
-
   const body = await request.json();
 
   const { deleteIdProperties } = body;
-
-  //   console.log(deleteId);
-
-  const deleteBy = "";
-
-  //   if (!deleteId || typeof deleteId !== "string" || deleteId === undefined) {
-  //     throw new Error("Invalid ID");
-  //   }
 
   console.log("first");
 
@@ -28,7 +15,6 @@ export async function DELETE(request: Request) {
       {
         data: {
           serviceId: deleteIdProperties,
-          deleteBy: deleteBy,
         },
       }
     );
