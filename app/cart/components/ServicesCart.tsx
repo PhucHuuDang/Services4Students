@@ -8,7 +8,7 @@ import { BsFillHouseAddFill } from "react-icons/bs";
 
 import Image from "next/image";
 import { PackageProps, PaymentMethodProps, ServiceProp } from "@/app/types";
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { memo, useCallback, useEffect, useMemo, useState } from "react";
 import { useBooking } from "@/providers/BookingProvider";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import { toast } from "react-hot-toast";
@@ -20,12 +20,17 @@ import Logo from "@/app/components/navbar/Logo";
 import Heading from "@/app/components/Heading";
 import DoServiceApartmentSelect from "@/app/components/inputs/DoServiceApartmentSelect";
 import PaymentSelect from "@/app/components/inputs/PaymentSelect";
+import { set } from "date-fns";
+import { ServiceArrayProps } from "../MainCart";
 
 interface ServicesCartProps {
   data?: PackageProps | undefined;
   getApartmentByStudentId: any | null;
   getStudentId: any | null;
   paymentMethods?: PaymentMethodProps[];
+  setPriceServices?: (price: number) => void;
+  setServiceArray?: (value: ServiceArrayProps[]) => void;
+  setCheckLengthService: (value: ServiceProp[]) => void;
 }
 
 const ServicesCart: React.FC<ServicesCartProps> = ({
@@ -33,6 +38,9 @@ const ServicesCart: React.FC<ServicesCartProps> = ({
   getApartmentByStudentId,
   getStudentId,
   paymentMethods,
+  setPriceServices,
+  setServiceArray,
+  setCheckLengthService,
 }) => {
   const { servicesBooked, setServicesBooked } = useBooking();
 
@@ -143,10 +151,14 @@ const ServicesCart: React.FC<ServicesCartProps> = ({
       setUpdateStoreBookingData(updateCartStored);
     }
   }, []);
+  console.log(updateStoreBookingData.length);
 
-  // console.log(updateStoreBookingData);
-
+  useEffect(() => {
+    setCheckLengthService(updateStoreBookingData);
+  }, [setCheckLengthService, updateStoreBookingData]);
   // console.log(serviceBooked);
+
+  // check service data length
 
   const onSubmit: SubmitHandler<FieldValues> = (data) => {
     // console.log(data);
@@ -223,11 +235,28 @@ const ServicesCart: React.FC<ServicesCartProps> = ({
       .join(", ");
   };
 
-  const totalPrice = updateStoreBookingData.reduce((total, price) => {
-    return total + price.price;
-  }, 0);
+  useEffect(() => {
+    const totalPrice = updateStoreBookingData.reduce((total, price) => {
+      return total + price.price;
+    }, 0);
 
-  //   console.log(totalPrice);
+    // console.log(totalPrice);
+
+    setPriceServices?.(totalPrice);
+  }, [setPriceServices, updateStoreBookingData]);
+
+  useEffect(() => {
+    const updateServiceArray = updateStoreBookingData.map((item) => {
+      return {
+        serviceId: item.id,
+        quantityOfServiceOrdered: item.quantity as number,
+      };
+    });
+
+    setServiceArray?.(updateServiceArray);
+  }, [updateStoreBookingData, setServiceArray]);
+
+  // console.log(totalPrice);
 
   const handleMinusItem = (id: string) => {
     const updatedStoreBookingData = updateStoreBookingData.map((item) => {
@@ -290,93 +319,37 @@ const ServicesCart: React.FC<ServicesCartProps> = ({
     setUpdateStoreBookingData(updatedStoreBookingData);
   };
 
-  if (servicesBooked.length === 0) {
-    return (
-      <ClientOnly>
-        <EmptyState
-          title="Your cart is empty"
-          subtitle="Let turn back and add some product you want our serve"
-          showReset
-          booking
-        />
-      </ClientOnly>
-    );
-  }
+  const totalPriceOfPackage = useMemo(() => {
+    return updateStoreBookingData.reduce((total, price) => {
+      return total + price.price;
+    }, 0);
+  }, [updateStoreBookingData]);
+
+  // console.log(totalPriceOfPackage);
+
+  // if (servicesBooked.length === 0) {
+  //   return (
+  //     <ClientOnly>
+  //       <EmptyState
+  //         title="Your cart is empty"
+  //         subtitle="Let turn back and add some product you want our serve"
+  //         showReset
+  //         booking
+  //       />
+  //     </ClientOnly>
+  //   );
+  // }
 
   // console.log(updateStoreBookingData);
 
   return (
     <>
-      {/* <div classNasme="my-8 flex flex-row justify-center items-center gap-4">
-        <Logo />
-        <Heading
-          title="SpaceT Cart"
-          subtitle="Hope you guys give us a chance to serve for you!"
-        />
-
-        <div
-          className="
-                    flex
-                    flex-col
-                    justify-center
-                    items-center
-                    absolute 
-                    right-0
-                    mr-36
-                    gap-4   
-                    "
-        >
-          <div className="text-lg text-neutral-700 font-semibold">
-            {!getApartmentByStudentId ? (
-              <>Look likes you have nothing any apartment info</>
-            ) : (
-              <>
-                You already have {getApartmentByStudentId.length} apartments, do
-                you want to register another?
-              </>
-            )}
-          </div>
-
-          <div className="flex flex-row gap-3">
-            <div
-              onClick={useApartment.onOpen}
-              className="
-                flex
-                flex-row
-                items-center
-                gap-1
-                p-2
-                px-4
-                bg-[#f58470]
-                rounded-lg
-                hover:bg-[#f34728]
-                hover:shadow-lg
-                cursor-pointer
-                transition
-                duration-200
-
-                "
-            >
-              <BsFillHouseAddFill size={25} /> Register Apartment
-            </div>
-            {getApartmentByStudentId ? (
-              <>
-                <DoServiceApartmentSelect
-                  getApartmentByStudentId={getApartmentByStudentId}
-                  onChange={(value) => setCustomValue("apartmentId", value)}
-                />
-              </>
-            ) : (
-              ""
-            )}
-          </div>
+      {updateStoreBookingData.length !== 0 && (
+        <div className="pt-10">
+          <hr className="mb-8" />
+          <Heading title="Your Services you booked!" center />
         </div>
-      </div> */}
-
-      <div className="pt-10">
-        <hr className="mb-8" />
-        <Heading title="Your Services you booked!" center />
-      </div>
+      )}
       {updateStoreBookingData.map((item) => {
         return (
           <div
@@ -418,19 +391,17 @@ const ServicesCart: React.FC<ServicesCartProps> = ({
             <div className="flex flex-row items-center gap-1">
               <span>Original Price: </span>
               <del className="font-light text-[#ed9080]">
-                {item.originalPrice}
+                {item.originalPrice.toFixed(2)}
               </del>{" "}
-              <span>$/{item.unit}</span>
+              <span>₫/{item.unit}</span>
             </div>
 
             <div key={item.id}>
               Price:{" "}
-              {
-                servicesBooked.find(
-                  (priceInitial) => priceInitial.id === item.id
-                )?.price
-              }
-              $/{item.unit}
+              {servicesBooked
+                .find((priceInitial) => priceInitial.id === item.id)
+                ?.price.toFixed(2)}
+              ₫/{item.unit}
             </div>
             <div className="flex items-center gap-5">
               <div
@@ -464,7 +435,7 @@ const ServicesCart: React.FC<ServicesCartProps> = ({
               </div>
             </div>
             <div className="text-[#ff6347] font-semibold">
-              Price: {item.price}$
+              Price: {item.price.toFixed(2)} ₫
             </div>
 
             <div
@@ -547,4 +518,4 @@ const ServicesCart: React.FC<ServicesCartProps> = ({
   );
 };
 
-export default ServicesCart;
+export default memo(ServicesCart);

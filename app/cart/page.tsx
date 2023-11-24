@@ -5,6 +5,7 @@ import getRegions from "../components/actions/getRegions";
 import getRoleUser from "../components/actions/getRoleUser";
 import ApartmentModal from "../components/modals/ApartmentModal";
 import CartClient from "./CartClient";
+import MainCart from "./MainCart";
 import ServicesCart from "./components/ServicesCart";
 
 const CartPage = async () => {
@@ -29,7 +30,7 @@ const CartPage = async () => {
   return (
     <ClientOnly>
       <div className="p-24 flex flex-col gap-5">
-        <CartClient
+        {/* <CartClient
           getApartmentByStudentId={getApartmentByStudentId}
           getStudentId={getStudentId}
           // paymentMethods={paymentMethods}
@@ -38,7 +39,12 @@ const CartPage = async () => {
           getApartmentByStudentId={getApartmentByStudentId}
           getStudentId={getStudentId}
         />
-        <ApartmentModal getStudentId={getStudentId} regions={regions} />
+        <ApartmentModal getStudentId={getStudentId} regions={regions} /> */}
+        <MainCart
+          regions={regions}
+          getStudentId={getStudentId}
+          getApartmentByStudentId={getApartmentByStudentId}
+        />
       </div>
     </ClientOnly>
   );

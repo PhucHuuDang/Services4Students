@@ -41,6 +41,8 @@ interface ListingCardProps {
   dataUpdateFunc?: (packageData: PackageProps) => void;
   dataUpdateServiceFunc?: (serviceData: ServiceProp) => void;
   service?: boolean;
+  comboDiscount?: boolean;
+  serviceDiscount?: boolean;
 }
 
 const ListingCard: React.FC<ListingCardProps> = ({
@@ -62,6 +64,8 @@ const ListingCard: React.FC<ListingCardProps> = ({
   dataUpdateFunc,
   dataUpdateServiceFunc,
   service,
+  comboDiscount,
+  serviceDiscount,
 }) => {
   const router = useRouter();
   const updateComboModal = useUpdateComboModal();
@@ -169,15 +173,19 @@ const ListingCard: React.FC<ListingCardProps> = ({
               flex-col
               gap-2
               w-full
-            ${combo || service ? "relative" : ""}
+            ${
+              combo || service || comboDiscount || serviceDiscount
+                ? "relative"
+                : ""
+            }
       `}
       >
-        {combo || service
-          ? Icon && (
-              <Icon
-                onClick={(e) => openUpdateModal(e, actionId, packageData, data)}
-                size={32}
-                className="
+        {combo || service ? (
+          Icon && (
+            <Icon
+              onClick={(e) => openUpdateModal(e, actionId, packageData, data)}
+              size={32}
+              className="
                 absolute
                 right-0
                 top-0
@@ -191,9 +199,61 @@ const ListingCard: React.FC<ListingCardProps> = ({
                 duration-200
 
                 "
-              />
-            )
-          : ""}
+            />
+          )
+        ) : comboDiscount ? (
+          <div
+            className="
+                          absolute
+                          top-0
+                          right-0
+                          m-0
+                          p-2
+                          bg-[#489bee]
+                          text-white
+                          rounded-bl-xl
+                          font-bold
+                          text-xs
+                          z-20
+                          flex  
+                          items-center
+                          gap-1
+                        "
+          >
+            <span>Sale</span>
+            <span>
+              {packageData?.discountPercent !== undefined
+                ? `-${packageData?.discountPercent}%`
+                : "-0%"}
+            </span>
+          </div>
+        ) : (
+          <div
+            className="
+                          absolute
+                          top-0
+                          right-0
+                          m-0
+                          p-2
+                          bg-[#489bee]
+                          text-white
+                          rounded-bl-xl
+                          font-semibold
+                          text-xs
+                          z-20
+                          flex  
+                          items-center
+                          gap-1
+                        "
+          >
+            <span>Sale</span>
+            <span>
+              {data?.discountPercent !== undefined
+                ? `-${data?.discountPercent}%`
+                : "-0%"}
+            </span>
+          </div>
+        )}
         <div
           className="
                 aspect-square 
@@ -252,16 +312,28 @@ const ListingCard: React.FC<ListingCardProps> = ({
           <div className="flex text-md flex-row items-center gap-4">
             <div className="flex flex-row items-center gap-2">
               <del className="font-light text-[#ed9080]">
-                {packageData.totalOriginalPrice}
+                {packageData.totalOriginalPrice.toFixed(3)}
               </del>{" "}
-              <span>$</span>
+              <span>₫</span>
             </div>
+
+            <h1
+              className="
+              font-semibold
+              text-neutral-500
+              text-xl
+              ml-2
+              mr-2
+            "
+            >
+              |
+            </h1>
 
             <div className="flex flex-row items-center gap-2">
               <span className="font-light text-[#ff6347] ">
-                {packageData.totalPrice}
+                {packageData.totalPrice.toFixed(3)}
               </span>{" "}
-              <span>$</span>
+              <span>₫</span>
             </div>
           </div>
         ) : (
@@ -270,12 +342,26 @@ const ListingCard: React.FC<ListingCardProps> = ({
               <del className="font-light text-[#ed9080]">
                 {data?.originalPrice}
               </del>{" "}
-              <span>$</span>
+              <span>₫</span>
             </div>
 
+            <h1
+              className="
+              font-semibold
+              text-neutral-500
+              text-xl
+              ml-2
+              mr-2
+            "
+            >
+              |
+            </h1>
+
             <div className="flex flex-row items-center gap-2">
-              <span className="font-light text-[#ff6347] ">{data?.price}</span>{" "}
-              <span>$</span>
+              <span className="font-light text-[#ff6347] ">
+                {data?.price.toFixed(3)}
+              </span>{" "}
+              <span>₫</span>
             </div>
           </div>
         )}

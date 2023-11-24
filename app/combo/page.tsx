@@ -39,7 +39,9 @@ const ComboPage = async () => {
         >
           {getPackage.map((item: PackageProps) => {
             return (
-              !item.isDelete && <ListingCard key={item.id} packageData={item} />
+              !item.isDelete && (
+                <ListingCard comboDiscount key={item.id} packageData={item} />
+              )
             );
           })}
         </div>

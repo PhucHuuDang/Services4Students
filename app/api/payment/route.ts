@@ -6,33 +6,28 @@ import axios from "axios";
 export async function POST(request: Request) {
   const body = await request.json();
 
-  const {
-    startDate,
-    apartmentId,
-    createBy,
-    paymentMethodId,
+  const { requiredAmount, newBooking } = body;
 
-    listPackage,
-  } = body;
-
-  const formatListPackage = listPackage.map((item: any) => ({
-    packageId: item.packageId,
-    quantityOfPackageOrdered: item.quantityOfPackageOrdered,
-  }));
-
-  // console.log(formatListPackage);
+  const paymentContent = "test";
+  const paymentCurrency = "VND";
+  const paymentDestinationId = "VNPAY";
 
   // console.log(body);
 
+  // const formatListPackage = listPackage.map((item: any) => ({
+  //   packageId: item.packageId,
+  //   quantityOfPackageOrdered: item.quantityOfPackageOrdered,
+  // }));
+
   try {
     const payment = await axios.post(
-      "https://housevn.azurewebsites.net/api/v1/bookings/bookings",
+      "https://housevn.azurewebsites.net/api/v1/payment",
       {
-        startDate: startDate,
-        apartmentId: apartmentId,
-        createBy: createBy,
-        paymentMethodId: paymentMethodId,
-        listPackage: formatListPackage,
+        paymentContent: paymentContent,
+        paymentCurrency: paymentCurrency,
+        requiredAmount: requiredAmount,
+        paymentDestinationId: paymentDestinationId,
+        newBooking: newBooking,
       }
     );
 

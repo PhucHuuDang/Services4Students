@@ -70,6 +70,7 @@ const CategoryInput: React.FC<CategoryInputProps> = ({
             hover:border-black
             transition
             cursor-pointer
+            min-h-[84px]
             ${selected ? "border-black" : "border-neutral-200"}
             ${manageCategories ? "relative gap-6 cursor-default " : ""}
             ${combo ? "flex flex-row justify-between" : "flex flex-col"}

@@ -122,6 +122,7 @@ const MainPageClient: React.FC<MainPageClientProps> = ({ services }) => {
                     comboBooking
                     actionLabel="Booking"
                     handleBookingService={handleBookingService}
+                    serviceDiscount
                   />
                 )
               );
