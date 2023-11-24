@@ -76,7 +76,7 @@ const CartClient: React.FC<CartClientProps> = ({
     }, 0);
 
     // return calculatePrice.toFixed(3);
-    return parseFloat(calculatePrice.toFixed(3));
+    return calculatePrice.toFixed(3);
   }, [priceServices, updateStoreBookingData]);
   // const totalPrice: string = useMemo(() => {
   //   const calculatePrice = updateStoreBookingData.reduce((total, price) => {
@@ -103,7 +103,8 @@ const CartClient: React.FC<CartClientProps> = ({
     setValue,
   } = useForm<FieldValues>({
     defaultValues: {
-      requiredAmount: totalPrice !== 0 ? totalPrice : priceServices,
+      // requiredAmount: totalPrice !== 0 ? totalPrice : priceServices,
+      requiredAmount: totalPrice,
       newBooking: {},
     },
   });
@@ -179,10 +180,11 @@ const CartClient: React.FC<CartClientProps> = ({
 
   useEffect(() => {
     setCustomValue("newBooking", newBookingValue);
-    setCustomValue(
-      "requiredAmount",
-      totalPrice !== 0 ? totalPrice : priceServices
-    );
+    // setCustomValue(
+    //   "requiredAmount",
+    //   totalPrice !== 0 ? totalPrice : priceServices
+    // );
+    setCustomValue("requiredAmount", totalPrice);
   }, [newBookingValue, setCustomValue, totalPrice, priceServices]);
 
   // console.log(newBookingValue);
@@ -223,83 +225,87 @@ const CartClient: React.FC<CartClientProps> = ({
 
   // console.log(updateStoreBookingData);
 
-  const onSubmit: SubmitHandler<FieldValues> = (data) => {
-    console.log(data);
-    setDisabled(true);
+  // const onSubmit: SubmitHandler<FieldValues> = (data) => {
+  const onSubmit = useCallback<SubmitHandler<FieldValues>>(
+    async (data) => {
+      console.log(data);
+      setDisabled(true);
 
-    axios
-      .post("/api/payment", data)
+      axios
+        .post("/api/payment", data)
 
-      .then((callback) => {
-        const getCurrentTime = () => {
-          const now = new Date();
-          let hours = now.getHours();
-          let minutes: number = now.getMinutes();
-          const ampm = hours >= 12 ? "pm" : "am";
-          hours = hours % 12 || 12;
-          minutes = minutes < 10 ? minutes : minutes;
-          const currentTime = `${hours}:${minutes}${ampm}`;
+        .then((callback) => {
+          const getCurrentTime = () => {
+            const now = new Date();
+            let hours = now.getHours();
+            let minutes: number = now.getMinutes();
+            const ampm = hours >= 12 ? "pm" : "am";
+            hours = hours % 12 || 12;
+            minutes = minutes < 10 ? minutes : minutes;
+            const currentTime = `${hours}:${minutes}${ampm}`;
 
-          return currentTime;
-        };
-        const currentTime = getCurrentTime();
+            return currentTime;
+          };
+          const currentTime = getCurrentTime();
 
-        toast.custom((t) => (
-          <div
-            className={`${
-              t.visible ? "animate-enter" : "animate-leave"
-            } max-w-md w-full bg-white shadow-lg rounded-lg pointer-events-auto flex ring-1 ring-black ring-opacity-5`}
-          >
-            <div className="flex-1 w-0 p-4">
-              <div className="flex items-start">
-                <div className="flex-shrink-0 pt-0.5">
-                  <Image
-                    className="h-10 w-10 rounded-full"
-                    src="/images/logo-primary.svg"
-                    width={10}
-                    height={10}
-                    alt="logo-primary"
-                  />
-                </div>
-                <div className="ml-3 flex-1">
-                  <p className="text-sm font-medium text-gray-900">
-                    Thanks ${getStudentId.sub} for your payment!
-                  </p>
-                  <p className="mt-1 text-sm text-gray-500">
-                    Your payment is successful at ${currentTime} , we will
-                    contact you as soon as
-                  </p>
+          toast.custom((t) => (
+            <div
+              className={`${
+                t.visible ? "animate-enter" : "animate-leave"
+              } max-w-md w-full bg-white shadow-lg rounded-lg pointer-events-auto flex ring-1 ring-black ring-opacity-5`}
+            >
+              <div className="flex-1 w-0 p-4">
+                <div className="flex items-start">
+                  <div className="flex-shrink-0 pt-0.5">
+                    <Image
+                      className="h-10 w-10 rounded-full"
+                      src="/images/logo-primary.svg"
+                      width={10}
+                      height={10}
+                      alt="logo-primary"
+                    />
+                  </div>
+                  <div className="ml-3 flex-1">
+                    <p className="text-sm font-medium text-gray-900">
+                      Thanks ${getStudentId.sub} for your payment!
+                    </p>
+                    <p className="mt-1 text-sm text-gray-500">
+                      Your payment is successful at ${currentTime} , we will
+                      contact you as soon as
+                    </p>
+                  </div>
                 </div>
               </div>
+              <div className="flex border-l border-gray-200">
+                <button
+                  onClick={() => toast.dismiss(t.id)}
+                  className="w-full border border-transparent rounded-none rounded-r-lg p-4 flex items-center justify-center text-sm font-medium text-indigo-600 hover:text-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                >
+                  Close
+                </button>
+              </div>
             </div>
-            <div className="flex border-l border-gray-200">
-              <button
-                onClick={() => toast.dismiss(t.id)}
-                className="w-full border border-transparent rounded-none rounded-r-lg p-4 flex items-center justify-center text-sm font-medium text-indigo-600 hover:text-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500"
-              >
-                Close
-              </button>
-            </div>
-          </div>
-        ));
-        // console.log(callback);
-        // console.log(callback.data);
+          ));
+          // console.log(callback);
+          // console.log(callback.data);
 
-        if (callback.data.paymentUrl) {
-          router.push(callback.data.paymentUrl);
-          router.refresh();
-        } else {
-          console.error("Invalid payment URL:", callback.data.paymentUrl);
-        }
-      })
+          if (callback.data.paymentUrl) {
+            router.push(callback.data.paymentUrl);
+            router.refresh();
+          } else {
+            console.error("Invalid payment URL:", callback.data.paymentUrl);
+          }
+        })
 
-      .catch(() => {
-        toast.error("Please check your information again");
-      })
-      .finally(() => {
-        setDisabled(false);
-      });
-  };
+        .catch(() => {
+          toast.error("Please check your information again");
+        })
+        .finally(() => {
+          setDisabled(false);
+        });
+    },
+    [router, getStudentId.sub]
+  );
 
   const validateSubmit = useCallback(async () => {
     if (!apartmentId || !endDate) {
@@ -321,6 +327,7 @@ const CartClient: React.FC<CartClientProps> = ({
     apartmentId,
     endDate,
     handleSubmit,
+    onSubmit,
     getApartmentByStudentId,
     useApartment,
   ]);
@@ -671,7 +678,8 @@ const CartClient: React.FC<CartClientProps> = ({
           <div className="flex items-center gap-2 text-lg">
             Total payment:
             <p className="text-[#ff6347] font-semibold">
-              {totalPrice !== 0 ? totalPrice : priceServices} ₫
+              {/* {totalPrice !== 0 ? totalPrice : priceServices} ₫ */}
+              {totalPrice} ₫
             </p>
           </div>
 
