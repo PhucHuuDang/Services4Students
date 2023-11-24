@@ -110,7 +110,8 @@ const CartListing: React.FC<CartListingProps> = ({ data }) => {
         <div className="flex flex-col gap-1">
           <div className="text-lg font-semibold">{data.packageName}</div>
           {/* <div className="text-lg font-semibold">{item.packageName}</div> */}
-          <div className="font-light text-gray-600">{data.dayDoInWeek}</div>
+          {/* <div className="font-light text-gray-600">{data.dayDoInWeek}</div> */}
+          <div className="font-light text-gray-600">123</div>
           {/* <div className="font-light text-gray-600">{item.dayDoInWeek}</div> */}
         </div>
       </div>
