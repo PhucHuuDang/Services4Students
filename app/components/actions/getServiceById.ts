@@ -6,7 +6,7 @@ export default async function getServiceById(listingId: string) {
   //   const { listingId } = params;
 
   const getService = await fetch(
-    `https://housevn.azurewebsites.net/api/v1/services/serivcesbyId?SerivceId=${listingId}`,
+    `https://housevn.azurewebsites.net/api/v1/services/${listingId}`,
     {
       cache: "no-store",
     }
