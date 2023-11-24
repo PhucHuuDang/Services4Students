@@ -75,9 +75,20 @@ const CartClient: React.FC<CartClientProps> = ({
       );
     }, 0);
 
-    return calculatePrice.toFixed(3);
-    // return calculatePrice;
+    // return calculatePrice.toFixed(3);
+    return parseFloat(calculatePrice.toFixed(3));
   }, [priceServices, updateStoreBookingData]);
+  // const totalPrice: string = useMemo(() => {
+  //   const calculatePrice = updateStoreBookingData.reduce((total, price) => {
+  //     return (
+  //       total +
+  //       price.totalPrice +
+  //       (priceServices !== undefined ? priceServices : 0)
+  //     );
+  //   }, 0);
+
+  //   return calculatePrice.toFixed(3);
+  // }, [priceServices, updateStoreBookingData]);
 
   // console.log(getStudentId);
 
@@ -92,7 +103,7 @@ const CartClient: React.FC<CartClientProps> = ({
     setValue,
   } = useForm<FieldValues>({
     defaultValues: {
-      requiredAmount: parseFloat(totalPrice) !== 0 ? totalPrice : priceServices,
+      requiredAmount: totalPrice !== 0 ? totalPrice : priceServices,
       newBooking: {},
     },
   });
@@ -170,7 +181,7 @@ const CartClient: React.FC<CartClientProps> = ({
     setCustomValue("newBooking", newBookingValue);
     setCustomValue(
       "requiredAmount",
-      parseFloat(totalPrice) !== 0 ? totalPrice : priceServices
+      totalPrice !== 0 ? totalPrice : priceServices
     );
   }, [newBookingValue, setCustomValue, totalPrice, priceServices]);
 
@@ -660,7 +671,7 @@ const CartClient: React.FC<CartClientProps> = ({
           <div className="flex items-center gap-2 text-lg">
             Total payment:
             <p className="text-[#ff6347] font-semibold">
-              {parseFloat(totalPrice) !== 0 ? totalPrice : priceServices} ₫
+              {totalPrice !== 0 ? totalPrice : priceServices} ₫
             </p>
           </div>
 
