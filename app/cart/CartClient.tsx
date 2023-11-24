@@ -78,22 +78,15 @@ const CartClient: React.FC<CartClientProps> = ({
     // return calculatePrice.toFixed(3);
     return calculatePrice.toFixed(3);
   }, [priceServices, updateStoreBookingData]);
-  // const totalPrice: string = useMemo(() => {
-  //   const calculatePrice = updateStoreBookingData.reduce((total, price) => {
-  //     return (
-  //       total +
-  //       price.totalPrice +
-  //       (priceServices !== undefined ? priceServices : 0)
-  //     );
-  //   }, 0);
 
-  //   return calculatePrice.toFixed(3);
-  // }, [priceServices, updateStoreBookingData]);
+  console.log("Total Price:", totalPrice);
 
-  // console.log(getStudentId);
+  console.log(typeof totalPrice);
+  console.log(totalPrice !== "0.000" ? 1 : 0);
 
-  // console.log(parseFloat(totalPrice) === 0 ? 1 : 0);
-  // console.log(priceServices);
+  const formattedTotalPrice = useMemo(() => {
+    return totalPrice !== undefined ? totalPrice : "0.000"; // Set a default value if totalPrice is undefined
+  }, [totalPrice]);
 
   const {
     register,
@@ -679,7 +672,8 @@ const CartClient: React.FC<CartClientProps> = ({
             Total payment:
             <p className="text-[#ff6347] font-semibold">
               {/* {totalPrice !== 0 ? totalPrice : priceServices} ₫ */}
-              {totalPrice} ₫
+              {/* {totalPrice} ₫ */}
+              {formattedTotalPrice} ₫
             </p>
           </div>
 
