@@ -29,7 +29,7 @@ interface CartClientProps {
   data?: PackageProps | undefined;
   getApartmentByStudentId: any | null;
   getStudentId: any | null;
-  priceServices?: number;
+  priceServices: number;
   serviceArray: ServiceArrayProps[];
   // setCheckLengthDataCombo: (value: PackageProps[]) => void;
   checkLengthService: ServiceProp[];

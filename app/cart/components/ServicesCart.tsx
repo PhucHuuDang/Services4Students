@@ -28,8 +28,8 @@ interface ServicesCartProps {
   getApartmentByStudentId: any | null;
   getStudentId: any | null;
   paymentMethods?: PaymentMethodProps[];
-  setPriceServices?: (price: number) => void;
-  setServiceArray?: (value: ServiceArrayProps[]) => void;
+  setPriceServices: (price: number) => void;
+  setServiceArray: (value: ServiceArrayProps[]) => void;
   setCheckLengthService: (value: ServiceProp[]) => void;
 }
 
