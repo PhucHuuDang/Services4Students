@@ -426,18 +426,18 @@ const CartClient: React.FC<CartClientProps> = ({
 
   // console.log(storeBookingData);
 
-  // if (storeBookingData.length === 0 && checkLengthService.length === 0) {
-  //   return (
-  //     <ClientOnly>
-  //       <EmptyState
-  //         title="Your cart is empty"
-  //         subtitle="Let turn back and add some product you want our serve"
-  //         showReset
-  //         booking
-  //       />
-  //     </ClientOnly>
-  //   );
-  // }
+  if (storeBookingData.length === 0 && checkLengthService.length === 0) {
+    return (
+      <ClientOnly>
+        <EmptyState
+          title="Your cart is empty"
+          subtitle="Let turn back and add some product you want our serve"
+          showReset
+          booking
+        />
+      </ClientOnly>
+    );
+  }
 
   if (isCartEmpty) {
     return (
