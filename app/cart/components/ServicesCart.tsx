@@ -22,6 +22,7 @@ import DoServiceApartmentSelect from "@/app/components/inputs/DoServiceApartment
 import PaymentSelect from "@/app/components/inputs/PaymentSelect";
 import { set } from "date-fns";
 import { ServiceArrayProps } from "../MainCart";
+import { useRouter } from "next/navigation";
 
 interface ServicesCartProps {
   data?: PackageProps | undefined;
@@ -43,10 +44,13 @@ const ServicesCart: React.FC<ServicesCartProps> = ({
   setCheckLengthService,
 }) => {
   const { servicesBooked, setServicesBooked } = useBooking();
+  const router = useRouter();
 
   const [updateStoreBookingData, setUpdateStoreBookingData] = useState<
     ServiceProp[]
   >([]);
+
+  const [isCartEmpty, setIsCartEmpty] = useState(false);
 
   // const [serviceBooked, setServicesBooked] = useState<ServiceProp[]>([]);
 
@@ -114,9 +118,6 @@ const ServicesCart: React.FC<ServicesCartProps> = ({
     [setValue]
   );
 
-  const paymentMethodId = watch("paymentMethodId");
-  const apartmentId = watch("apartmentId");
-
   useEffect(() => {
     setCustomValue("listPackage", updateStoreBookingData);
   }, [updateStoreBookingData, setCustomValue]);
@@ -127,13 +128,17 @@ const ServicesCart: React.FC<ServicesCartProps> = ({
     if (typeof window !== "undefined") {
       if (!getStudentId) {
         window.localStorage.removeItem("serviceCart");
-        // window.localStorage.removeItem("updateCart");
-        console.log("Removed 'cart' from localStorage.");
+        window.localStorage.removeItem("updateServiceCart");
+        // console.log("Removed 'cart' from localStorage.");
         // setStoreBookingData([]);
+        setServicesBooked([]);
         setUpdateStoreBookingData([]);
+
+        setIsCartEmpty(updateStoreBookingData.length === 0);
+        // router.refresh();
       }
     }
-  }, [getStudentId]);
+  }, [getStudentId, setServicesBooked]);
 
   // store updateCart to localStorage
 
@@ -151,7 +156,7 @@ const ServicesCart: React.FC<ServicesCartProps> = ({
       setUpdateStoreBookingData(updateCartStored);
     }
   }, []);
-  console.log(updateStoreBookingData.length);
+  // console.log(updateStoreBookingData.length);
 
   useEffect(() => {
     setCheckLengthService(updateStoreBookingData);
@@ -160,48 +165,48 @@ const ServicesCart: React.FC<ServicesCartProps> = ({
 
   // check service data length
 
-  const onSubmit: SubmitHandler<FieldValues> = (data) => {
-    // console.log(data);
-    setDisabled(true);
+  // const onSubmit: SubmitHandler<FieldValues> = (data) => {
+  //   // console.log(data);
+  //   setDisabled(true);
 
-    axios
-      .post("/api/payment", data)
+  //   axios
+  //     .post("/api/payment", data)
 
-      .then(() => {
-        toast.success("Payment successfully!");
-      })
+  //     .then(() => {
+  //       toast.success("Payment successfully!");
+  //     })
 
-      .catch(() => {
-        toast.error("Please check your information again");
-      })
-      .finally(() => {
-        setDisabled(false);
-      });
-  };
+  //     .catch(() => {
+  //       toast.error("Please check your information again");
+  //     })
+  //     .finally(() => {
+  //       setDisabled(false);
+  //     });
+  // };
 
-  const validateSubmit = useCallback(async () => {
-    if (!apartmentId || !paymentMethodId) {
-      return toast.error(
-        "Let me know your apartment or payment method desire!"
-      );
-      //   return;
-    } else if (!getApartmentByStudentId) {
-      toast.error("Please register your apart to us ");
-      return useApartment.onOpen();
-    } else {
-      try {
-        await handleSubmit(onSubmit)();
-      } catch (error) {
-        toast.error("have something went wrong with submit");
-      }
-    }
-  }, [
-    apartmentId,
-    paymentMethodId,
-    handleSubmit,
-    getApartmentByStudentId,
-    useApartment,
-  ]);
+  // const validateSubmit = useCallback(async () => {
+  //   if (!apartmentId || !paymentMethodId) {
+  //     return toast.error(
+  //       "Let me know your apartment or payment method desire!"
+  //     );
+  //     //   return;
+  //   } else if (!getApartmentByStudentId) {
+  //     toast.error("Please register your apart to us ");
+  //     return useApartment.onOpen();
+  //   } else {
+  //     try {
+  //       await handleSubmit(onSubmit)();
+  //     } catch (error) {
+  //       toast.error("have something went wrong with submit");
+  //     }
+  //   }
+  // }, [
+  //   apartmentId,
+  //   paymentMethodId,
+  //   handleSubmit,
+  //   getApartmentByStudentId,
+  //   useApartment,
+  // ]);
 
   //   console.log(updateStoreBookingData);
 
@@ -235,6 +240,7 @@ const ServicesCart: React.FC<ServicesCartProps> = ({
       .join(", ");
   };
 
+  // set price services
   useEffect(() => {
     const totalPrice = updateStoreBookingData.reduce((total, price) => {
       return total + price.price;
@@ -271,9 +277,6 @@ const ServicesCart: React.FC<ServicesCartProps> = ({
           (original) => original.id === id
         );
         if (originalItem) {
-          // const newNumberOfPerWeekDoPackage =
-          //   item.numberOfPerWeekDoPackage -
-          //   originalItem.numberOfPerWeekDoPackage;
           const newTotalPrice = item.price - originalItem.price;
 
           return {
@@ -341,6 +344,10 @@ const ServicesCart: React.FC<ServicesCartProps> = ({
   // }
 
   // console.log(updateStoreBookingData);
+
+  if (isCartEmpty) {
+    return <div></div>;
+  }
 
   return (
     <>

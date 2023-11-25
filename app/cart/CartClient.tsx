@@ -54,6 +54,8 @@ const CartClient: React.FC<CartClientProps> = ({
     PackageProps[]
   >([]);
 
+  const [isCartEmpty, setIsCartEmpty] = useState(false);
+
   const [disabled, setDisabled] = useState(false);
   const useApartment = useApartmentModal();
   const currentDate = new Date();
@@ -78,11 +80,6 @@ const CartClient: React.FC<CartClientProps> = ({
     // return calculatePrice.toFixed(3);
     return calculatePrice.toFixed(3);
   }, [priceServices, updateStoreBookingData]);
-
-  console.log("Total Price:", totalPrice);
-
-  console.log(typeof totalPrice);
-  console.log(totalPrice !== "0.000" ? 1 : 0);
 
   const formattedTotalPrice = useMemo(() => {
     return totalPrice !== undefined ? totalPrice : "0.000"; // Set a default value if totalPrice is undefined
@@ -173,12 +170,13 @@ const CartClient: React.FC<CartClientProps> = ({
 
   useEffect(() => {
     setCustomValue("newBooking", newBookingValue);
-    // setCustomValue(
-    //   "requiredAmount",
-    //   totalPrice !== 0 ? totalPrice : priceServices
-    // );
-    setCustomValue("requiredAmount", totalPrice);
-  }, [newBookingValue, setCustomValue, totalPrice, priceServices]);
+
+    // setCustomValue("requiredAmount", totalPrice);
+    setCustomValue(
+      "requiredAmount",
+      formattedTotalPrice !== "0.000" ? formattedTotalPrice : priceServices
+    );
+  }, [newBookingValue, setCustomValue, formattedTotalPrice, priceServices]);
 
   // console.log(newBookingValue);
 
@@ -190,6 +188,11 @@ const CartClient: React.FC<CartClientProps> = ({
         console.log("Removed 'cart' from localStorage.");
         setStoreBookingData([]);
         setUpdateStoreBookingData([]);
+        // router.refresh();
+
+        setIsCartEmpty(
+          storeBookingData.length === 0 && checkLengthService.length === 0
+        );
       }
     }
   }, [getStudentId, setStoreBookingData]);
@@ -260,7 +263,7 @@ const CartClient: React.FC<CartClientProps> = ({
                   </div>
                   <div className="ml-3 flex-1">
                     <p className="text-sm font-medium text-gray-900">
-                      Thanks ${getStudentId.sub} for your payment!
+                      Thanks ${getStudentId?.sub} for your payment!
                     </p>
                     <p className="mt-1 text-sm text-gray-500">
                       Your payment is successful at ${currentTime} , we will
@@ -297,7 +300,7 @@ const CartClient: React.FC<CartClientProps> = ({
           setDisabled(false);
         });
     },
-    [router, getStudentId.sub]
+    [router, getStudentId]
   );
 
   const validateSubmit = useCallback(async () => {
@@ -395,18 +398,6 @@ const CartClient: React.FC<CartClientProps> = ({
   const handlePlusItem = (id: string) => {
     const updatedStoreBookingData = updateStoreBookingData.map((item) => {
       if (item.id === id) {
-        // Increment the value of numberOfPerWeekDoPackage by 1
-
-        // const oldPrice
-        // return {
-        //   ...item,
-        //   numberOfPerWeekDoPackage:
-        //     item.numberOfPerWeekDoPackage + item.numberOfPerWeekDoPackage,
-        //   weekNumberBooking: item.weekNumberBooking + item.weekNumberBooking,
-        //   totalPrice: item.totalPrice + item.totalPrice,
-        //   packageItem: item.packageItem + 1,
-        // };
-
         const originalItem = storeBookingData.find(
           (original) => original.id === id
         );
@@ -435,7 +426,20 @@ const CartClient: React.FC<CartClientProps> = ({
 
   // console.log(storeBookingData);
 
-  if (storeBookingData.length === 0 && checkLengthService.length === 0) {
+  // if (storeBookingData.length === 0 && checkLengthService.length === 0) {
+  //   return (
+  //     <ClientOnly>
+  //       <EmptyState
+  //         title="Your cart is empty"
+  //         subtitle="Let turn back and add some product you want our serve"
+  //         showReset
+  //         booking
+  //       />
+  //     </ClientOnly>
+  //   );
+  // }
+
+  if (isCartEmpty) {
     return (
       <ClientOnly>
         <EmptyState
@@ -673,7 +677,10 @@ const CartClient: React.FC<CartClientProps> = ({
             <p className="text-[#ff6347] font-semibold">
               {/* {totalPrice !== 0 ? totalPrice : priceServices} ₫ */}
               {/* {totalPrice} ₫ */}
-              {formattedTotalPrice} ₫
+              {formattedTotalPrice !== "0.000"
+                ? formattedTotalPrice
+                : priceServices}{" "}
+              ₫
             </p>
           </div>
 
