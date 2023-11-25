@@ -18,6 +18,8 @@ import Provider from "../providers/Provider";
 import getRoleUser from "./components/actions/getRoleUser";
 import { BookingProvider } from "@/providers/BookingProvider";
 import CategoriesModal from "./components/modals/CategoriesModal";
+import getServiceOfBookingDetail from "./components/actions/getServiceOfBookingDetail";
+import { MantineProvider } from "@mantine/core";
 
 export const metadata = {
   title: "Services for students",
@@ -38,30 +40,41 @@ export default async function RootLayout({
   const getService = await getServices();
   const getRole = await getRoleUser();
 
+  const servicesOfBookingDetails = await getServiceOfBookingDetail(
+    getRole && typeof getRole !== "string" && "userIdInTableDb" in getRole
+      ? getRole.userIdInTableDb
+      : ""
+  );
+
+  // console.log(getRole);
+
   return (
     <html lang="en">
       <body suppressHydrationWarning className={nunito.className}>
         <Provider>
-          <ClientOnly>
-            <ToasterProvider />
-            <SearchModal getService={getService} />
-            <AddServicesModal getCategoryId={getCategoryId} />
-            <CategoryModal />
-            <LoginModal />
-            <RegisterModal />
-            <RegisterStaffModal getCatagories={getCategoryId} />
-            <ComboModal getService={getService} />
-            <CategoriesModal categories={getCategoryId} />
+          <MantineProvider>
+            <ClientOnly>
+              <ToasterProvider />
+              <SearchModal getService={getService} />
+              <AddServicesModal getCategoryId={getCategoryId} />
+              <CategoryModal />
+              <LoginModal />
+              <RegisterModal />
+              <RegisterStaffModal getCatagories={getCategoryId} />
+              <ComboModal getService={getService} />
+              <CategoriesModal categories={getCategoryId} />
 
-            <Navbar
-              currentUser={currentUser}
-              getRole={getRole}
-              getService={getService}
-            />
-          </ClientOnly>
-          <BookingProvider>
-            <div className="pb-20 pt=28">{children}</div>
-          </BookingProvider>
+              <Navbar
+                currentUser={currentUser}
+                getRole={getRole}
+                getService={getService}
+                servicesOfBookingDetails={servicesOfBookingDetails}
+              />
+            </ClientOnly>
+            <BookingProvider>
+              <div className="pb-20 pt=28">{children}</div>
+            </BookingProvider>
+          </MantineProvider>
         </Provider>
       </body>
     </html>

@@ -10,12 +10,13 @@ import Search from "./Search";
 import UserMenu from "./UserMenu";
 import useVerifyToken from "@/app/hooks/useVerifyToken";
 import { useSession } from "next-auth/react";
-import { ServiceProp } from "@/app/types";
+import { ServiceOfBookingDetails, ServiceProp } from "@/app/types";
 
 interface NavbarProps {
   currentUser?: any | null;
   getRole?: any | null;
   getService?: any;
+  servicesOfBookingDetails: ServiceOfBookingDetails[];
 }
 
 interface TokenProps {
@@ -32,6 +33,7 @@ const Navbar: React.FC<NavbarProps> = ({
   currentUser,
   getRole,
   getService,
+  servicesOfBookingDetails,
 }) => {
   const router = useRouter();
   const isMainPage = useSearchParams();
@@ -74,6 +76,8 @@ const Navbar: React.FC<NavbarProps> = ({
   //   return null;
   // }
 
+  // console.log(servicesOfBookingDetails.length);
+
   return (
     <div className="fixed bg-white w-full z-20 shadow-sm">
       <div className="py-4 border-b-[1px] z-10">
@@ -83,6 +87,7 @@ const Navbar: React.FC<NavbarProps> = ({
             <Search services={getService} />
             <UserMenu
               // currentUser={currentUser}
+              servicesOfBookingDetails={servicesOfBookingDetails}
               currentUser={getRole}
               isAdmin={getRole ? getRole.role : ""}
             />

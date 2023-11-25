@@ -240,7 +240,7 @@ const ListingCard: React.FC<ListingCardProps> = ({
                           rounded-bl-xl
                           font-semibold
                           text-xs
-                          z-20
+                          z-10
                           flex  
                           items-center
                           gap-1
