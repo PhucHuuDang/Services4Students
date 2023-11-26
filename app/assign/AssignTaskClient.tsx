@@ -22,19 +22,26 @@ const AssignTaskClient: React.FC<AssignTaskClientProps> = ({
   dataStaffs,
   getRole,
 }) => {
+  const [serviceId, setServiceId] = useState("");
   const [bookingDetailId, setBookingDetailId] = useState("");
+  const [bookingDetailType, setBookingDetailType] = useState("");
+  const [bookingDetailTitle, setBookingDetailTitle] = useState("");
+
   const assignModal = useAssignModal();
   const router = useRouter();
 
   const openAssignModal = useCallback(
-    (id: string) => {
+    (id: string, serviceId: string, type: string, title: string) => {
       setBookingDetailId(id);
+      setServiceId(serviceId);
+      setBookingDetailType(type);
+      setBookingDetailTitle(title);
       assignModal.onOpen();
     },
     [assignModal]
   );
 
-  console.log("bookingDetailId: ", bookingDetailId);
+  // console.log("bookingDetailId: ", bookingDetailId);
 
   useEffect(() => {
     if (getRole && getRole.role !== "Admin") {
@@ -56,63 +63,6 @@ const AssignTaskClient: React.FC<AssignTaskClientProps> = ({
   }
 
   return (
-    // <div
-    //   className="
-    //     col-span-1
-    //     gap-5
-    //     group
-    //     "
-    // >
-    //   <div
-    //     className="
-    //         flex
-    //         flex-col
-    //         gap-3
-    //         w-full
-    //         p-4
-    //         rounded-xl
-    //         cursor-pointer
-    //         border-[1px]
-    //         hover:scale-105
-    //         hover:shadow-lg
-    //         duration-200
-
-    //     "
-    //   >
-    //     <div
-    //       className="
-    //         bg-red-599
-    //         text-center
-    //         min-h-[130px]
-    //         flex-wrap
-    //         pr-4
-    //         text-xl
-    //         font-semibold"
-    //     >
-    //       {dataBookingDetail.bookingDetailName}
-    //     </div>
-    //     <div>
-    //       Working term:{" "}
-    //       <span className="font-bold text-green-500">
-    //         {dataBookingDetail.remainingTaskDuration}
-    //       </span>
-    //     </div>
-    //     <div>
-    //       Quantity package:{" "}
-    //       <span className="font-bold text-green-500">
-    //         {dataBookingDetail.quantityOfPackageOrdered}
-    //       </span>
-    //     </div>
-    //     <div>
-    //       Total price quantity:{" "}
-    //       <span className="font-bold text-green-500">
-    //         {dataBookingDetail.totalPriceQtity}$
-    //       </span>
-    //     </div>
-
-    //     <Button label="Assign" onClick={() => {}} />
-    //   </div>
-    // </div>
     <ClientOnly>
       <div
         className="
@@ -128,18 +78,24 @@ const AssignTaskClient: React.FC<AssignTaskClientProps> = ({
         
         "
       >
-        {dataBookingDetail.map((item: DetailsProps) => {
+        {dataBookingDetail.map((item: DetailsProps, index: number) => {
           return (
             <AssignTaskListing
               // dataStaffs={dataStaffs}
-              key={item.id}
+              key={`${item.bookingDetailId}_${index}`}
               dataBookingDetail={item}
               openAssignModal={openAssignModal}
             />
           );
         })}
       </div>
-      <AssignModal dataStaffs={dataStaffs} bookingDetailId={bookingDetailId} />
+      <AssignModal
+        dataStaffs={dataStaffs}
+        bookingDetailId={bookingDetailId}
+        serviceId={serviceId}
+        bookingDetailType={bookingDetailType}
+        bookingDetailTitle={bookingDetailTitle}
+      />
       {/* <AssignTaskListing /> */}
     </ClientOnly>
   );

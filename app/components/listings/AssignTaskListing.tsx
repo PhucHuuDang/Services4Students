@@ -8,7 +8,12 @@ import { useCallback, memo } from "react";
 interface AssignTaskListingProps {
   dataBookingDetail: DetailsProps;
   //   dataStaffs: any;
-  openAssignModal: (bookingDetailId: string) => void;
+  openAssignModal: (
+    bookingDetailId: string,
+    serviceId: string,
+    type: string,
+    title: string
+  ) => void;
 }
 
 const AssignTaskListing: React.FC<AssignTaskListingProps> = ({
@@ -19,7 +24,12 @@ const AssignTaskListing: React.FC<AssignTaskListingProps> = ({
   //   const assignModal = useAssignModal();
 
   const handleOpenAssignModal = useCallback(() => {
-    openAssignModal(dataBookingDetail.id);
+    openAssignModal(
+      dataBookingDetail.bookingDetailId,
+      dataBookingDetail.serviceId,
+      dataBookingDetail.bookingDetailType,
+      dataBookingDetail.bookingDetailTittle
+    );
   }, [dataBookingDetail, openAssignModal]);
 
   //   console.log(dataBookingDetail);
@@ -58,24 +68,24 @@ const AssignTaskListing: React.FC<AssignTaskListingProps> = ({
                 text-xl
                 font-semibold"
         >
-          {dataBookingDetail.bookingDetailName}
+          {dataBookingDetail.bookingDetailTittle}
         </div>
         <div>
           Working term:{" "}
           <span className="font-bold text-green-500">
-            {dataBookingDetail.remainingTaskDuration}
+            {dataBookingDetail.timeDoService}
           </span>
         </div>
         <div>
-          Quantity package:{" "}
+          Start working in:{" "}
           <span className="font-bold text-green-500">
-            {dataBookingDetail.quantityOfPackageOrdered}
+            {dataBookingDetail.startDateDoService}
           </span>
         </div>
         <div>
-          Total price quantity:{" "}
+          End working in:{" "}
           <span className="font-bold text-green-500">
-            {dataBookingDetail.totalPriceQtity}$
+            {dataBookingDetail.endDateDoService}$
           </span>
         </div>
 

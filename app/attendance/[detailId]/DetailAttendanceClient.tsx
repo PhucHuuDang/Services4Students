@@ -184,7 +184,7 @@ const DetailAttendanceClient: React.FC<DetailAttendanceClientProps> = ({
                       // }
                       if (item.feedBackStatus === 1) {
                         feedbackModal.onOpen();
-                        // setFeedbackID(item.feedBack.id);
+                        setFeedbackID(item.feedBackId);
                       }
                     }}
                     key={item.serviceId}

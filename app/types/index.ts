@@ -112,22 +112,31 @@ export type AttendanceReport = {
 };
 
 export type DetailsProps = {
-  id: string;
-  bookingDetailName: string;
-  totalPriceQtity: number;
-  isRe_Newed: boolean;
-  remainingTaskDuration: number;
-  quantityOfPackageOrdered: number;
-  bookingDetailStatus: null;
-  bookingId: string;
-  packageId: string;
-  created: string;
-  createBy: string;
-  booking?: null;
-  lastModified: string;
-  lastModifiedBy: null;
-  isDelete: boolean;
+  // id: string;
+  // bookingDetailName: string;
+  // totalPriceQtity: number;
+  // isRe_Newed: boolean;
+  // remainingTaskDuration: number;
+  // quantityOfPackageOrdered: number;
+  // bookingDetailStatus: null;
+  // bookingId: string;
+  // packageId: string;
+  // created: string;
+  // createBy: string;
+  // booking?: null;
+  // lastModified: string;
+  // lastModifiedBy: null;
+  // isDelete: boolean;
   // attendReport
+
+  bookingDetailTittle: string;
+  startDateDoService: string;
+  endDateDoService: string;
+  timeDoService: string;
+  serviceId: string;
+  bookingDetailId: string;
+  bookingDetailType: string;
+  note: string;
 };
 
 export type BookingByStuIdProps = {
@@ -208,7 +217,7 @@ export type AttendanceTableProps = {
   attendTittle: string;
   dateDoService: string;
   apartmentRegion: string;
-  feedbackId: string;
+  feedBackId: string;
   feedbackAvailable: string;
   serviceId: string;
   bookingDetailId: string;

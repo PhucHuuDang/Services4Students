@@ -9,6 +9,7 @@ import axios from "axios";
 import { toast } from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import getStaffByServiceId from "../actions/getStaffByServiceId";
 
 type StaffType = {
   staffData: {
@@ -17,17 +18,36 @@ type StaffType = {
     birthday: string;
     address: string;
     isDelete: boolean;
+    applicationUserId: string;
+    created: string;
+  };
+  inforOfStaffData: {
+    id: string;
+    fullName: string;
+    userName: string;
+    normalizedUserName: string;
+    email: string;
+    normalizedEmail: string;
+    emailConfirmed: string;
+    phoneNumber: string;
+    phoneNumberConfirmed: boolean;
   };
 };
 
 interface AssignModalProps {
   dataStaffs: any;
   bookingDetailId: string;
+  serviceId: string;
+  bookingDetailType: string;
+  bookingDetailTitle: string;
 }
 
 const AssignModal: React.FC<AssignModalProps> = ({
   dataStaffs,
   bookingDetailId,
+  serviceId,
+  bookingDetailType,
+  bookingDetailTitle,
 }) => {
   const assignModal = useAssignModal();
   const router = useRouter();
@@ -35,10 +55,7 @@ const AssignModal: React.FC<AssignModalProps> = ({
 
   const assignBy = "Admin";
 
-  // console.log("bookingDetailId: ", bookingDetailId);
-
-  // console.log("bookingDetailIdProp: ", bookingDetailIdProp);
-  // console.log(dataStaffs);
+  // console.log("serviceId: ", serviceId);
 
   const {
     register,
@@ -49,9 +66,10 @@ const AssignModal: React.FC<AssignModalProps> = ({
     reset,
   } = useForm<FieldValues>({
     defaultValues: {
-      // bookingDetailId: bookingDetailId,
+      bookingDetailId: bookingDetailId,
       staffId: "",
-      assignBy: assignBy,
+      bookingDetailType: bookingDetailType,
+      bookingDetailTittle: bookingDetailTitle,
     },
   });
 
@@ -68,7 +86,7 @@ const AssignModal: React.FC<AssignModalProps> = ({
   // console.log("staffId: ", staffId);
 
   const onSubmit: SubmitHandler<FieldValues> = (data) => {
-    data.bookingDetailId = bookingDetailId;
+    // data.bookingDetailId = bookingDetailId;
     // console.log(data);
     setIsLoading(true);
 
@@ -90,7 +108,9 @@ const AssignModal: React.FC<AssignModalProps> = ({
 
   useEffect(() => {
     setValue("bookingDetailId", bookingDetailId);
-  }, [bookingDetailId, setValue]);
+    setValue("bookingDetailType", bookingDetailType);
+    setValue("bookingDetailTittle", bookingDetailTitle);
+  }, [bookingDetailId, bookingDetailTitle, bookingDetailType, setValue]);
 
   const bodyContent = (
     <div className="flex flex-col gap-8">
