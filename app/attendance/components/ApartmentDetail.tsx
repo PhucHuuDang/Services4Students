@@ -1,6 +1,6 @@
 "use client";
 
-import { MdApartment } from "react-icons/md";
+import { AiOutlineSchedule } from "react-icons/ai";
 
 import {
   BookingByStuIdProps,
@@ -68,7 +68,11 @@ const ApartmentDetail: React.FC<ApartmentDetailProps> = ({
         <div
           //   onClick={() => setShowDetail((value) => !value)}
           // onClick={() => toggleDetail(index)}
-          onClick={() => router.push(`/attendance/${item.serviceId}`)}
+          onClick={() => {
+            !reportWork
+              ? router.push(`/attendance/${item.serviceId}`)
+              : router.push(`/reportWork/${item.serviceId}`);
+          }}
           className="text-lg
               font-semibold
               text-neutral-700
@@ -87,7 +91,7 @@ const ApartmentDetail: React.FC<ApartmentDetailProps> = ({
           "
         >
           {/* Vinhomes Grand Park */}
-          <MdApartment size={25} />
+          <AiOutlineSchedule size={25} />
           {item.serviceName}
         </div>
         {/* <div

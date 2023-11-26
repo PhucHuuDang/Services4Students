@@ -218,3 +218,16 @@ export type AttendanceTableProps = {
   note: string;
   feedBackStatus: number;
 };
+
+export type ReportWorkTableProps = {
+  attendReportId: string;
+  workingDayExpect: string;
+  descriptionProcess: string;
+  workingAt: string;
+  image: string;
+  staffSubstitableId: string;
+  alternativeReason: string;
+  workingStatus: number;
+  workingDayReport: string;
+  reportByStaffId: string;
+};

@@ -15,38 +15,44 @@ export default async function Layout({
 }: {
   children: React.ReactNode;
 }) {
-  let arrayData: BookingByStuIdProps[] = [];
+  // let arrayData: BookingByStuIdProps[] = [];
 
   const getInfo = await getRoleUser();
   const regions = await getRegions();
   const packages = await getPackages();
-  try {
-    const bookingDetailByStaffId = await getBookingDetailByStaffId(
-      getInfo && typeof getInfo !== "string" && "userIdInTableDb" in getInfo
-        ? getInfo.userIdInTableDb
-        : ""
-    );
+  const staffId =
+    getInfo && typeof getInfo !== "string" && "userIdInTableDb" in getInfo
+      ? getInfo.userIdInTableDb
+      : "";
+  const serviceBookingDetailStaffId = await getBookingDetailByStaffId(staffId);
 
-    // console.log(bookingDetailByStaffId);
+  // try {
+  //   const bookingDetailByStaffId = await getBookingDetailByStaffId(
+  //     getInfo && typeof getInfo !== "string" && "userIdInTableDb" in getInfo
+  //       ? getInfo.userIdInTableDb
+  //       : ""
+  //   );
 
-    if (bookingDetailByStaffId) {
-      for (const item of bookingDetailByStaffId) {
-        try {
-          const dataBookings = await getBookingsByBookingId(
-            item.bookingDetailData.bookingId
-          );
-          //   console.log(dataBookings);
-          arrayData.push(dataBookings);
-        } catch (error) {
-          console.error("Error fetching bookings:", error);
-        }
-      }
-    }
+  //   // console.log(bookingDetailByStaffId);
 
-    // console.log(arrayData);
-  } catch (error) {
-    console.error("Error fetching data:", error);
-  }
+  //   if (bookingDetailByStaffId) {
+  //     for (const item of bookingDetailByStaffId) {
+  //       try {
+  //         const dataBookings = await getBookingsByBookingId(
+  //           item.bookingDetailData.bookingId
+  //         );
+  //         //   console.log(dataBookings);
+  //         arrayData.push(dataBookings);
+  //       } catch (error) {
+  //         console.error("Error fetching bookings:", error);
+  //       }
+  //     }
+  //   }
+
+  //   // console.log(arrayData);
+  // } catch (error) {
+  //   console.error("Error fetching data:", error);
+  // }
 
   return (
     <ClientOnly>
@@ -78,7 +84,8 @@ export default async function Layout({
         >
           <ApartmentDetail
             reportWork
-            getDataBookingByStuId={arrayData}
+            getDataBookingByStuId={serviceBookingDetailStaffId}
+            // getdataBookingDetailByStaffId={serviceBookingDetailStaffId}
             getInfo={getInfo}
             regions={regions}
             packages={packages}

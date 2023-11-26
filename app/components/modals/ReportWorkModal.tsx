@@ -65,8 +65,8 @@ const ReportWorkModal: React.FC<ReportWorkModalProps> = ({
     reset,
   } = useForm<FieldValues>({
     defaultValues: {
-      // staffId: staffId,
-      // attendReportId: "",
+      staffId: staffId,
+      attendReportId: attendReportId,
       descriptionProcess: "",
       imageURL: "",
       workingDayReport: formattedDate,
@@ -102,16 +102,16 @@ const ReportWorkModal: React.FC<ReportWorkModalProps> = ({
     if (step !== STEPS.DESCRIPTION) {
       return onNext();
     }
-    data.attendReportId = attendReportId;
-    data.staffId = staffId;
+    // data.attendReportId = attendReportId;
+    // data.staffId = staffId;
     setIsLoading(true);
-    // console.log(data);
+    console.log(data);
 
     axios
       .put("/api/reportWork", data)
       .then(() => {
         toast.success("Thanks for your feedback, Have a good day!");
-        setDisabledReportId?.(data.attendReportId);
+        // setDisabledReportId?.(data.attendReportId);
         router.refresh();
         reset();
         setStep(STEPS.IMAGE);

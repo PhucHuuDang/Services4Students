@@ -12,7 +12,7 @@ export async function PUT(request: Request) {
     workingDayReport,
   } = body;
 
-  //   console.log(body);
+  console.log(body);
 
   try {
     const reportApi = await axios.put(

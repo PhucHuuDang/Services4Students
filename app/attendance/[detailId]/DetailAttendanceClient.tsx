@@ -6,6 +6,7 @@ import {
   AttendanceByDetailId,
   AttendanceReport,
   AttendanceTableProps,
+  ReportWorkTableProps,
   ReviewFeedbackProps,
 } from "@/app/types";
 import { useEffect, useState } from "react";
@@ -18,6 +19,7 @@ import useReviewFeedbackModal from "@/app/hooks/useReviewFeedbackModal";
 import getReviewFeedback from "@/app/components/actions/getReviewFeeback";
 interface DetailAttendanceClientProps {
   attendanceByBookingDetailId: AttendanceTableProps[] | [];
+  reportWorkByBookingDetailId?: ReportWorkTableProps[] | [];
   reportWork?: boolean;
   getRole?: any;
   reviewFeedback?: ReviewFeedbackProps[];
@@ -25,6 +27,7 @@ interface DetailAttendanceClientProps {
 
 const DetailAttendanceClient: React.FC<DetailAttendanceClientProps> = ({
   attendanceByBookingDetailId,
+  reportWorkByBookingDetailId,
   reportWork,
   getRole,
   reviewFeedback,
@@ -105,85 +108,87 @@ const DetailAttendanceClient: React.FC<DetailAttendanceClientProps> = ({
           
           "
       >
-        <div className="flex flex-col items-center gap-3">
-          <div className="text-lg font-semibold">Date Working</div>
-          {attendanceByBookingDetailId.map((item) => {
-            const createdDate = item.dateDoService.split("T")[0];
-            // const createdTime = item.dateDoService.split("T")[1];
-            const createdTime = item.dateDoService
-              .split("T")[1]
-              .split(":")
-              .slice(0, 2)
-              .join(":");
-            return (
-              <div key={item.serviceId} className="p-2 mt-1 rounded-md">
-                {`In ${createdDate} at ${createdTime}`}
-              </div>
-            );
-          })}
-        </div>
+        {!reportWork ? (
+          <>
+            <div className="flex flex-col items-center gap-3">
+              <div className="text-lg font-semibold">Date Working</div>
+              {attendanceByBookingDetailId.map((item) => {
+                const createdDate = item.dateDoService.split("T")[0];
+                // const createdTime = item.dateDoService.split("T")[1];
+                const createdTime = item.dateDoService
+                  .split("T")[1]
+                  .split(":")
+                  .slice(0, 2)
+                  .join(":");
+                return (
+                  <div key={item.serviceId} className="p-2 mt-1 rounded-md">
+                    {`In ${createdDate} at ${createdTime}`}
+                  </div>
+                );
+              })}
+            </div>
 
-        <div className="flex flex-col items-center gap-4">
-          <div className="text-lg font-semibold">Address</div>
-          {attendanceByBookingDetailId.map((item) => {
-            // const dateDoPackage = item.dateDoPackage.split("T")[0];
-            return (
-              <div key={item.serviceId} className=" p-2 rounded-md">
-                {item.apartmentRegion}
-              </div>
-            );
-          })}
-        </div>
+            <div className="flex flex-col items-center gap-4">
+              <div className="text-lg font-semibold">Address</div>
+              {attendanceByBookingDetailId.map((item) => {
+                // const dateDoPackage = item.dateDoPackage.split("T")[0];
+                return (
+                  <div key={item.serviceId} className=" p-2 rounded-md">
+                    {item.apartmentRegion}
+                  </div>
+                );
+              })}
+            </div>
 
-        <div className="flex flex-col items-center gap-4">
-          <div className="text-lg font-semibold">Attendance Status</div>
-          {attendanceByBookingDetailId.map((item) => {
-            // console.log(item);
-            // const dateDoPackage = item.dateDoPackage.split("T")[0];
-            return (
-              <div key={item.serviceId} className=" p-2 rounded-md">
-                {item.attendenceStatus === 0 ? (
-                  <span className="text-red-500 font-semibold text-md">
-                    Not yet
-                  </span>
-                ) : (
-                  <span className="text-green-700 font-semibold text-md">
-                    Finished
-                  </span>
-                )}
-              </div>
-            );
-          })}
-        </div>
+            <div className="flex flex-col items-center gap-4">
+              <div className="text-lg font-semibold">Attendance Status</div>
+              {attendanceByBookingDetailId.map((item) => {
+                // console.log(item);
+                // const dateDoPackage = item.dateDoPackage.split("T")[0];
+                return (
+                  <div key={item.serviceId} className=" p-2 rounded-md">
+                    {item.attendenceStatus === 0 ? (
+                      <span className="text-red-500 font-semibold text-md">
+                        Not yet
+                      </span>
+                    ) : (
+                      <span className="text-green-700 font-semibold text-md">
+                        Finished
+                      </span>
+                    )}
+                  </div>
+                );
+              })}
+            </div>
 
-        <div className="flex flex-col items-center gap-4">
-          <div className="text-lg font-semibold">Feedback</div>
-          {/* {attendanceByBookingDetailId.attendReports.map((item) => { */}
-          {attendanceByBookingDetailId.map((item) => {
-            // const dateDoPackage = item.dateDoPackage.split("T")[0];
+            <div className="flex flex-col items-center gap-4">
+              <div className="text-lg font-semibold">Feedback</div>
+              {/* {attendanceByBookingDetailId.attendReports.map((item) => { */}
+              {attendanceByBookingDetailId.map((item) => {
+                // const dateDoPackage = item.dateDoPackage.split("T")[0];
 
-            // console.log(item.feedBack.id);
+                // console.log(item.feedBack.id);
 
-            // console.log(item.feedBack.feedBackStatus);
-            // console.log(!item.feedBack.feedBackDescription);
+                // console.log(item.feedBack.feedBackStatus);
+                // console.log(!item.feedBack.feedBackDescription);
 
-            return !reportWork ? (
-              <div
-                onClick={() => {
-                  // feedbackModal.onOpen();
-                  // setFeedbackID(item.feedBack.id);
+                return (
+                  <div
+                    onClick={() => {
+                      // feedbackModal.onOpen();
+                      // setFeedbackID(item.feedBack.id);
 
-                  // if (item.feedBack.feedBackStatus === 0) {
-                  //   feedbackModal.onOpen();
-                  //   setFeedbackID(item.feedBack.id);
-                  // }
-                  if (item.feedBackStatus === 1) {
-                    feedbackModal.onOpen();
-                    // setFeedbackID(item.feedBack.id);
-                  }
-                }}
-                key={item.serviceId}
-                className={`
+                      // if (item.feedBack.feedBackStatus === 0) {
+                      //   feedbackModal.onOpen();
+                      //   setFeedbackID(item.feedBack.id);
+                      // }
+                      if (item.feedBackStatus === 1) {
+                        feedbackModal.onOpen();
+                        // setFeedbackID(item.feedBack.id);
+                      }
+                    }}
+                    key={item.serviceId}
+                    className={`
               p-2
               rounded-md
               flex
@@ -200,24 +205,133 @@ const DetailAttendanceClient: React.FC<DetailAttendanceClientProps> = ({
               }
         
               `}
-              >
-                {/* {item.feedbackAvailable} */}
-                <FcFeedback size={24} />
-                Feedback
-              </div>
-            ) : (
-              <div
-                onClick={() => {
-                  if (item.attendenceStatus === 0) {
-                    reportWorkModal.onOpen();
-                    setAttendReportId(item.serviceId);
-                  }
+                  >
+                    {/* {item.feedbackAvailable} */}
+                    <FcFeedback size={24} />
+                    Feedback
+                  </div>
+                  //   ) : (
+                  //     <div
+                  //       onClick={() => {
+                  //         if (item.attendenceStatus === 0) {
+                  //           reportWorkModal.onOpen();
+                  //           setAttendReportId(item.serviceId);
+                  //         }
 
-                  // reportWorkModal.onOpen();
-                  // setAttendReportId(item.id);
-                }}
-                key={item.serviceId}
-                className={`
+                  //         // reportWorkModal.onOpen();
+                  //         // setAttendReportId(item.id);
+                  //       }}
+                  //       key={item.serviceId}
+                  //       className={`
+                  //     p-2
+                  //     rounded-md
+                  //     flex
+                  //     flex-row
+                  //     items-center
+                  //     gap-2
+                  //     bg-neutral-100
+                  //     duration-200
+                  // ${
+                  //   item.attendenceStatus !== 0
+                  //     ? "disabled opacity-40 cursor-not-allowed text-neutral-700"
+                  //     : "hover:bg-neutral-200 hover:scale-105 hover:shadow-lg cursor-pointer"
+                  // }
+
+                  // `}
+                  //     >
+                  //       {/* {item.feedbackAvailable} */}
+                  //       <AiOutlineFileDone size={24} />
+                  //       Report Work
+                  //     </div>
+                  //   );
+                );
+              })}
+            </div>
+          </>
+        ) : (
+          <>
+            <div className="flex flex-col items-center gap-3">
+              <div className="text-lg font-semibold">Date Working</div>
+              {reportWorkByBookingDetailId &&
+                reportWorkByBookingDetailId.map((item) => {
+                  const createdDate = item.workingDayExpect.split("T")[0];
+                  // const createdTime = item.dateDoService.split("T")[1];
+                  const createdTime = item.workingDayExpect
+                    .split("T")[1]
+                    .split(":")
+                    .slice(0, 2)
+                    .join(":");
+                  return (
+                    <div
+                      key={item.attendReportId}
+                      className="p-2 mt-1 rounded-md"
+                    >
+                      {`In ${createdDate} at ${createdTime}`}
+                    </div>
+                  );
+                })}
+            </div>
+
+            <div className="flex flex-col items-center gap-4">
+              <div className="text-lg font-semibold">Address</div>
+              {reportWorkByBookingDetailId &&
+                reportWorkByBookingDetailId.map((item) => {
+                  // const dateDoPackage = item.dateDoPackage.split("T")[0];
+                  return (
+                    <div key={item.attendReportId} className=" p-2 rounded-md">
+                      {item.workingAt}
+                    </div>
+                  );
+                })}
+            </div>
+
+            <div className="flex flex-col items-center gap-4">
+              <div className="text-lg font-semibold">Report Status</div>
+              {reportWorkByBookingDetailId &&
+                reportWorkByBookingDetailId.map((item) => {
+                  // console.log(item);
+                  // const dateDoPackage = item.dateDoPackage.split("T")[0];
+                  return (
+                    <div key={item.attendReportId} className=" p-2 rounded-md">
+                      {item.workingStatus === 0 ? (
+                        <span className="text-red-500 font-semibold text-md">
+                          Not yet
+                        </span>
+                      ) : (
+                        <span className="text-green-700 font-semibold text-md">
+                          Finished
+                        </span>
+                      )}
+                    </div>
+                  );
+                })}
+            </div>
+
+            <div className="flex flex-col items-center gap-4">
+              <div className="text-lg font-semibold">Report</div>
+              {/* {attendanceByBookingDetailId.attendReports.map((item) => { */}
+              {reportWorkByBookingDetailId &&
+                reportWorkByBookingDetailId.map((item) => {
+                  // const dateDoPackage = item.dateDoPackage.split("T")[0];
+
+                  // console.log(item.feedBack.id);
+
+                  // console.log(item.feedBack.feedBackStatus);
+                  // console.log(!item.feedBack.feedBackDescription);
+
+                  return (
+                    <div
+                      onClick={() => {
+                        if (item.workingStatus === 0) {
+                          reportWorkModal.onOpen();
+                          setAttendReportId(item.attendReportId);
+                        }
+
+                        // reportWorkModal.onOpen();
+                        // setAttendReportId(item.id);
+                      }}
+                      key={item.attendReportId}
+                      className={`
                   p-2
                   rounded-md
                   flex
@@ -227,7 +341,7 @@ const DetailAttendanceClient: React.FC<DetailAttendanceClientProps> = ({
                   bg-neutral-100
                   duration-200
               ${
-                item.attendenceStatus !== 0
+                item.workingStatus !== 0
                   ? "disabled opacity-40 cursor-not-allowed text-neutral-700"
                   : "hover:bg-neutral-200 hover:scale-105 hover:shadow-lg cursor-pointer"
               }
@@ -235,14 +349,16 @@ const DetailAttendanceClient: React.FC<DetailAttendanceClientProps> = ({
               
         
               `}
-              >
-                {/* {item.feedbackAvailable} */}
-                <AiOutlineFileDone size={24} />
-                Report Work
-              </div>
-            );
-          })}
-        </div>
+                    >
+                      {/* {item.feedbackAvailable} */}
+                      <AiOutlineFileDone size={24} />
+                      {item.workingStatus !== 0 ? "Reported" : "Report Work "}
+                    </div>
+                  );
+                })}
+            </div>
+          </>
+        )}
 
         <FeedbackModal feedbackId={feedbackId} setFeedbackID={setFeedbackID} />
         <ReportWorkModal
