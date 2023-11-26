@@ -202,3 +202,19 @@ export type ServiceOfBookingDetails = {
   unit: string;
   bookingDetailThatServiceIsBelongTo: ServicesBelongToBookingDetail[];
 };
+
+export type AttendanceTableProps = {
+  attendId: string;
+  attendTittle: string;
+  dateDoService: string;
+  apartmentRegion: string;
+  feedbackId: string;
+  feedbackAvailable: string;
+  serviceId: string;
+  bookingDetailId: string;
+  attendReportForType: string;
+  reportWorkId: string;
+  attendenceStatus: number;
+  note: string;
+  feedBackStatus: number;
+};

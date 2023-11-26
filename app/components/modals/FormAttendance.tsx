@@ -1,22 +1,18 @@
 "use client";
 
-import { memo, use, useCallback, useEffect, useMemo, useState } from "react";
+import { memo, useCallback, useEffect, useMemo, useState } from "react";
 import { IoMdClose } from "react-icons/io";
 import Button from "../Button";
 import Image from "next/image";
 import { ReviewFeedbackProps, ServiceOfBookingDetails } from "@/app/types";
 import ClientOnly from "../ClientOnly";
 import EmptyState from "../EmptyState";
-import { Rate } from "antd";
-import TimeSelect from "../inputs/TimeSelect";
-// import { DatePicker, DateTimePicker } from "@mantine/dates";
 import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import FormAttendanceSelect from "../inputs/FormAttendanceSelect";
-import { set } from "date-fns";
 import Input from "../inputs/Input";
 import ServicesFormSelect from "../inputs/ServicesFormSelect";
 import toast from "react-hot-toast";
@@ -195,16 +191,22 @@ const FormAttendance: React.FC<FormAttendanceProps> = ({
 
     // Minutes
 
-    const date = javascriptDate.toLocaleTimeString("en-US", {
-      hour: "2-digit",
-      minute: "2-digit",
-      hour12: false,
-    });
+    // const date = javascriptDate.toLocaleTimeString("en-US", {
+    //   hour: "2-digit",
+    //   minute: "2-digit",
+    //   hour12: false,
+    // });
     const day = javascriptDate.getDate();
     const month = javascriptDate.getMonth() + 1;
     const year = javascriptDate.getFullYear();
-    const hours = javascriptDate.getHours();
-    const minutes = javascriptDate.getMinutes();
+    let hours = javascriptDate.getHours();
+    let minutes = javascriptDate.getMinutes();
+
+    if (hours.length === 1) {
+      hours = `0${hours}`;
+    } else if (minutes.length === 1) {
+      minutes = `0${minutes}`;
+    }
 
     // console.log(date);
     // console.log(minutes);

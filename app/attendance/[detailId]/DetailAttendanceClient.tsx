@@ -5,6 +5,7 @@ import useFeedbackModal from "@/app/hooks/useFeedbackModal";
 import {
   AttendanceByDetailId,
   AttendanceReport,
+  AttendanceTableProps,
   ReviewFeedbackProps,
 } from "@/app/types";
 import { useEffect, useState } from "react";
@@ -16,7 +17,7 @@ import ReviewFeedbackModal from "@/app/components/modals/ReviewFeedback";
 import useReviewFeedbackModal from "@/app/hooks/useReviewFeedbackModal";
 import getReviewFeedback from "@/app/components/actions/getReviewFeeback";
 interface DetailAttendanceClientProps {
-  attendanceByBookingDetailId: AttendanceByDetailId;
+  attendanceByBookingDetailId: AttendanceTableProps[] | [];
   reportWork?: boolean;
   getRole?: any;
   reviewFeedback?: ReviewFeedbackProps[];
@@ -104,25 +105,31 @@ const DetailAttendanceClient: React.FC<DetailAttendanceClientProps> = ({
           
           "
       >
-        <div className="flex flex-col items-center gap-4">
-          <div className="text-lg font-semibold">Attendance Created</div>
-          {attendanceByBookingDetailId.attendReports.map((item) => {
-            const createdDate = item.created.split("T")[0];
+        <div className="flex flex-col items-center gap-3">
+          <div className="text-lg font-semibold">Date Working</div>
+          {attendanceByBookingDetailId.map((item) => {
+            const createdDate = item.dateDoService.split("T")[0];
+            // const createdTime = item.dateDoService.split("T")[1];
+            const createdTime = item.dateDoService
+              .split("T")[1]
+              .split(":")
+              .slice(0, 2)
+              .join(":");
             return (
-              <div key={item.id} className="p-2 mt-1 rounded-md">
-                {createdDate}
+              <div key={item.serviceId} className="p-2 mt-1 rounded-md">
+                {`In ${createdDate} at ${createdTime}`}
               </div>
             );
           })}
         </div>
 
         <div className="flex flex-col items-center gap-4">
-          <div className="text-lg font-semibold">Date do package(combo)</div>
-          {attendanceByBookingDetailId.attendReports.map((item) => {
-            const dateDoPackage = item.dateDoPackage.split("T")[0];
+          <div className="text-lg font-semibold">Address</div>
+          {attendanceByBookingDetailId.map((item) => {
+            // const dateDoPackage = item.dateDoPackage.split("T")[0];
             return (
-              <div key={item.id} className=" p-2 rounded-md">
-                {dateDoPackage}
+              <div key={item.serviceId} className=" p-2 rounded-md">
+                {item.apartmentRegion}
               </div>
             );
           })}
@@ -130,11 +137,11 @@ const DetailAttendanceClient: React.FC<DetailAttendanceClientProps> = ({
 
         <div className="flex flex-col items-center gap-4">
           <div className="text-lg font-semibold">Attendance Status</div>
-          {attendanceByBookingDetailId.attendReports.map((item) => {
+          {attendanceByBookingDetailId.map((item) => {
             // console.log(item);
             // const dateDoPackage = item.dateDoPackage.split("T")[0];
             return (
-              <div key={item.id} className=" p-2 rounded-md">
+              <div key={item.serviceId} className=" p-2 rounded-md">
                 {item.attendenceStatus === 0 ? (
                   <span className="text-red-500 font-semibold text-md">
                     Not yet
@@ -152,34 +159,31 @@ const DetailAttendanceClient: React.FC<DetailAttendanceClientProps> = ({
         <div className="flex flex-col items-center gap-4">
           <div className="text-lg font-semibold">Feedback</div>
           {/* {attendanceByBookingDetailId.attendReports.map((item) => { */}
-          {attendanceByBookingDetailId.bookingDetail.attendReport.map(
-            (item) => {
-              // const dateDoPackage = item.dateDoPackage.split("T")[0];
+          {attendanceByBookingDetailId.map((item) => {
+            // const dateDoPackage = item.dateDoPackage.split("T")[0];
 
-              // console.log(item.feedBack.id);
+            // console.log(item.feedBack.id);
 
-              // console.log(item.feedBack.feedBackStatus);
-              // console.log(!item.feedBack.feedBackDescription);
+            // console.log(item.feedBack.feedBackStatus);
+            // console.log(!item.feedBack.feedBackDescription);
 
-              return !reportWork ? (
-                <div
-                  onClick={() => {
-                    // feedbackModal.onOpen();
+            return !reportWork ? (
+              <div
+                onClick={() => {
+                  // feedbackModal.onOpen();
+                  // setFeedbackID(item.feedBack.id);
+
+                  // if (item.feedBack.feedBackStatus === 0) {
+                  //   feedbackModal.onOpen();
+                  //   setFeedbackID(item.feedBack.id);
+                  // }
+                  if (item.feedBackStatus === 1) {
+                    feedbackModal.onOpen();
                     // setFeedbackID(item.feedBack.id);
-
-                    // if (item.feedBack.feedBackStatus === 0) {
-                    //   feedbackModal.onOpen();
-                    //   setFeedbackID(item.feedBack.id);
-                    // }
-                    if (item.feedBack.feedBackStatus === 1) {
-                      feedbackModal.onOpen();
-                      setFeedbackID(item.feedBack.id);
-                      // console.log(item.feedBack.id);
-                      // handleGetFeedbackId();
-                    }
-                  }}
-                  key={item.id}
-                  className={`
+                  }
+                }}
+                key={item.serviceId}
+                className={`
               p-2
               rounded-md
               flex
@@ -190,30 +194,30 @@ const DetailAttendanceClient: React.FC<DetailAttendanceClientProps> = ({
               duration-200
              
               ${
-                item.feedBack.feedBackStatus !== 1
+                item.feedBackStatus !== 1
                   ? "disabled opacity-40 cursor-not-allowed text-neutral-700"
                   : "hover:bg-neutral-200 hover:scale-105 hover:shadow-lg cursor-pointer"
               }
         
               `}
-                >
-                  {/* {item.feedbackAvailable} */}
-                  <FcFeedback size={24} />
-                  Feedback
-                </div>
-              ) : (
-                <div
-                  onClick={() => {
-                    if (item.attendenceStatus === 0) {
-                      reportWorkModal.onOpen();
-                      setAttendReportId(item.id);
-                    }
+              >
+                {/* {item.feedbackAvailable} */}
+                <FcFeedback size={24} />
+                Feedback
+              </div>
+            ) : (
+              <div
+                onClick={() => {
+                  if (item.attendenceStatus === 0) {
+                    reportWorkModal.onOpen();
+                    setAttendReportId(item.serviceId);
+                  }
 
-                    // reportWorkModal.onOpen();
-                    // setAttendReportId(item.id);
-                  }}
-                  key={item.id}
-                  className={`
+                  // reportWorkModal.onOpen();
+                  // setAttendReportId(item.id);
+                }}
+                key={item.serviceId}
+                className={`
                   p-2
                   rounded-md
                   flex
@@ -231,14 +235,13 @@ const DetailAttendanceClient: React.FC<DetailAttendanceClientProps> = ({
               
         
               `}
-                >
-                  {/* {item.feedbackAvailable} */}
-                  <AiOutlineFileDone size={24} />
-                  Report Work
-                </div>
-              );
-            }
-          )}
+              >
+                {/* {item.feedbackAvailable} */}
+                <AiOutlineFileDone size={24} />
+                Report Work
+              </div>
+            );
+          })}
         </div>
 
         <FeedbackModal feedbackId={feedbackId} setFeedbackID={setFeedbackID} />

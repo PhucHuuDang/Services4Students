@@ -2,7 +2,11 @@
 
 import { MdApartment } from "react-icons/md";
 
-import { BookingByStuIdProps, PackageProps } from "@/app/types";
+import {
+  BookingByStuIdProps,
+  PackageProps,
+  ServiceOfBookingDetails,
+} from "@/app/types";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
@@ -12,7 +16,7 @@ type RegionsType = {
 };
 
 interface ApartmentDetailProps {
-  getDataBookingByStuId: BookingByStuIdProps[] | null;
+  getDataBookingByStuId: ServiceOfBookingDetails[] | [];
   getInfo: any | null;
   regions: RegionsType[];
   packages: PackageProps[];
@@ -30,17 +34,17 @@ const ApartmentDetail: React.FC<ApartmentDetailProps> = ({
 
   const router = useRouter();
 
-  const [showDetails, setShowDetails] = useState(
-    new Array(getDataBookingByStuId?.length).fill(false)
-  );
+  // const [showDetails, setShowDetails] = useState(
+  //   new Array(getDataBookingByStuId?.length).fill(false)
+  // );
 
   const [activePackage, setActivePackage] = useState("");
 
-  const toggleDetail = (index: any) => {
-    const newShowDetails = [...showDetails];
-    newShowDetails[index] = !newShowDetails[index];
-    setShowDetails(newShowDetails);
-  };
+  // const toggleDetail = (index: any) => {
+  //   const newShowDetails = [...showDetails];
+  //   newShowDetails[index] = !newShowDetails[index];
+  //   setShowDetails(newShowDetails);
+  // };
 
   const handlePackageClick = (packageId: string) => {
     // setActivePackage(packageId); // Set the active package
@@ -53,7 +57,7 @@ const ApartmentDetail: React.FC<ApartmentDetailProps> = ({
   return getDataBookingByStuId?.map((item, index) => {
     return (
       <div
-        key={item.id}
+        key={item.serviceId}
         className="ml-10
               flex
               flex-col
@@ -63,7 +67,8 @@ const ApartmentDetail: React.FC<ApartmentDetailProps> = ({
       >
         <div
           //   onClick={() => setShowDetail((value) => !value)}
-          onClick={() => toggleDetail(index)}
+          // onClick={() => toggleDetail(index)}
+          onClick={() => router.push(`/attendance/${item.serviceId}`)}
           className="text-lg
               font-semibold
               text-neutral-700
@@ -83,9 +88,9 @@ const ApartmentDetail: React.FC<ApartmentDetailProps> = ({
         >
           {/* Vinhomes Grand Park */}
           <MdApartment size={25} />
-          {item.apartmentData.address}
+          {item.serviceName}
         </div>
-        <div
+        {/* <div
           className={`
               bg-white
               rounded-lg
@@ -93,11 +98,12 @@ const ApartmentDetail: React.FC<ApartmentDetailProps> = ({
               ${showDetails[index] ? "translate-y-0" : "translate-y-100"}
               ${showDetails[index] ? "opacity-100" : "opacity-0"}
               ${showDetails[index] ? "" : "hidden"}
+              ${showDetails ? "text-[#ff6347]" : ""}
               transition
               duration-300
      `}
-        >
-          {packages.map((packageId) =>
+        > */}
+        {/* {packages.map((packageId) =>
             item.details.map((value) => {
               //   const isActive = packageId.id === value.packageId;
               const isActive =
@@ -137,8 +143,50 @@ const ApartmentDetail: React.FC<ApartmentDetailProps> = ({
                 ""
               );
             })
-          )}
-          {/* <div
+          )} */}
+        {/* {packages.map((packageId) =>
+            item.details.map((value) => {
+              //   const isActive = packageId.id === value.packageId;
+              const isActive =
+                packageId.id === value.packageId &&
+                packageId.id === activePackage;
+              return packageId.id === value.packageId ? (
+                <div
+                  key={packageId.id}
+                  // onClick={() => router.push(value.id)}
+                  //   onClick={() => console.log(value.id)}
+                  onClick={() => {
+                    handlePackageClick(packageId.id);
+                    !reportWork
+                      ? router.push(`/attendance/${value.id}`)
+                      : router.push(`/reportWork/${value.id}`);
+                  }}
+                  className={`
+                  
+                  cursor-pointer
+                  rounded-md
+                  text-center
+                  py-4
+                  transition
+                  duration-200
+                  hover:text-[#ff6347]
+                  hover:shadow-lg
+                  focus:text-[#ff6347]
+                  text-md
+                  font-semibold 
+                  ${isActive ? "text-[#ff6347]" : ""}
+                  
+                  `}
+                >
+                  {packageId.packageName}
+                </div>
+              ) : (
+                ""
+              );
+            })
+          )} */}
+
+        {/* <div
             className="
                   cursor-pointer
                   rounded-md
@@ -154,7 +202,7 @@ const ApartmentDetail: React.FC<ApartmentDetailProps> = ({
           >
             {packageId.packageName}
           </div> */}
-        </div>
+        {/* </div> */}
       </div>
     );
   });
