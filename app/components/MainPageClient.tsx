@@ -10,6 +10,7 @@ import Container from "./Container";
 import ListingCard from "./inputs/ListingCard";
 import Banner from "./navbar/Banner";
 import { useBooking } from "@/providers/BookingProvider";
+import { useSearchParams } from "next/navigation";
 
 interface MainPageClientProps {
   services: ServiceProp[];
@@ -19,6 +20,21 @@ const MainPageClient: React.FC<MainPageClientProps> = ({ services }) => {
   // const services = await getServices();
   // const [servicesBooked, setServicesBooked] = useState<ServiceProp[]>([]);
 
+  const params = useSearchParams();
+
+  useEffect(() => {
+    // Get the value of PaymentStatus from the URL
+    if (params) {
+      // Get the value of PaymentStatus from the URL
+      const paymentStatus = (params as any).PaymentStatus;
+
+      if (paymentStatus) {
+        // Do something with the PaymentStatus value
+        console.log("PaymentStatus:", paymentStatus);
+      }
+    }
+  }, [params]);
+
   // console.log(services);
 
   const { servicesBooked, setServicesBooked } = useBooking();
@@ -27,20 +43,6 @@ const MainPageClient: React.FC<MainPageClientProps> = ({ services }) => {
     (e: React.MouseEvent<HTMLButtonElement>, value: ServiceProp) => {
       e.stopPropagation();
 
-      // console.log(value);
-
-      //   if (!servicesBooked.some((service) => service.id === value.id)) {
-      //     // setServicesBooked([value, ...servicesBooked]);
-      //     setServicesBooked((prevServices) => {
-      //       // Add the new value to the existing array
-      //       return [...prevServices, value];
-      //     });
-      //     toast.success("Service added to your cart");
-      //   } else {
-      //     toast("This item already exists in your cart", {
-      //       icon: <BsCartCheck size={22} />,
-      //     });
-      //   }
       setServicesBooked((prevServices) => {
         const index = prevServices.findIndex(
           (service) => service.id === value.id

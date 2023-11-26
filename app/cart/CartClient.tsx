@@ -161,11 +161,20 @@ const CartClient: React.FC<CartClientProps> = ({
       startDate: formattedDate,
       endDate: endDate,
       apartmentId: apartmentId,
-      totalPrice: totalPrice,
+      totalPrice:
+        formattedTotalPrice !== "0.000" ? formattedTotalPrice : priceServices, // check again
       listPackage: listPackage,
       listService: serviceArray,
     }),
-    [formattedDate, endDate, apartmentId, totalPrice, listPackage, serviceArray]
+    [
+      formattedDate,
+      formattedTotalPrice,
+      endDate,
+      apartmentId,
+      listPackage,
+      serviceArray,
+      priceServices,
+    ]
   );
 
   useEffect(() => {

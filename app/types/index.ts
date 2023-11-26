@@ -225,7 +225,7 @@ export type AttendanceTableProps = {
   reportWorkId: string;
   attendenceStatus: number;
   note: string;
-  feedBackStatus: number;
+  feedbackStatus: string;
 };
 
 export type ReportWorkTableProps = {

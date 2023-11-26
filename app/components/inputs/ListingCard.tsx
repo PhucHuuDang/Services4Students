@@ -3,7 +3,7 @@
 import { toast } from "react-hot-toast";
 import { BsCartCheck } from "react-icons/bs";
 
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { memo, useCallback, useEffect, useState } from "react";
 
 import { PackageProps, ServiceProp } from "@/app/types";

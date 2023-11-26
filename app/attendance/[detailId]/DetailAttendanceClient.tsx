@@ -172,6 +172,8 @@ const DetailAttendanceClient: React.FC<DetailAttendanceClientProps> = ({
                 // console.log(item.feedBack.feedBackStatus);
                 // console.log(!item.feedBack.feedBackDescription);
 
+                // console.log(item.feedbackStatus);
+
                 return (
                   <div
                     onClick={() => {
@@ -182,7 +184,7 @@ const DetailAttendanceClient: React.FC<DetailAttendanceClientProps> = ({
                       //   feedbackModal.onOpen();
                       //   setFeedbackID(item.feedBack.id);
                       // }
-                      if (item.feedBackStatus === 1) {
+                      if (item.feedbackStatus === "1") {
                         feedbackModal.onOpen();
                         setFeedbackID(item.feedBackId);
                       }
@@ -199,7 +201,7 @@ const DetailAttendanceClient: React.FC<DetailAttendanceClientProps> = ({
               duration-200
              
               ${
-                item.feedBackStatus !== 1
+                item.feedbackStatus !== "1"
                   ? "disabled opacity-40 cursor-not-allowed text-neutral-700"
                   : "hover:bg-neutral-200 hover:scale-105 hover:shadow-lg cursor-pointer"
               }
