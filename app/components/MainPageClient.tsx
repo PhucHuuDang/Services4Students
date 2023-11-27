@@ -15,6 +15,7 @@ import Banner from "./navbar/Banner";
 import { useBooking } from "@/providers/BookingProvider";
 import { useSearchParams } from "next/navigation";
 import useFormAttendance from "../hooks/useFormAttendance";
+import useCreateAttendanceModal from "../hooks/useCreateAttendanceModal";
 
 interface MainPageClientProps {
   services: ServiceProp[];
@@ -25,6 +26,7 @@ const MainPageClient: React.FC<MainPageClientProps> = ({ services }) => {
   // const [servicesBooked, setServicesBooked] = useState<ServiceProp[]>([]);
 
   const formAttendance = useFormAttendance();
+  const createAttendance = useCreateAttendanceModal();
 
   const params = useSearchParams();
   // console.log(params);
@@ -43,7 +45,7 @@ const MainPageClient: React.FC<MainPageClientProps> = ({ services }) => {
             >
               <div className="flex-1 w-0 p-4 cursor-pointer">
                 <div
-                  onClick={formAttendance.onOpen}
+                  onClick={createAttendance.onOpen}
                   className="flex items-start"
                 >
                   <div className="flex-shrink-0 pt-0.5">
