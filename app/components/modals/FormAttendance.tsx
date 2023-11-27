@@ -202,13 +202,20 @@ const FormAttendance: React.FC<FormAttendanceProps> = ({
     let hours = javascriptDate.getHours();
     let minutes = javascriptDate.getMinutes();
 
-    if (hours.length === 1) {
-      hours = `0${hours}`;
-    } else if (minutes.length === 1) {
-      minutes = `0${minutes}`;
-    }
+    // if (hours.length === 1) {
+    //   hours = `0${hours}`;
+    // } else if (minutes.length === 1) {
+    //   minutes = `0${minutes}`;
+    // }
+
+    // console.log(hours.length);
+    // console.log(minutes.length);
+
+    hours = hours < 10 ? `0${hours}` : `${hours}`;
+    minutes = minutes < 10 ? `0${minutes}` : `${minutes}`;
 
     // console.log(date);
+    // console.log(hours);
     // console.log(minutes);
     // console.log(day);
     // console.log(month);
@@ -216,6 +223,8 @@ const FormAttendance: React.FC<FormAttendanceProps> = ({
 
     // const formatDateAndTime = `${year}-${month}-${day}T${date}`;
     const formatDateAndTime = `${year}-${month}-${day}T${hours}:${minutes}`;
+
+    // console.log(formatDateAndTime);
 
     // console.log(formatDateAndTime);
     setSelectedDate(formatDateAndTime);

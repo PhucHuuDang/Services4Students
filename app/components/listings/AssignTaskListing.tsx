@@ -85,7 +85,7 @@ const AssignTaskListing: React.FC<AssignTaskListingProps> = ({
         <div>
           End working in:{" "}
           <span className="font-bold text-green-500">
-            {dataBookingDetail.endDateDoService}$
+            {dataBookingDetail.endDateDoService}
           </span>
         </div>
 
