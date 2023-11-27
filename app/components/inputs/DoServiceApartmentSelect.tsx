@@ -52,7 +52,7 @@ const DoServiceApartmentSelect: React.FC<DoServiceApartmentSelectProps> = ({
           input: () => "text-lg z-10",
           option: () => "text-lg z-10",
         }}
-        placeholder="Choose Payment method..."
+        placeholder="Choose your apartment..."
         // formatOptionLabel={(option: any) => (
         //   <div className="flex flex-row items-center gap-3">
         //     <div>{option.id}</div>

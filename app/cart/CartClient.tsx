@@ -24,6 +24,7 @@ import axios from "axios";
 import { ServiceArrayProps } from "./MainCart";
 import TimeSelect from "../components/inputs/TimeSelect";
 import { useRouter } from "next/navigation";
+import numeral from "numeral";
 
 interface CartClientProps {
   data?: PackageProps | undefined;
@@ -84,6 +85,19 @@ const CartClient: React.FC<CartClientProps> = ({
   const formattedTotalPrice = useMemo(() => {
     return totalPrice !== undefined ? totalPrice : "0.000"; // Set a default value if totalPrice is undefined
   }, [totalPrice]);
+
+  // const formattedTotalPriceUI = useMemo(() => {
+  //   const defaultPrice = 0;
+  //   return totalPrice !== undefined ? totalPrice : defaultPrice; // Set a default value if totalPrice is undefined
+  // }, [totalPrice]);
+
+  const formattedPrice = useMemo(() => {
+    return totalPrice !== undefined ? numeral(totalPrice).format("0,0") : "0";
+  }, [totalPrice]);
+
+  const formattedPriceService = (price: number): string => {
+    return numeral(price).format("0,0");
+  };
 
   const {
     register,
@@ -163,6 +177,9 @@ const CartClient: React.FC<CartClientProps> = ({
       apartmentId: apartmentId,
       totalPrice:
         formattedTotalPrice !== "0.000" ? formattedTotalPrice : priceServices, // check again
+      // formattedPrice !== "0"
+      //   ? formattedPrice
+      //   : formattedPriceService(priceServices), // check again
       listPackage: listPackage,
       listService: serviceArray,
     }),
@@ -184,6 +201,9 @@ const CartClient: React.FC<CartClientProps> = ({
     setCustomValue(
       "requiredAmount",
       formattedTotalPrice !== "0.000" ? formattedTotalPrice : priceServices
+      // formattedPrice !== "0"
+      //   ? formattedPrice
+      //   : formattedPriceService(priceServices)
     );
   }, [newBookingValue, setCustomValue, formattedTotalPrice, priceServices]);
 
@@ -591,7 +611,8 @@ const CartClient: React.FC<CartClientProps> = ({
             <div className="flex flex-row items-center gap-2 mr-4">
               <span>Original Price: </span>
               <del className="font-light text-[#ed9080]">
-                {item.totalOriginalPrice.toFixed(3)}
+                {/* {item.totalOriginalPrice.toFixed(3)} */}
+                {formattedPriceService(item.totalOriginalPrice)}
               </del>{" "}
               <span>₫</span>
             </div>
@@ -600,14 +621,17 @@ const CartClient: React.FC<CartClientProps> = ({
               <span>Discounted Percent: </span>
               {item.discountPercent}%
             </div>
-            {/* <div>times do per week: {data.numberOfPerWeekDoPackage}</div> */}
-            {/* <div>price: {item.totalPrice}</div> */}
-            {/* <div>price: {data.totalPrice}</div> */}
+
             <div key={item.id} className="mr-4">
               Price:{" "}
-              {storeBookingData
+              {/* {storeBookingData
                 .find((priceInitial) => priceInitial.id === item.id)
-                ?.totalPrice.toFixed(3)}{" "}
+                ?.totalPrice.toFixed(3)}{" "} */}
+              {formattedPriceService(
+                storeBookingData.find(
+                  (priceInitial) => priceInitial.id === item.id
+                )?.totalPrice as number
+              )}
               ₫
             </div>
             <div className="flex items-center gap-5">
@@ -640,7 +664,8 @@ const CartClient: React.FC<CartClientProps> = ({
               </div>
             </div>
             <div className="text-[#ff6347] font-semibold">
-              Price: {item.totalPrice.toFixed(3)} ₫
+              {/* Price: {item.totalPrice.toFixed(3)} ₫  */}
+              Price: {formattedPriceService(item.totalPrice)} ₫
             </div>
             <div
               onClick={() => removeCart(item.id)}
@@ -686,9 +711,12 @@ const CartClient: React.FC<CartClientProps> = ({
             <p className="text-[#ff6347] font-semibold">
               {/* {totalPrice !== 0 ? totalPrice : priceServices} ₫ */}
               {/* {totalPrice} ₫ */}
-              {formattedTotalPrice !== "0.000"
+              {/* {formattedTotalPrice !== "0.000"
                 ? formattedTotalPrice
-                : priceServices}{" "}
+                : priceServices}{" "} */}
+              {formattedPrice !== "0"
+                ? formattedPrice
+                : formattedPriceService(priceServices)}{" "}
               ₫
             </p>
           </div>

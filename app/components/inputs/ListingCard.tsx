@@ -14,6 +14,8 @@ import { IconType } from "react-icons";
 import useUpdateComboModal from "@/app/hooks/useUpdateComboModal";
 import useUpdateServiceModal from "@/app/hooks/useUpdateServiceModal";
 
+import numeral from "numeral";
+
 interface ListingCardProps {
   onAction?: (id: string) => void;
   serviceId?: string;
@@ -71,6 +73,11 @@ const ListingCard: React.FC<ListingCardProps> = ({
   const updateComboModal = useUpdateComboModal();
 
   const updateServiceModal = useUpdateServiceModal();
+
+  // format price
+  const formattedPrice = (price: number): string => {
+    return numeral(price).format("0,0");
+  };
 
   // const [servicesBooked, setServicesBooked] = useState<ServiceProp[]>([]);
 
@@ -309,10 +316,11 @@ const ListingCard: React.FC<ListingCardProps> = ({
         )}
 
         {packageData ? (
-          <div className="flex text-md flex-row items-center gap-4">
+          <div className="flex text-md flex-row items-center gap-2">
             <div className="flex flex-row items-center gap-2">
               <del className="font-light text-[#ed9080]">
-                {packageData.totalOriginalPrice.toFixed(3)}
+                {/* {packageData.totalOriginalPrice.toFixed(3)} */}
+                {formattedPrice(packageData.totalOriginalPrice)}
               </del>{" "}
               <span>₫</span>
             </div>
@@ -331,16 +339,18 @@ const ListingCard: React.FC<ListingCardProps> = ({
 
             <div className="flex flex-row items-center gap-2">
               <span className="font-light text-[#ff6347] ">
-                {packageData.totalPrice.toFixed(3)}
+                {/* {packageData.totalPrice.toFixed(3)} */}
+                {formattedPrice(packageData.totalPrice)}
               </span>{" "}
               <span>₫</span>
             </div>
           </div>
         ) : (
-          <div className="flex flex-row text-md items-center gap-4 mt-3">
+          <div className="flex flex-row text-md items-center gap-3 mt-3">
             <div className="flex flex-row items-center gap-2">
               <del className="font-light text-[#ed9080]">
-                {data?.originalPrice}
+                {/* {data?.originalPrice} */}
+                {formattedPrice(data?.originalPrice as number)}
               </del>{" "}
               <span>₫</span>
             </div>
@@ -350,8 +360,8 @@ const ListingCard: React.FC<ListingCardProps> = ({
               font-semibold
               text-neutral-500
               text-xl
-              ml-2
-              mr-2
+              ml-1
+              mr-1
             "
             >
               |
@@ -359,7 +369,8 @@ const ListingCard: React.FC<ListingCardProps> = ({
 
             <div className="flex flex-row items-center gap-2">
               <span className="font-light text-[#ff6347] ">
-                {data?.price.toFixed(3)}
+                {/* {data?.price.toFixed(3)} */}
+                {formattedPrice(data?.price as number)}
               </span>{" "}
               <span>₫</span>
             </div>
